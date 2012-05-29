@@ -13,7 +13,7 @@ function populateTable(){
 		row.append(createTableCell(data[i].name));
 		row.append(createTableCell(data[i].url));
 		row.append(createTableCell(createMetabug(data[i].bug)));
-		row.append(createDependsTableCell(data[i].bug));
+		row.append(createTableCell(createDependsDiv(data[i].bug)));
 		row.append(createTableCell(data[i].info));
 	}
 	getMetabugs(metabugs);
@@ -26,12 +26,10 @@ function createTableCell(value){
 	return td;
 }
 
-function createDependsTableCell(value){
-	var cell = createTableCell();
+function createDependsDiv(value){
 	var div = $("<div>");
 	div.attr("id", "bug" + value + "-depends");
-	cell.append(div);
-	return cell;
+	return div;
 }
 
 function createMetabug(id, name, resolved){
@@ -61,7 +59,6 @@ function getMetabugs(metabugs){
 	  crossDomain:true, 
 	  dataType: 'json',
 	  success: function(data){
-	    alert('all done!');
 	    processMetabugs(data.bugs);
 	  },
 	  error: function(data){
