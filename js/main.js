@@ -12,7 +12,7 @@ function populateTable(){
 		table.append(row);
 		row.append(createTableCell(data[i].name));
 		row.append(createTableCell(data[i].url));
-		row.append(createTableCell(createMetabug(data[i].bug)));
+		row.append(createTableCell(createBugDiv(data[i].bug)));
 		row.append(createTableCell(createDependsDiv(data[i].bug)));
 		row.append(createTableCell(data[i].info));
 	}
@@ -32,12 +32,15 @@ function createDependsDiv(value){
 	return div;
 }
 
-function createMetabug(id, name, resolved){
+function createBugDiv(id, name, resolved){
 	var div = $("<div>");
 	div.attr("id", "bug"+ id);
 	var link = $("<a>");
 	link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+id);
 	link.attr("title", name);
+	if(resolved){
+		link.attr("style", "text-decoration: line-through;");
+	}
 	link.append(id);
 	div.append(link);
 	return div;
@@ -72,7 +75,7 @@ function processMetabugs(bugs){
 	for(var i = 0; i < bugs.length; i++){
 		var id = bugs[i].id;
 		var bugdiv = $("#bug"+id);
-		var newbugdiv = createMetabug(id, bugs[i].summary);
+		var newbugdiv = createBugDiv(id, bugs[i].summary, isResolved(bugs[i].status));
 		bugdiv.replaceWith(newbugdiv);
 		var localDepends = bugs[i].depends_on;
 		if(localDepends && localDepends != ""){
@@ -84,17 +87,43 @@ function processMetabugs(bugs){
 		var dependsdiv = $("#bug"+ id + "-depends");
 		var dependsArray = depends.split(',');
 		for(var j = 0; j < dependsArray.length; j++){
-			var d = $("<span>");
-			d.attr("id", "bug" + dependsArray[j]);
-			var link = $("<a>");
-			link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+dependsArray[j]);
-			link.append(dependsArray[j]);
-			d.append(link);
-			dependsdiv.append(d);
+			dependsdiv.append(createBugDiv(dependsArray[j]));
 			if(j+1 < dependsArray.length){
 				dependsdiv.append(",");
 			}
 		}
+	}
+	getDependentBugs(depends);
+}
 
+function isResolved(status){
+	if(status == "RESOLVED" || status == "VERIFIED" || status == "CLOSED"){
+		return true;
+	}
+	return false;
+}
+
+function getDependentBugs(dependentBugs){
+	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=id,status,summary&id=";
+	var ids =dependentBugs;
+	$.ajax({
+	  url: url + ids,
+	  crossDomain:true, 
+	  dataType: 'json',
+	  success: function(data){
+	    processDependentbugs(data.bugs);
+	  },
+	  error: function(data){
+	    alert('fail.');
+	  }
+	});
+}
+
+function processDependentbugs(bugs){
+	for(var i = 0; i < bugs.length; i++){
+		var id = bugs[i].id;
+		var bugdiv = $("#bug"+id);
+		var newbugdiv = createBugDiv(id, bugs[i].summary, isResolved(bugs[i].status));
+		bugdiv.replaceWith(newbugdiv);
 	}
 }
