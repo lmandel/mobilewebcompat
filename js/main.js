@@ -42,6 +42,7 @@ function createTableCell(value){
 function createDependsDiv(value){
 	var div = $("<div>");
 	div.attr("id", "bug" + value + "-depends");
+	div.attr("class", "dependbugs");
 	return div;
 }
 
@@ -114,7 +115,7 @@ function processMetabugs(bugs){
 			for(var j = 0; j < localDepends.length; j++){
 				dependsdiv.append(createBugDiv(createId(localDepends[j])));
 				if(j+1 < localDepends.length){
-					dependsdiv.append(",");
+					dependsdiv.append(", ");
 				}
 			}
 			
