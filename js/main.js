@@ -7,7 +7,9 @@ function populateTable(){
 	var metabugs = [];
 	var table = $("#compattable");
 	for(var i = 0; i < data.length; i++){
-		metabugs.push(data[i].bug);
+		if(data[i].bug > -1){
+			metabugs.push(data[i].bug);
+		}
 		var id = createId(data[i].bug);
 		var row = $("<tr>");
 		table.append(row);
@@ -137,9 +139,10 @@ function processMetabugs(bugs){
 			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
 			//var dependsArray = localDepends.split(',');
 			for(var j = 0; j < localDepends.length; j++){
-				dependsdiv.append(createStubBugDiv(createId(localDepends[j])));
-				dependslayoutdiv.append(createStubBugDiv(createId(localDepends[j]) + "-layout"));
-				dependsevangdiv.append(createStubBugDiv(createId(localDepends[j]) + "-evang"));
+				var stubId = createId(localDepends[j]);
+				dependsdiv.append(createStubBugDiv(stubId));
+				dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
+				dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
 			}
 			
 			id = bugs[i].id + "_" + k;
