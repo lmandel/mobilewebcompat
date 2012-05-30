@@ -37,7 +37,7 @@ var data = [{
     "name": "Windows Live", 
     "company": "Microsoft",
     "url": "live.com", 
-    "bug": -1, 
+    "bug": 759122, 
     "info": ""
   },
   {
@@ -107,12 +107,12 @@ var data = [{
     "name": "MSN", 
     "company": "Microsoft",
     "url": "msn.com", 
-    "bug": -1, 
+    "bug": 759122, 
     "info": ""
   },
   {
-    "name": "Banco Itaœ", 
-    "company": "Banco Itaœ",
+    "name": "Banco Itau", 
+    "company": "Banco Itau",
     "url": "itau.com.br", 
     "bug": -1, 
     "info": ""
