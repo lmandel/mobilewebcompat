@@ -1,7 +1,22 @@
+body {
+	margin: 0px;
+}
+h1 {
+	text-align: center;
+}
+#wrapper {
+	background: rgb(245,241,232) url('../images/mozorg-gradient.png') repeat-x top center;
+	border-top: 2px solid #fff;
+}
 .dependbugs div{
 	display: inline;
 }
 table {
-	width: 100%;
-	max-width: 100%;
+	width: 95%;
+	border-radius: 10px;
+	
+	border-style: inset;§
+}
+tr {
+	background-color: white;
 }
