@@ -13,6 +13,7 @@ function populateTable(){
 		var id = createId(data[i].bug);
 		var row = $("<tr>");
 		table.append(row);
+		row.append(createTableCell(i+1));
 		row.append(createTableCell(data[i].name));
 		row.append(createTableCell(createLink(data[i].url)));
 		row.append(createTableCell(createBugDiv(id)));
