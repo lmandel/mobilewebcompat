@@ -14,7 +14,7 @@ function populateTable(){
 		var row = $("<tr>");
 		table.append(row);
 		row.append(createTableCell(data[i].name));
-		row.append(createTableCell(data[i].url));
+		row.append(createTableCell(createLink(data[i].url)));
 		row.append(createTableCell(createBugDiv(id)));
 		row.append(createTableCell(createDependsLayoutDiv(id)));
 		row.append(createTableCell(createDependsEvangelismDiv(id)));
@@ -37,6 +37,12 @@ function createId(id){
 	return docId;
 }
 
+function createLink(url){
+	var a = $("<a>");
+	a.attr("href", url);
+	a.append(url);
+	return a;
+}
 function createTableCell(value){
 	var td = $("<td>");
 	td.append(value);
