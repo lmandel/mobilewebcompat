@@ -14,6 +14,8 @@ function populateTable(){
 		row.append(createTableCell(data[i].name));
 		row.append(createTableCell(data[i].url));
 		row.append(createTableCell(createBugDiv(id)));
+		row.append(createTableCell(createDependsLayoutDiv(id)));
+		row.append(createTableCell(createDependsEvangelismDiv(id)));
 		row.append(createTableCell(createDependsDiv(id)));
 		row.append(createTableCell(data[i].info));
 	}
@@ -37,6 +39,20 @@ function createTableCell(value){
 	var td = $("<td>");
 	td.append(value);
 	return td;
+}
+
+function createDependsLayoutDiv(value){
+	var div = $("<div>");
+	div.attr("id", "bug" + value + "-dependslayout");
+	div.attr("class", "dependbugs");
+	return div;
+}
+
+function createDependsEvangelismDiv(value){
+	var div = $("<div>");
+	div.attr("id", "bug" + value + "-dependsevang");
+	div.attr("class", "dependbugs");
+	return div;
 }
 
 function createDependsDiv(value){
@@ -66,6 +82,12 @@ function createBugDiv(id, name, alias, resolved){
 		link.append(nakedId);
 	}
 	div.append(link);
+	return div;
+}
+
+function createStubBugDiv(id, name, alias, resolved){
+	var div = $("<div>");
+	div.attr("id", "bug"+ id);
 	return div;
 }
 
@@ -111,12 +133,13 @@ function processMetabugs(bugs){
 				depends += localDepends;
 			}
 			var dependsdiv = $("#bug"+ id + "-depends");
+			var dependslayoutdiv = $("#bug"+ id + "-dependslayout");
+			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
 			//var dependsArray = localDepends.split(',');
 			for(var j = 0; j < localDepends.length; j++){
-				dependsdiv.append(createBugDiv(createId(localDepends[j])));
-				if(j+1 < localDepends.length){
-					dependsdiv.append(", ");
-				}
+				dependsdiv.append(createStubBugDiv(createId(localDepends[j])));
+				dependslayoutdiv.append(createStubBugDiv(createId(localDepends[j]) + "-layout"));
+				dependsevangdiv.append(createStubBugDiv(createId(localDepends[j]) + "-evang"));
 			}
 			
 			id = bugs[i].id + "_" + k;
@@ -133,7 +156,7 @@ function isResolved(status){
 }
 
 function getDependentBugs(dependentBugs){
-	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=alias,id,status,summary&id=";
+	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=alias,component,id,product,status,summary&id=";
 	var ids =dependentBugs;
 	$.ajax({
 	  url: url + ids,
@@ -155,8 +178,15 @@ function processDependentbugs(bugs){
 		do{
 			k++;
 			var bugdiv = $("#bug"+id);
+			if(bugs[i].component.indexOf("LAYOUT") > -1){
+				bugdiv = $("#bug"+id + "-layout");
+			}
+			else if(bugs[i].component.indexOf("Evangelism") > -1 || bugs[i].product.indexOf("Evangelism") > -1){
+				bugdiv = $("#bug"+id + "-evang");
+			}
 			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, isResolved(bugs[i].status));
 			bugdiv.replaceWith(newbugdiv);
+			newbugdiv.append(", ");
 			id = bugs[i].id + "_" + k;
 		}while($("#bug"+id).length == 1);
 	}
