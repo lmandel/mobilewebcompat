@@ -39,6 +39,9 @@ function createId(id){
 }
 
 function createLink(url){
+	if(url.indexOf("http://") != 0){
+		url = "http://" + url;
+	}
 	var a = $("<a>");
 	a.attr("href", url);
 	a.append(url);
@@ -188,7 +191,7 @@ function processDependentbugs(bugs){
 		do{
 			k++;
 			var bugdiv = $("#bug"+id);
-			if(bugs[i].component.indexOf("LAYOUT") > -1){
+			if(bugs[i].component.indexOf("Layout") > -1){
 				bugdiv = $("#bug"+id + "-layout");
 			}
 			else if(bugs[i].component.indexOf("Evangelism") > -1 || bugs[i].product.indexOf("Evangelism") > -1){
