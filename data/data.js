@@ -2,37 +2,37 @@ var data = [{
     "name": "Google Brasil", 
     "company": "Google",
     "url": "google.com.br", 
-    "bug": 668288, 
+    "bug": 759867, 
     "info": ""
   },
   {
     "name": "Facebook", 
     "company": "Facebook",
     "url": "facebook.com", 
-    "bug": -1, 
+    "bug": 759986, 
     "info": ""
   },
   {
     "name": "Google", 
     "company": "Google",
     "url": "google.com", 
-    "bug": 668288, 
+    "bug": 759981, 
     "info": ""
   },
   {
     "name": "YouTube", 
     "company": "Google",
     "url": "youtube.com", 
-    "bug": 668288, 
+    "bug": 759982, 
     "info": ""
   },
   {
     "name": "Universo Online", 
     "company": "Universo Online",
     "url": "uol.com.br", 
-    "bug": -1, 
+    "bug": 759987, 
     "info": ""
-  },
+  }/*,
   {
     "name": "Windows Live", 
     "company": "Microsoft",
@@ -137,4 +137,4 @@ var data = [{
     "url": "orkut.com", 
     "bug": 668288, 
     "info": ""
-  }]
+  }*/]
