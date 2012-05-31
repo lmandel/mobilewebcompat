@@ -147,12 +147,20 @@ function processMetabugs(bugs){
 			var dependsdiv = $("#bug"+ id + "-depends");
 			var dependslayoutdiv = $("#bug"+ id + "-dependslayout");
 			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
-			//var dependsArray = localDepends.split(',');
-			for(var j = 0; j < localDepends.length; j++){
-				var stubId = createId(localDepends[j]);
+
+			if(typeof localDepends == "string"){
+				var stubId = createId(localDepends);
 				dependsdiv.append(createStubBugDiv(stubId));
 				dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
 				dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
+			}
+			else {
+				for(var j = 0; j < localDepends.length; j++){
+					var stubId = createId(localDepends[j]);
+					dependsdiv.append(createStubBugDiv(stubId));
+					dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
+					dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
+				}
 			}
 			
 			id = bugs[i].id + "_" + k;
