@@ -21,6 +21,7 @@ function populateTable(){
 		row.append(createTableCell(createDependsEvangelismDiv(id)));
 		row.append(createTableCell(createDependsDiv(id)));
 		row.append(createTableCell(data[i].info));
+		row.attr("class", "closed");
 	}
 	getMetabugs(metabugs);
 
@@ -205,7 +206,11 @@ function processDependentbugs(bugs){
 			else if(bugs[i].component.indexOf("Evangelism") > -1 || bugs[i].product.indexOf("Evangelism") > -1){
 				bugdiv = $("#bug"+id + "-evang");
 			}
-			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, isResolved(bugs[i].status));
+			var resolved = isResolved(bugs[i].status);
+			if(!resolved){
+				bugdiv.parent().parent().parent().attr("class", "open");
+			}
+			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, resolved);
 			bugdiv.replaceWith(newbugdiv);
 			newbugdiv.append(", ");
 			id = bugs[i].id + "_" + k;

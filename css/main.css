@@ -7,6 +7,7 @@ h1 {
 #wrapper {
 	background: rgb(245,241,232) url('../images/mozorg-gradient.png') repeat-x top center;
 	border-top: 2px solid #fff;
+	height: inherit;
 }
 .dependbugs div{
 	display: inline;
@@ -19,4 +20,12 @@ table {
 }
 tr {
 	background-color: white;
+}
+
+.closed {
+	background-color: #64E986;
+}
+
+.open {
+	background-color: #E18B6B;
 }
