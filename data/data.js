@@ -32,42 +32,42 @@ var data = [{
     "url": "uol.com.br", 
     "bug": 759987, 
     "info": ""
-  }/*,
+  },
   {
     "name": "Windows Live", 
     "company": "Microsoft",
     "url": "live.com", 
-    "bug": 759122, 
+    "bug": 761177, 
     "info": ""
   },
   {
     "name": "Globo.com", 
     "company": "Globo.com",
     "url": "globo.com", 
-    "bug": -1, 
+    "bug": 0, 
     "info": ""
   },
   {
     "name": "Dominio protegido", 
     "company": "Google",
     "url": "www.blogspot.com.br", 
-    "bug": -1, 
+    "bug": 761182, 
     "info": ""
   },	
   {
     "name": "Yahoo!", 
     "company": "Yahoo!",
     "url": "yahoo.com", 
-    "bug": -1, 
+    "bug": 0, 
     "info": ""
   },
   {
     "name": "Terra", 
     "company": "Terra",
     "url": "terra.com.br", 
-    "bug": -1, 
+    "bug": 0, 
     "info": ""
-  },	
+  }/*,	
   {
     "name": "Twitter", 
     "company": "Twitter",
