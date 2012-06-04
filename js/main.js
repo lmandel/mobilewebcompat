@@ -21,7 +21,9 @@ function populateTable(){
 		row.append(createTableCell(createDependsEvangelismDiv(id)));
 		row.append(createTableCell(createDependsDiv(id)));
 		row.append(createTableCell(data[i].info));
-		row.attr("class", "closed");
+		if(data[i].bug != -1){
+			row.attr("class", "closed");	
+		}
 	}
 	getMetabugs(metabugs);
 
@@ -82,7 +84,7 @@ function createBugDiv(id, name, alias, resolved){
 	}
 	var div = $("<div>");
 	div.attr("id", "bug"+ id);
-	if(nakedId != 0){
+	if(nakedId >= 0){
 		var link = $("<a>");
 		link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+nakedId);
 		link.attr("title", name);
