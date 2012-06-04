@@ -31,6 +31,11 @@ tr {
 	background-color: #E18B6B;
 }
 
+#legend {
+	text-align: center;
+	width: 350px;
+}
+
 /* Mozilla font */
 @font-face { font-family: "OpenSans"; src: url(OpenSans-Light.ttf) format("truetype"); }
 body {font: 16px/24px Georgia, serif;}
