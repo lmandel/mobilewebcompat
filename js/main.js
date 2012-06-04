@@ -82,19 +82,21 @@ function createBugDiv(id, name, alias, resolved){
 	}
 	var div = $("<div>");
 	div.attr("id", "bug"+ id);
-	var link = $("<a>");
-	link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+nakedId);
-	link.attr("title", name);
-	if(resolved){
-		link.attr("style", "text-decoration: line-through;");
+	if(nakedId != 0){
+		var link = $("<a>");
+		link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+nakedId);
+		link.attr("title", name);
+		if(resolved){
+			link.attr("style", "text-decoration: line-through;");
+		}
+		if(alias){
+			link.append(alias);
+		}
+		else{
+			link.append(nakedId);
+		}
+		div.append(link);
 	}
-	if(alias){
-		link.append(alias);
-	}
-	else{
-		link.append(nakedId);
-	}
-	div.append(link);
 	return div;
 }
 
