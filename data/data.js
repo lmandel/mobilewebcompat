@@ -72,28 +72,28 @@ var data = [{
     "name": "Twitter", 
     "company": "Twitter",
     "url": "twitter.com", 
-    "bug": -1, 
+    "bug": 763510, 
     "info": ""
   },	
   {
     "name": "orkut.com.br", 
     "company": "Google",
     "url": "orkut.com.br", 
-    "bug": -1, 
+    "bug": 763517, 
     "info": ""
   },
   {
     "name": "Wikipedia", 
     "company": "Wikipedia",
     "url": "wikipedia.org", 
-    "bug": -1, 
+    "bug": 763518, 
     "info": ""
   },
   {
     "name": "MercadoLivre Brasil", 
     "company": "MercadoLivre Brasil",
     "url": "mercadolivre.com.br", 
-    "bug": -1, 
+    "bug": 763511, 
     "info": ""
   },
   {
@@ -107,7 +107,7 @@ var data = [{
     "name": "MSN", 
     "company": "Microsoft",
     "url": "msn.com", 
-    "bug": -1, 
+    "bug": 763515, 
     "info": ""
   },
   {
@@ -121,21 +121,21 @@ var data = [{
     "name": "Abril", 
     "company": "Abril",
     "url": "abril.com.br", 
-    "bug": -1, 
+    "bug": 763508, 
     "info": ""
   },
    {
     "name": "Wordpress.com", 
     "company": "Wordpress.com",
     "url": "wordpress.com", 
-    "bug": -1, 
+    "bug": 0, 
     "info": ""
   },
    {
     "name": "Orkut", 
     "company": "Google",
     "url": "orkut.com", 
-    "bug": -1, 
+    "bug": 763516, 
     "info": ""
   },
    {
@@ -226,7 +226,7 @@ var data = [{
     "name": "Microsoft Corporation", 
     "company": "Microsoft",
     "url": "microsoft.com", 
-    "bug": -1, 
+    "bug": 763512, 
     "info": ""
   },
    {
@@ -338,7 +338,7 @@ var data = [{
     "name": "Flickr", 
     "company": "Yahoo",
     "url": "flickr.com", 
-    "bug": -1, 
+    "bug": 763514, 
     "info": ""
   },
    {
