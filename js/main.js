@@ -20,6 +20,7 @@ function populateTable(){
 		row.append(createTableCell(createDependsLayoutDiv(id)));
 		row.append(createTableCell(createDependsEvangelismDiv(id)));
 		row.append(createTableCell(createDependsDiv(id)));
+		row.append(createTableCell(createOwnerDiv(id)));
 		row.append(createTableCell(data[i].info));
 		if(data[i].bug != -1){
 			row.attr("class", "closed");	
@@ -108,8 +109,15 @@ function createStubBugDiv(id, name, alias, resolved){
 	return div;
 }
 
+function createOwnerDiv(value){
+	var div = $("<div>");
+	div.attr("id", "bug" + value + "-owner");
+	div.attr("class", "owner");
+	return div;
+}
+
 function getMetabugs(metabugs){
-	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=alias,id,depends_on,status,summary&id=";
+	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=alias,assigned_to,id,depends_on,status,summary&id=";
 	var ids ="";
 	for(var i = 0; i < metabugs.length; i++){
 		if(i == metabugs.length-1){
@@ -152,7 +160,8 @@ function processMetabugs(bugs){
 			var dependsdiv = $("#bug"+ id + "-depends");
 			var dependslayoutdiv = $("#bug"+ id + "-dependslayout");
 			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
-
+			var ownerdiv = $("#bug"+ id + "-owner");
+			
 			if(typeof localDepends == "string"){
 				var stubId = createId(localDepends);
 				dependsdiv.append(createStubBugDiv(stubId));
@@ -166,6 +175,11 @@ function processMetabugs(bugs){
 					dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
 					dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
 				}
+			}
+			
+			var owner = bugs[i].assigned_to;
+			if(owner.name != "nobody"){
+				ownerdiv.append(owner.real_name);
 			}
 			
 			id = bugs[i].id + "_" + k;
