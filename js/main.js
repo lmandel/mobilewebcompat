@@ -26,7 +26,7 @@ function populateTable(){
 			row.attr("class", "closed");	
 		}
 	}
-	getMetabugs(metabugs);
+	getMetabugs(metabugs, processMetaBugs);
 
 }
 
@@ -116,31 +116,7 @@ function createOwnerDiv(value){
 	return div;
 }
 
-function getMetabugs(metabugs){
-	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=alias,assigned_to,id,depends_on,status,summary&id=";
-	var ids ="";
-	for(var i = 0; i < metabugs.length; i++){
-		if(i == metabugs.length-1){
-			ids += metabugs[i];
-		}
-		else{
-			ids += metabugs[i] + ",";
-		}
-	}
-	$.ajax({
-	  url: url + ids,
-	  crossDomain:true, 
-	  dataType: 'json',
-	  success: function(data){
-	    processMetabugs(data.bugs);
-	  },
-	  error: function(data){
-	    alert('fail.');
-	  }
-	});
-}
-
-function processMetabugs(bugs){
+function processMetaBugs(bugs){
 	var depends = "";
 	for(var i = 0; i < bugs.length; i++){
 		var k = 0;
@@ -185,7 +161,7 @@ function processMetabugs(bugs){
 			id = bugs[i].id + "_" + k;
 		}while($("#bug"+id).length == 1);
 	}
-	getDependentBugs(depends);
+	getDependentBugs(depends, processDependentBugs);
 }
 
 function isResolved(status){
@@ -195,23 +171,7 @@ function isResolved(status){
 	return false;
 }
 
-function getDependentBugs(dependentBugs){
-	var url = "https://api-dev.bugzilla.mozilla.org/latest/bug?include_fields=alias,component,id,product,status,summary&id=";
-	var ids =dependentBugs;
-	$.ajax({
-	  url: url + ids,
-	  crossDomain:true, 
-	  dataType: 'json',
-	  success: function(data){
-	    processDependentbugs(data.bugs);
-	  },
-	  error: function(data){
-	    alert('fail.');
-	  }
-	});
-}
-
-function processDependentbugs(bugs){
+function processDependentBugs(bugs){
 	for(var i = 0; i < bugs.length; i++){
 		var id = bugs[i].id;
 		var k = 0;
