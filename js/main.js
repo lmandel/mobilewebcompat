@@ -1,7 +1,7 @@
 $(document).ready(function () {
-  populateTable();
+	startLoadingNotification();
+	populateTable();
 });
-
 
 function populateTable(){
 	var metabugs = [];
