@@ -1,33 +1,74 @@
 $(document).ready(function () {
 	startLoadingNotification();
-	populateTable();
+	createTabs(topLists);
+	populateTables();
+	retrieveMetaBugs();
 });
 
-function populateTable(){
-	var metabugs = [];
-	var table = $("#compattable");
-	for(var i = 0; i < data.length; i++){
-		if(data[i].bug > -1){
-			metabugs.push(data[i].bug);
+function populateTables(){
+	for(var i = 0; i < topLists.length; i++){
+		//get top list from url
+		_getTopList(topLists[i].url, topLists[i].id);
+	}
+
+}
+
+function _getTopList(theurl, listId){
+
+	$.ajax({
+		  url: 'data/'+theurl,
+		  crossDomain:false, 
+		  dataType: 'json',
+		  success: function(data){
+		    _populateTable(listId, data.data);
+		  },
+		  error: function(jqXHR, textStatus, errorThrown){
+		    alert('Failed to retrieve top list '+ listId +' for url:'+ url +'.');
+		  }
+		});
+}
+
+function _populateTable(tableId, siteList){
+	var table = $("#" + tableId + "-compattable");
+	for(var i = 0; i < siteList.length; i++){
+		var url = siteList[i];
+		var siteData = data[url];
+		var rawId = -1;
+		var id = -1;
+		var info = "";
+		var name = url;
+		if(siteData != null){
+			rawId = siteData.bug;
+			id =  createId(rawId);
+			name = siteData.name;
+			info = siteData.info;
 		}
-		var id = createId(data[i].bug);
 		var row = $("<tr>");
 		table.append(row);
 		row.append(createTableCell(i+1));
-		row.append(createTableCell(data[i].name));
-		row.append(createTableCell(createLink(data[i].url)));
+		row.append(createTableCell(name));
+		row.append(createTableCell(createLink(url)));
 		row.append(createTableCell(createBugDiv(id)));
 		row.append(createTableCell(createDependsLayoutDiv(id)));
 		row.append(createTableCell(createDependsEvangelismDiv(id)));
 		row.append(createTableCell(createDependsDiv(id)));
 		row.append(createTableCell(createOwnerDiv(id)));
-		row.append(createTableCell(data[i].info));
-		if(data[i].bug != -1){
+		row.append(createTableCell(info));
+		if(rawId != -1){
 			row.attr("class", "closed");	
 		}
 	}
-	getMetabugs(metabugs, processMetaBugs);
+}
 
+function retrieveMetaBugs(){
+	var metabugs = [];
+	
+	for (var site in data) {
+		if(data[site].bug > -1){
+			metabugs.push(data[site].bug);
+		}
+	}
+	getMetabugs(metabugs, processMetaBugs);
 }
 
 function createId(id){
