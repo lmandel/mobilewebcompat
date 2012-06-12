@@ -347,4 +347,4 @@ var data = [{
     "url": "oi.com.br", 
     "bug": -1, 
     "info": ""
-  }]
+  }];
