@@ -47,7 +47,7 @@ function _populateTable(tableId, siteList){
 		table.append(row);
 		row.append(createTableCell(i+1));
 		row.append(createTableCell(name));
-		row.append(createTableCell(createLink(url)));
+		row.append(createTableCell(url));
 		row.append(createTableCell(createBugDiv(id)));
 		row.append(createTableCell(createDependsLayoutDiv(id)));
 		row.append(createTableCell(createDependsEvangelismDiv(id)));
@@ -83,15 +83,6 @@ function createId(id){
 	return docId;
 }
 
-function createLink(url){
-	if(url.indexOf("http://") != 0){
-		url = "http://" + url;
-	}
-	var a = $("<a>");
-	a.attr("href", url);
-	a.append(url);
-	return a;
-}
 function createTableCell(value){
 	var td = $("<td>");
 	td.append(value);
