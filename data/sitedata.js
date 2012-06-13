@@ -1,3 +1,4 @@
+// Updated June 12, 2012
 var data = {"google.com.br":{
     "name": "Google Brasil", 
     "company": "Google",
