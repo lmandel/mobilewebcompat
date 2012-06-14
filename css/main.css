@@ -40,6 +40,10 @@ tr {
 	text-align: center;
 }
 
+.summarytitle {
+	font-weight: bold;
+}
+
 /* Mozilla font */
 @font-face { font-family: "OpenSans"; src: url(OpenSans-Light.ttf) format("truetype"); }
 body {font: 16px/24px Georgia, serif;}

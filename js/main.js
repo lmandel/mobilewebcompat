@@ -7,20 +7,19 @@ $(document).ready(function () {
 
 function populateTables(){
 	for(var i = 0; i < topLists.length; i++){
-		//get top list from url
-		_getTopList(topLists[i].url, topLists[i].id);
+		_getTopList(i, _populateTable);
 	}
 
 }
 
-function _getTopList(theurl, listId){
+function _getTopList(topListId, successFunction){
 
 	$.ajax({
-		  url: 'data/'+theurl,
+		  url: 'data/'+topLists[topListId].url,
 		  crossDomain:false, 
 		  dataType: 'json',
 		  success: function(data){
-		    _populateTable(listId, data.data);
+		    successFunction(topListId, data.data);
 		  },
 		  error: function(jqXHR, textStatus, errorThrown){
 		    alert('Failed to retrieve top list '+ listId +' for url:'+ url +'.');
@@ -28,8 +27,9 @@ function _getTopList(theurl, listId){
 		});
 }
 
-function _populateTable(tableId, siteList){
-	var table = $("#" + tableId + "-compattable");
+function _populateTable(topListId, siteList){
+	var table = $("#" + topLists[topListId].id + "-compattable");
+	var numInvestigated = 0;
 	for(var i = 0; i < siteList.length; i++){
 		var url = siteList[i];
 		var siteData = data[url];
@@ -55,9 +55,11 @@ function _populateTable(tableId, siteList){
 		row.append(createTableCell(createOwnerDiv(id)));
 		row.append(createTableCell(info));
 		if(rawId != -1){
-			row.attr("class", "closed");	
+			row.attr("class", "closed");
+			numInvestigated++;
 		}
 	}
+	topLists[topListId].investigated = numInvestigated;
 }
 
 function retrieveMetaBugs(){
@@ -66,6 +68,7 @@ function retrieveMetaBugs(){
 	for (var site in data) {
 		if(data[site].bug > -1){
 			metabugs.push(data[site].bug);
+			data[site].isClosed = true;
 		}
 	}
 	getMetabugs(metabugs, processMetaBugs);
@@ -210,6 +213,7 @@ function processDependentBugs(bugs){
 		do{
 			k++;
 			var bugdiv = $("#bug"+id);
+			var siteUrl = bugdiv.parent().parent().parent().children().get(2).innerHTML;
 			if(bugs[i].component.indexOf("Layout") > -1){
 				bugdiv = $("#bug"+id + "-layout");
 			}
@@ -219,6 +223,7 @@ function processDependentBugs(bugs){
 			var resolved = isResolved(bugs[i].status);
 			if(!resolved){
 				bugdiv.parent().parent().parent().attr("class", "open");
+				data[siteUrl].isClosed = false;
 			}
 			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, resolved);
 			bugdiv.replaceWith(newbugdiv);
@@ -226,4 +231,44 @@ function processDependentBugs(bugs){
 			id = bugs[i].id + "_" + k;
 		}while($("#bug"+id).length == 1);
 	}
+	populateSummary();
+}
+
+function populateSummary(){
+	for(var i = 0; i < topLists.length; i++){
+		_getTopList(i, _createTopListSummary);
+	}
+}
+
+function _createTopListSummary(topListId, siteList){
+	var summary = $('#summary');
+	var title = $('<div>');
+	title.attr("class","summarytitle");
+	title.append(topLists[topListId].name);
+	summary.append(title);
+	var div = $('<div>');
+	var functional = 0;
+	var issues = 0;
+	var notInvestigated = 0;
+	for(var i = 0; i < siteList.length; i++){
+		if(data[siteList[i]]){
+			var id = data[siteList[i]].bug;
+			if(id == -1){
+				notInvestigated++;
+			}
+			else if(data[siteList[i]].isClosed){
+				functional++;
+			}
+			else{
+				issues++;
+			}
+		}
+		else{
+			notInvestigated++;
+		}
+	}
+	div.append($('<div>').append(functional + " functional (" + Math.round(functional*100/siteList.length) + "%)"));
+	div.append($('<div>').append(issues + " with known issues ("+ Math.round(issues*100/siteList.length) + "%)"));
+	div.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
+	summary.append(div);
 }
