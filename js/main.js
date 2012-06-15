@@ -242,11 +242,15 @@ function populateSummary(){
 
 function _createTopListSummary(topListId, siteList){
 	var summary = $('#summary');
+	var summaryitem = $('<div>');
+	summaryitem.attr("class", "summaryitem");
+	summary.append(summaryitem)
 	var title = $('<div>');
 	title.attr("class","summarytitle");
 	title.append(topLists[topListId].name);
-	summary.append(title);
-	var div = $('<div>');
+	summaryitem.append(title);
+	var summarydetails = $('<div>');
+	summarydetails.attr("class", "summarydetails");
 	var functional = 0;
 	var issues = 0;
 	var notInvestigated = 0;
@@ -267,8 +271,8 @@ function _createTopListSummary(topListId, siteList){
 			notInvestigated++;
 		}
 	}
-	div.append($('<div>').append(functional + " functional (" + Math.round(functional*100/siteList.length) + "%)"));
-	div.append($('<div>').append(issues + " with known issues ("+ Math.round(issues*100/siteList.length) + "%)"));
-	div.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
-	summary.append(div);
+	summarydetails.append($('<div>').append(functional + " functional (" + Math.round(functional*100/siteList.length) + "%)"));
+	summarydetails.append($('<div>').append(issues + " with known issues ("+ Math.round(issues*100/siteList.length) + "%)"));
+	summarydetails.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
+	summaryitem.append(summarydetails);
 }
