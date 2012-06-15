@@ -40,6 +40,32 @@ tr {
 	text-align: center;
 }
 
+#summary{
+	text-align: center;
+}
+
+.summarytitle {
+	text-align: center;
+	background-color: #eb8f00;
+	border-radius: 5px 5px 0px 0px;
+	border-bottom: 1px solid black;
+}
+
+.summaryitem {
+	display: inline-block;
+	border-radius: 5px;
+	border: 1px solid black;
+	width: 210px;
+	margin: 5px;
+}
+
+.summarydetails {
+	padding: 5px;
+	background-color: white;
+	border-radius: 0px 0px 5px 5px;
+}
+
+
 /* Mozilla font */
 @font-face { font-family: "OpenSans"; src: url(OpenSans-Light.ttf) format("truetype"); }
 body {font: 16px/24px Georgia, serif;}

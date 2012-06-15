@@ -143,7 +143,7 @@ var data = {"google.com.br":{
     "name": "LinkedIn", 
     "company": "LinkedIn",
     "url": "linkedin.com", 
-    "bug": -1, 
+    "bug": 764695, 
     "info": ""
   },
   "babylon.com":{
@@ -348,4 +348,11 @@ var data = {"google.com.br":{
     "url": "oi.com.br", 
     "bug": -1, 
     "info": ""
+  },
+  "imdb.com":{
+	"name": "IMDB", 
+	"company": "Amazon",
+	"url": "imdb.com", 
+	"bug": 764697, 
+	"info": ""
   }};
