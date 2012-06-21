@@ -213,7 +213,7 @@ var data = {"google.com.br":{
     "name": "Blogspot.com", 
     "company": "Google",
     "url": "blogspot.com", 
-    "bug": -1, 
+    "bug": 766984, 
     "info": ""
   },
   "caixa.gov.br":{
@@ -332,7 +332,7 @@ var data = {"google.com.br":{
     "name": "Amazon", 
     "company": "Amazon",
     "url": "amazon.com", 
-    "bug": -1, 
+    "bug": 0, 
     "info": ""
   },
   "flickr.com":{
@@ -354,5 +354,180 @@ var data = {"google.com.br":{
 	"company": "Amazon",
 	"url": "imdb.com", 
 	"bug": 764697, 
+	"info": ""
+  },
+  "dailymotion.com":{
+    "name": "Dailymotion", 
+    "company": "Dailymotion",
+	"url": "dailymotion.com", 
+	"bug": 766938, 
+	"info": ""
+  },
+  "craigslist.org":{
+    "name": "Craigslist.org", 
+    "company": "Craigslist",
+	"url": "craigslist.org", 
+	"bug": 0, 
+	"info": ""
+  },
+  "pinterest.com":{
+    "name": "Pinterest", 
+    "company": "Pinterest",
+	"url": "pinterest.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "paypal.com":{
+    "name": "PayPal", 
+    "company": "eBay",
+	"url": "paypal.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "fandango.com":{
+    "name": "Fandango", 
+    "company": "Fandango",
+	"url": "fandango.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "espn.go.com":{
+    "name": "ESPN", 
+    "company": "ESPN",
+	"url": "espn.go.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "weather.com":{
+    "name": "Weather Channel", 
+    "company": "Weather Channel",
+	"url": "weather.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "yelp.com":{
+    "name": "Yelp", 
+    "company": "Yelp",
+	"url": "yelp.com", 
+	"bug": 766941, 
+	"info": ""
+  },
+  "aol.com":{
+    "name": "America Online", 
+    "company": "America Online",
+	"url": "aol.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "cnn.com":{
+    "name": "CNN", 
+    "company": "CNN",
+	"url": "cnn.com", 
+	"bug": 766947, 
+	"info": ""
+  },
+  "cnet.com":{
+    "name": "CNet.com", 
+    "company": "CNet.com",
+	"url": "cnet.com", 
+	"bug": 766953, 
+	"info": ""
+  },
+  "bankofamerica.com":{
+    "name": "Bank of America", 
+    "company": "Bank of America",
+	"url": "bankofamerica.com", 
+	"bug": 766960, 
+	"info": ""
+  },
+  "bing.com":{
+    "name": "Bing", 
+    "company": "Microsoft",
+	"url": "bing.com", 
+	"bug": 766964, 
+	"info": ""
+  },
+  "bbc.co.uk":{
+    "name": "BBC", 
+    "company": "BBC",
+	"url": "bbc.co.uk", 
+	"bug": 766967, 
+	"info": ""
+  },
+  "huffingtonpost.com":{
+    "name": "Huffington Post", 
+    "company": "Huffington Post",
+	"url": "huffingtonpost.com", 
+	"bug": 766968, 
+	"info": ""
+  },
+  "guardian.co.uk":{
+    "name": "The Guardian", 
+    "company": "The Guardian",
+	"url": "guardian.co.uk", 
+	"bug": 766970, 
+	"info": ""
+  },
+  "dictionary.com":{
+    "name": "Dictionary.com", 
+    "company": "Dictionary.com",
+	"url": "dictionary.com", 
+	"bug": 766971, 
+	"info": ""
+  },
+  "photobucket.com":{
+    "name": "Photobucket", 
+    "company": "Photobucket",
+	"url": "photobucket.com", 
+	"bug": 766972, 
+	"info": ""
+  },
+  "nytimes.com":{
+    "name": "NY Times", 
+    "company": "NY Times",
+	"url": "nytimes.com", 
+	"bug": 766974, 
+	"info": ""
+  },
+  "reddit.com":{
+    "name": "Reddit", 
+    "company": "Reddit",
+	"url": "reddit.com", 
+	"bug": 766976, 
+	"info": ""
+  },
+  "rightmove.co.uk":{
+    "name": "Rightmove", 
+    "company": "Rightmove",
+	"url": "rightmove.co.uk", 
+	"bug": 766978, 
+	"info": ""
+  },
+  "apple.com":{
+    "name": "Apple", 
+    "company": "Apple",
+	"url": "apple.com", 
+	"bug": 766979, 
+	"info": ""
+  },
+  "comcast.net":{
+    "name": "Comcast", 
+    "company": "Comcast",
+	"url": "comcast.net", 
+	"bug": 766980, 
+	"info": ""
+  },
+  "wellsfargo.com":{
+    "name": "Wells Fargo", 
+    "company": "Wells Fargo",
+	"url": "wellsfargo.com", 
+	"bug": 766981, 
+	"info": ""
+  },
+  "netflix.com":{
+    "name": "Netflix", 
+    "company": "Netflix",
+	"url": "netflix.com", 
+	"bug": 766983, 
 	"info": ""
   }};
