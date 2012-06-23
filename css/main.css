@@ -23,17 +23,21 @@ tr {
 	background-color: white;
 }
 
-.closed {
+.no-issue {
 	background-color: #64E986;
 }
 
-.open {
+.minor-issue {
+	background-color: #ffff99;
+}
+
+.major-issue {
 	background-color: #E18B6B;
 }
 
 #legend {
 	text-align: center;
-	width: 350px;
+	width: 900px;
 }
 
 #loading {

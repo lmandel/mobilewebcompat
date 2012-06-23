@@ -47,4 +47,9 @@ var topLists = [{
 	 "name": "US 50",
 	 "url": "alexa_us.json",
 	 "id": "alexa50us"
+	},
+	{
+	 "name": "Mail",
+	 "url": "mail.json",
+	 "id": "mail"
 	}];

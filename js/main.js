@@ -55,7 +55,7 @@ function _populateTable(topListId, siteList){
 		row.append(createTableCell(createOwnerDiv(id)));
 		row.append(createTableCell(info));
 		if(rawId != -1){
-			row.attr("class", "closed");
+			row.attr("class", "no-issue");
 			numInvestigated++;
 		}
 	}
@@ -222,7 +222,12 @@ function processDependentBugs(bugs){
 			}
 			var resolved = isResolved(bugs[i].status);
 			if(!resolved){
-				bugdiv.parent().parent().parent().attr("class", "open");
+				if(bugs[i].priority == "P2" && !bugdiv.parent().parent().parent().hasClass("major-issue")){
+					bugdiv.parent().parent().parent().attr("class", "minor-issue");
+				}
+				else{
+					bugdiv.parent().parent().parent().attr("class", "major-issue");
+				}
 				data[siteUrl].isClosed = false;
 			}
 			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, resolved);

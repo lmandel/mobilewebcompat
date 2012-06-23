@@ -3,7 +3,7 @@ function getMetabugs(metabugs, successFunction){
 }
 
 function getDependentBugs(dependentBugs, successFunction, errorFunction){
-	_getBugs(dependentBugs, "alias,component,id,product,status,summary", successFunction);
+	_getBugs(dependentBugs, "alias,component,id,product,status,summary,priority", successFunction);
 }
 
 function _getBugs(bugIds, fields, successFunction, errorFunction){

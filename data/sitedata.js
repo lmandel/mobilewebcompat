@@ -530,4 +530,18 @@ var data = {"google.com.br":{
 	"url": "netflix.com", 
 	"bug": 766983, 
 	"info": ""
+  },
+  "nhl.com":{
+    "name": "NHL", 
+    "company": "NHL",
+	"url": "nhl.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "nba.com":{
+    "name": "NBA", 
+    "company": "NBA",
+	"url": "nba.com", 
+	"bug": 767652, 
+	"info": ""
   }};
