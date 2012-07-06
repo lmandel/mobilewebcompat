@@ -544,4 +544,18 @@ var data = {"google.com.br":{
 	"url": "nba.com", 
 	"bug": 767652, 
 	"info": ""
+  },
+  "ebay.com":{
+    "name": "eBay", 
+    "company": "eBay",
+	"url": "ebay.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "mail.yahoo.com":{
+    "name": "Yahoo Mail", 
+    "company": "Yahoo",
+	"url": "mail.yahoo.com", 
+	"bug": -1, 
+	"info": ""
   }};

@@ -4,6 +4,11 @@ var topLists = [{
 	 "id": "bdtopsites"
 	},
 	{
+	 "name": "Smoke",
+	 "url": "smoke.json",
+	 "id": "smoke"
+	},
+	{
 	 "name": "BR 50",
 	 "url": "alexa_br.json",
 	 "id": "alexa50br"
