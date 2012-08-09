@@ -249,7 +249,7 @@ function _createTopListSummary(topListId, siteList){
 	var summary = $('#summary');
 	var summaryitem = $('<div>');
 	summaryitem.attr("class", "summaryitem");
-	summary.append(summaryitem)
+	summary.append(summaryitem);
 	var title = $('<div>');
 	title.attr("class","summarytitle");
 	title.append(topLists[topListId].name);

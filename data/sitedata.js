@@ -558,4 +558,11 @@ var data = {"google.com.br":{
 	"url": "mail.yahoo.com", 
 	"bug": -1, 
 	"info": ""
+  },
+  "mail.google.com":{
+    "name": "GMail", 
+    "company": "Google",
+	"url": "mail.google.com", 
+	"bug": 776629, 
+	"info": ""
   }};
