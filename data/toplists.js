@@ -57,9 +57,4 @@ var topLists = [{
 	 "name": "Mail",
 	 "url": "mail.json",
 	 "id": "mail"
-	},
-	{
-	 "name": "JS",
-	 "url": "jsframeworks.json",
-	 "id": "js"
 	}];

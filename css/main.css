@@ -5,6 +5,11 @@ h1 {
 	text-align: center;
 	margin-top: 50px;
 }
+
+h4 {
+	text-align: center;
+}
+
 #wrapper {
 	background: rgb(245,241,232) url('../images/mozorg-gradient.png') repeat-x top center;
 	border-top: 2px solid #fff;
