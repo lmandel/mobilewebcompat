@@ -565,4 +565,32 @@ var data = {"google.com.br":{
 	"url": "mail.google.com", 
 	"bug": 776629, 
 	"info": ""
+  },
+  "taobao.com":{
+    "name": "Taobao", 
+    "company": "Taobao",
+	"url": "taobao.com", 
+	"bug": 784477, 
+	"info": ""
+  },
+  "alipay.com":{
+    "name": "Alipay", 
+    "company": "Alipay",
+	"url": "alipay.com", 
+	"bug": 784479, 
+	"info": ""
+  },
+  "wetter.com":{
+    "name": "Wetter", 
+    "company": "Wetter",
+	"url": "wetter.com", 
+	"bug": 784483, 
+	"info": ""
+  },
+  "tripadvisor.com":{
+    "name": "Trip Advisor", 
+    "company": "Trip Advisor",
+	"url": "tripadvisor.com", 
+	"bug": 784485, 
+	"info": ""
   }};

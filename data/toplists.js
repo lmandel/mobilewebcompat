@@ -4,9 +4,9 @@ var topLists = [{
 	 "id": "bdtopsites"
 	},
 	{
-	 "name": "Smoke",
-	 "url": "smoke.json",
-	 "id": "smoke"
+	 "name": "Alexa 1000",
+	 "url": "alexa_1000.json",
+	 "id": "alexa1000"
 	},
 	{
 	 "name": "BR 50",
