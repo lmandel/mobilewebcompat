@@ -593,4 +593,11 @@ var data = {"google.com.br":{
 	"url": "tripadvisor.com", 
 	"bug": 784485, 
 	"info": ""
+  },
+  "wired.com":{
+    "name": "Wired", 
+    "company": "Wired",
+	"url": "wired.com", 
+	"bug": 784542, 
+	"info": ""
   }};
