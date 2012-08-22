@@ -72,8 +72,9 @@ function retrieveMetaBugs(){
 	var metabugs = [];
 	
 	for (var site in data) {
-		if(data[site].bug > 0 && metabugs.indexOf(data[site].bug) == -1){
-			metabugs.push(data[site].bug);
+		if(data[site].bug > -1){
+			if(metabugs.indexOf(data[site].bug) == -1)
+				metabugs.push(data[site].bug);
 			data[site].isClosed = true;
 		}
 	}
