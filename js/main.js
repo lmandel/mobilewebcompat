@@ -202,9 +202,18 @@ function processMetaBugs(bugs){
 
 function addDependentBugs(localDepends, depends){
 	if(localDepends && localDepends != ""){
-		for (var i=0; i<localDepends.length; i++) {
-			if(depends.indexOf(localDepends[i]) == -1){
-				depends.push(localDepends[i]);
+		// single bug id
+		if(localDepends.indexOf(',') == -1){
+			if(depends.indexOf(localDepends) == -1){
+				depends.push(localDepends);
+			}
+		}
+		//multiple bug ids
+		else{
+			for (var i=0; i<localDepends.length; i++) {
+				if(depends.indexOf(localDepends[i]) == -1){
+					depends.push(localDepends[i]);
+				}
 			}
 		}
 	}
