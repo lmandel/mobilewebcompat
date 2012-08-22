@@ -37,11 +37,13 @@ function _populateTable(topListId, siteList){
 		var id = -1;
 		var info = "";
 		var name = url;
+		var desktopSite = false;
 		if(siteData != null){
 			rawId = siteData.bug;
 			id =  createId(rawId);
 			name = siteData.name;
 			info = siteData.info;
+			desktopSite = siteData.desktoponly | false;
 		}
 		var row = $("<tr>");
 		table.append(row);
@@ -54,7 +56,11 @@ function _populateTable(topListId, siteList){
 		row.append(createTableCell(createDependsDiv(id)));
 		row.append(createTableCell(createOwnerDiv(id)));
 		row.append(createTableCell(info));
-		if(rawId != -1){
+		if(rawId == 0 && desktopSite){
+			row.attr("class", "desktop-site");
+			numInvestigated++;
+		}
+		else if(rawId != -1){
 			row.attr("class", "no-issue");
 			numInvestigated++;
 		}
@@ -66,7 +72,7 @@ function retrieveMetaBugs(){
 	var metabugs = [];
 	
 	for (var site in data) {
-		if(data[site].bug > -1){
+		if(data[site].bug > 0 && metabugs.indexOf(data[site].bug) == -1){
 			metabugs.push(data[site].bug);
 			data[site].isClosed = true;
 		}
@@ -152,7 +158,7 @@ function createOwnerDiv(value){
 }
 
 function processMetaBugs(bugs){
-	var depends = "";
+	var depends = [];
 	for(var i = 0; i < bugs.length; i++){
 		var k = 0;
 		var id = bugs[i].id;
@@ -162,12 +168,7 @@ function processMetaBugs(bugs){
 			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, isResolved(bugs[i].status));
 			bugdiv.replaceWith(newbugdiv);
 			var localDepends = bugs[i].depends_on;
-			if(localDepends && localDepends != ""){
-				if(depends != ""){
-					depends += ",";
-				}
-				depends += localDepends;
-			}
+			depends = addDependentBugs(localDepends, depends);
 			var dependsdiv = $("#bug"+ id + "-depends");
 			var dependslayoutdiv = $("#bug"+ id + "-dependslayout");
 			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
@@ -197,6 +198,17 @@ function processMetaBugs(bugs){
 		}while($("#bug"+id).length == 1);
 	}
 	getDependentBugs(depends, processDependentBugs);
+}
+
+function addDependentBugs(localDepends, depends){
+	if(localDepends && localDepends != ""){
+		for (var i=0; i<localDepends.length; i++) {
+			if(depends.indexOf(localDepends[i]) == -1){
+				depends.push(localDepends[i]);
+			}
+		}
+	}
+	return depends;
 }
 
 function isResolved(status){

@@ -368,7 +368,8 @@ var data = {"google.com.br":{
     "company": "Craigslist",
 	"url": "craigslist.org", 
 	"bug": 0, 
-	"info": ""
+	"info": "",
+	"desktoponly": true
   },
   "pinterest.com":{
     "name": "Pinterest", 
@@ -382,7 +383,8 @@ var data = {"google.com.br":{
     "company": "eBay",
 	"url": "paypal.com", 
 	"bug": 0, 
-	"info": ""
+	"info": "",
+	"desktoponly": true
   },
   "fandango.com":{
     "name": "Fandango", 
@@ -600,4 +602,26 @@ var data = {"google.com.br":{
 	"url": "wired.com", 
 	"bug": 784542, 
 	"info": ""
+  },
+  "t.co":{
+    "name": "Twitter Link Service", 
+    "company": "Twitter",
+	"url": "t.co", 
+	"bug": 0, 
+	"info": ""
+  },
+  "googleusercontent.com":{
+    "name": "googleusercontent.com", 
+    "company": "Google",
+	"url": "googleusercontent.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "mywebsearch.com":{
+    "name": "mywebsearch", 
+    "company": "mywebsearch",
+	"url": "mywebsearch.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
   }};

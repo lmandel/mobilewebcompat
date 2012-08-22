@@ -14,6 +14,11 @@ var topLists = [{
 	 "id": "alexa50br"
 	},
 	{
+	 "name": "CA 50",
+	 "url": "alexa_ca.json",
+	 "id": "alexa50ca"
+	},
+	{
 	 "name": "CN 50",
 	 "url": "alexa_cn.json",
 	 "id": "alexa50cn"
