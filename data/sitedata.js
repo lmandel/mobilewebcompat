@@ -624,4 +624,19 @@ var data = {"google.com.br":{
 	"bug": 0, 
 	"info": "",
 	"desktoponly": true
+  },
+  "thepiratebay.se":{
+    "name": "The Pirate Bay", 
+    "company": "The Pirate Bay",
+	"url": "thepiratebay.se", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "instagram.com":{
+    "name": "Instagram", 
+    "company": "Facebook",
+	"url": "instagram.com", 
+	"bug": 0, 
+	"info": ""
   }};
