@@ -101,7 +101,7 @@ var data = {"google.com.br":{
     "name": "iG", 
     "company": "iG",
     "url": "ig.com.br", 
-    "bug": -1, 
+    "bug": 786067, 
     "info": ""
   },
   "msn.com":{
@@ -150,20 +150,13 @@ var data = {"google.com.br":{
     "name": "Babylon", 
     "company": "Babylon",
     "url": "babylon.com", 
-    "bug": -1, 
-    "info": ""
+    "bug": 0, 
+    "info": "Mobile site only redirects to Android and iPhone apps."
   },
   "googleusercontent.com":{
     "name": "googleusercontent.com", 
     "company": "googleusercontent.com",
     "url": "googleusercontent.com", 
-    "bug": -1, 
-    "info": ""
-  },
-  "t.co":{
-    "name": "t.co", 
-    "company": "t.co",
-    "url": "t.co", 
     "bug": -1, 
     "info": ""
   },
@@ -304,7 +297,7 @@ var data = {"google.com.br":{
     "name": "sp.gov.br", 
     "company": "sp.gov.br",
     "url": "sp.gov.br", 
-    "bug": -1, 
+    "bug": 0, 
     "info": ""
   },
   "americanas.com.br":{
@@ -639,4 +632,90 @@ var data = {"google.com.br":{
 	"url": "instagram.com", 
 	"bug": 0, 
 	"info": ""
-  }};
+  },
+  "ask.com":{
+    "name": "Ask", 
+    "company": "Ask",
+	"url": "ask.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "kijiji.ca":{
+    "name": "Kijiji", 
+    "company": "Kijiji",
+	"url": "kijiji.ca", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "gc.ca":{
+    "name": "Government of Canada", 
+    "company": "Government of Canada",
+	"url": "gc.ca", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "craigslist.ca":{
+    "name": "Craigslist Canada", 
+    "company": "Craigslist",
+	"url": "craigslist.ca", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "tdcanadatrust.com":{
+    "name": "TD Canada Trust", 
+    "company": "TD Canada Trust",
+	"url": "tdcanadatrust.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "royalbank.com":{
+    "name": "RBC", 
+    "company": "RBC",
+	"url": "royalbank.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "td.com":{
+    "name": "TD Canada Trust", 
+    "company": "TD Canada Trust",
+	"url": "ask.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "theglobeandmail.com":{
+    "name": "Globe and Mail", 
+    "company": "Globe and Mail",
+	"url": "theglobeandmail.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "thestar.com":{
+    "name": "Toronto Star", 
+    "company": "Toronto Star",
+	"url": "thestar.com", 
+	"bug": 0, 
+	"info": ""
+  },
+  "rbcroyalbank.com":{
+    "name": "RBC", 
+    "company": "RBC",
+	"url": "rbcroyalbank.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  },
+  "bmo.com":{
+    "name": "BMO", 
+    "company": "BMO",
+	"url": "BMO.com", 
+	"bug": 0, 
+	"info": "",
+	"desktoponly": true
+  }}
