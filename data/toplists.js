@@ -24,6 +24,11 @@ var topLists = [{
 	 "id": "alexa50cn"
 	},
 	{
+	 "name": "CO 50",
+	 "url": "alexa_co.json",
+	 "id": "alexa50co"
+	},
+	{
 	 "name": "DE 50",
 	 "url": "alexa_de.json",
 	 "id": "alexa50de"
@@ -54,6 +59,11 @@ var topLists = [{
 	 "id": "alexa50kr"
 	},
 	{
+	 "name": "MX 50",
+	 "url": "alexa_mx.json",
+	 "id": "alexa50mx"
+	},
+	{
 	 "name": "UK 50",
 	 "url": "alexa_uk.json",
 	 "id": "alexa50uk"
@@ -62,6 +72,11 @@ var topLists = [{
 	 "name": "US 50",
 	 "url": "alexa_us.json",
 	 "id": "alexa50us"
+	},
+	{
+	 "name": "VE 50",
+	 "url": "alexa_ve.json",
+	 "id": "alexa50ve"
 	},
 	{
 	 "name": "Mail",
