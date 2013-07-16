@@ -78,6 +78,9 @@ tr {
 	border-radius: 0px 0px 5px 5px;
 }
 
+.dependbugs div.resolved_bug{display:none;}
+
+body.show_resolved_bugs .dependbugs div.resolved_bug{display: inline}
 
 /* Mozilla font */
 @font-face { font-family: "OpenSans"; src: url(OpenSans-Light.ttf) format("truetype"); }

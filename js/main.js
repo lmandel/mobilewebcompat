@@ -3,6 +3,13 @@ $(document).ready(function () {
 	createTabs(topLists);
 	populateTables();
 	retrieveMetaBugs();
+	document.getElementById('check_show_resolveds').addEventListener('change', function(e){
+		if(e.target.checked){
+			document.body.classList.add('show_resolved_bugs');
+		}else{
+			document.body.classList.remove('show_resolved_bugs');
+		}
+	});
 });
 
 function populateTables(){
@@ -133,6 +140,7 @@ function createBugDiv(id, name, alias, resolved){
 		link.attr("title", name);
 		if(resolved){
 			link.attr("style", "text-decoration: line-through;");
+			div.attr("class", "resolved_bug");
 		}
 		if(alias){
 			link.append(alias);
