@@ -53,6 +53,7 @@ function _populateTable(topListId, siteList){
 			desktopSite = siteData.desktoponly | false;
 		}
 		var row = $("<tr>");
+		if(rawId!==-1)row.attr("id", "bug-"+rawId+"-row");
 		table.append(row);
 		row.append(createTableCell(i+1));
 		row.append(createTableCell(name));
