@@ -23,7 +23,7 @@ function _getTopList(topListId, successFunction){
 
 	$.ajax({
 		  url: 'data/'+topLists[topListId].url,
-		  crossDomain:false, 
+		  crossDomain:false,
 		  dataType: 'json',
 		  success: function(data){
 		    successFunction(topListId, data.data);
@@ -77,7 +77,7 @@ function _populateTable(topListId, siteList){
 
 function retrieveMetaBugs(){
 	var metabugs = [];
-	
+
 	for (var site in data) {
 		if(data[site].bug > -1){
 			if(metabugs.indexOf(data[site].bug) == -1)
@@ -177,32 +177,27 @@ function processMetaBugs(bugs){
 			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, isResolved(bugs[i].status));
 			bugdiv.replaceWith(newbugdiv);
 			var localDepends = bugs[i].depends_on;
+			if(typeof localDepends === "string"){
+				localDepends = localDepends.split(',');
+			}
 			depends = addDependentBugs(localDepends, depends);
 			var dependsdiv = $("#bug"+ id + "-depends");
 			var dependslayoutdiv = $("#bug"+ id + "-dependslayout");
 			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
 			var ownerdiv = $("#bug"+ id + "-owner");
-			
-			if(typeof localDepends == "string"){
-				var stubId = createId(localDepends);
+
+			for(var j = 0; j < localDepends.length; j++){
+				var stubId = createId(localDepends[j]);
 				dependsdiv.append(createStubBugDiv(stubId));
 				dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
 				dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
 			}
-			else {
-				for(var j = 0; j < localDepends.length; j++){
-					var stubId = createId(localDepends[j]);
-					dependsdiv.append(createStubBugDiv(stubId));
-					dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
-					dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
-				}
-			}
-			
+
 			var owner = bugs[i].assigned_to;
 			if(owner.name != "nobody"){
 				ownerdiv.append(owner.real_name);
 			}
-			
+
 			id = bugs[i].id + "_" + k;
 		}while($("#bug"+id).length == 1);
 	}
@@ -210,22 +205,12 @@ function processMetaBugs(bugs){
 }
 
 function addDependentBugs(localDepends, depends){
-	if(localDepends && localDepends != ""){
-		// single bug id
-		if(localDepends.indexOf(',') == -1){
-			if(depends.indexOf(localDepends) == -1){
-				depends.push(localDepends);
-			}
-		}
-		//multiple bug ids
-		else{
-			for (var i=0; i<localDepends.length; i++) {
-				if(depends.indexOf(localDepends[i]) == -1){
-					depends.push(localDepends[i]);
-				}
-			}
-		}
-	}
+	// Join arrays and make sure all values in depends are unique, no duplicates
+	depends = depends.concat(localDepends).filter(
+	function(val, i, arr)
+	{
+		return (i <= arr.indexOf(val));
+	});
 	return depends;
 }
 
