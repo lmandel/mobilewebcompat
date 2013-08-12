@@ -254,4 +254,21 @@
 		summarydetails.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
 		summaryitem.append(summarydetails);
 	}
+	function retrieveTestIndex(){
+		$.ajax({
+		  url: "./data/testing/index.json",
+		  dataType: 'json',
+		  success: retrieveTestResults,
+		  error: function(jqXHR, textStatus, errorThrown){
+		    alert('Failed to retrieve test results.');
+		  }
+		});
+	}
+	function retrieveTestResults(indexData){
+		// We assume indexData is a chronologically sorted array
+		// and we want only the newest 4-5 results for any bug
+		// TODO: it would be cool to build on this to find "interesting" points (date of fix, date of apparent regression etc.)
+		// and load per-bug data in a more sophisticated way, probably from a proper database..
+	}
+
 })();
