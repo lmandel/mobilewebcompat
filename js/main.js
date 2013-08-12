@@ -116,28 +116,6 @@
 		td.append(value);
 		return td;
 	}
-/*
-	function createDependsLayoutDiv(value){
-		var div = $("<div>");
-		div.attr("id", "bug" + value + "-dependslayout");
-		div.attr("class", "dependbugs");
-		return div;
-	}
-
-	function createDependsEvangelismDiv(value){
-		var div = $("<div>");
-		div.attr("id", "bug" + value + "-dependsevang");
-		div.attr("class", "dependbugs");
-		return div;
-	}
-
-	function createDependsDiv(value){
-		var div = $("<div>");
-		div.attr("id", "bug" + value + "-depends");
-		div.attr("class", "dependbugs");
-		return div;
-	}
-*/
 	function createBugDiv(id, name, alias, resolved){
 		nakedId = id;
 		if(typeof id == "string"){
@@ -163,20 +141,6 @@
 		}
 		return div;
 	}
-/*
-	function createStubBugDiv(id, name, alias, resolved){
-		var div = $("<div>");
-		div.attr("id", "bug"+ id);
-		return div;
-	}
-
-	function createOwnerDiv(value){
-		var div = $("<div>");
-		div.attr("id", "bug" + value + "-owner");
-		div.attr("class", "owner");
-		return div;
-	}
-*/
 	function processMetaBugs(bugs){
 		var depends = [];
 		for(var i = 0; i < bugs.length; i++){
