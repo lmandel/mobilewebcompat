@@ -3,11 +3,12 @@
 	// namely a way to look up what master bug a given bug number belongs to. Hence, we define a masterMap that will
 	// be populated by the processMetaBugs() function
 	var masterMap = {};
+	var testResults = {}; // is populated by processTestResults()
 	$(document).ready(function () {
 		startLoadingNotification();
 		createTabs(topLists);
 		populateTables();
-		retrieveMetaBugs();
+		retrieveTestIndex();
 		document.getElementById('check_show_resolveds').addEventListener('change', function(e){
 			if(e.target.checked){
 				document.body.classList.add('show_resolved_bugs');
@@ -117,15 +118,12 @@
 		return td;
 	}
 	function createBugDiv(id, name, alias, resolved){
-		nakedId = id;
-		if(typeof id == "string"){
-			nakedId = id.split('_')[0];
-		}
 		var div = $("<div>");
 		div.attr("id", "bug"+ id);
-		if(nakedId > 0){
+		div.addClass("bugdiv");
+		if(id > 0){
 			var link = $("<a>");
-			link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+nakedId);
+			link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+id);
 			link.attr("title", name);
 			if(resolved){
 				link.attr("style", "text-decoration: line-through;");
@@ -135,9 +133,32 @@
 				link.append(alias);
 			}
 			else{
-				link.append(nakedId);
+				link.append(id);
 			}
 			div.append(link);
+		}
+		if(testResults[id]){
+			// We have some automated test results for this bug
+			testResults[id].forEach(function(value, index){
+				// indexes: 0 bug number, 1 date, 2 UA string, 3 status
+				var span = $("<span>");
+				span.addClass("testres");
+				span.title = "Tested on "+value[1];
+				span.append("\u25AA"); // black square
+				if( value[3] === "true" ){
+					span.addClass("pass");
+					if(!resolved){
+						span.addClass("needs-attention");
+					}
+				}
+				else{
+					span.addClass("fail");
+					if(resolved){
+						span.addClass("needs-attention");
+					}
+				}
+				div.append(span);
+			});
 		}
 		return div;
 	}
@@ -159,7 +180,7 @@
 			}
 			var localDepends = bugs[i].depends_on;
 			if(typeof localDepends === "string"){
-				localDepends = localDepends.split(',');
+				localDepends = localDepends.split(",");
 			}
 			for(var j=0; j<localDepends.length; j++){
 				masterMap[localDepends[j]] = id;
@@ -197,12 +218,12 @@
 				var resolved = isResolved(bugs[i].status);
 				if(!resolved){
 					if(bugs[i].priority == "P1" || bugs[i].priority == "P2"){
-						el.classList.remove('no-issue');
-						el.classList.remove('minor-issue');
+						el.classList.remove("no-issue");
+						el.classList.remove("minor-issue");
 						el.classList.add("major-issue");
 					}
 					else if(!$(el).hasClass("major-issue")){
-						el.classList.remove('no-issue');
+						el.classList.remove("no-issue");
 						el.classList.add("minor-issue");
 					}
 					data[siteUrl].isClosed = false;
@@ -219,15 +240,15 @@
 	}
 
 	function _createTopListSummary(topListId, siteList){
-		var summary = $('#summary');
-		var summaryitem = $('<div>');
+		var summary = $("#summary");
+		var summaryitem = $("<div>");
 		summaryitem.attr("class", "summaryitem");
 		summary.append(summaryitem);
-		var title = $('<div>');
+		var title = $("<div>");
 		title.attr("class","summarytitle");
 		title.append(topLists[topListId].name);
 		summaryitem.append(title);
-		var summarydetails = $('<div>');
+		var summarydetails = $("<div>");
 		summarydetails.attr("class", "summarydetails");
 		var functional = 0;
 		var issues = 0;
@@ -260,7 +281,7 @@
 		  dataType: 'json',
 		  success: retrieveTestResults,
 		  error: function(jqXHR, textStatus, errorThrown){
-		    alert('Failed to retrieve test results.');
+		    alert('Failed to retrieve test results index.');
 		  }
 		});
 	}
@@ -269,6 +290,32 @@
 		// and we want only the newest 4-5 results for any bug
 		// TODO: it would be cool to build on this to find "interesting" points (date of fix, date of apparent regression etc.)
 		// and load per-bug data in a more sophisticated way, probably from a proper database..
-	}
+		var filesToLoad = {};
+		for(var i=indexData.length-1;i>=0 && i>indexData.length-6; i--){
+			filesToLoad[indexData[i]]=1;
+			$.ajax({
+				url: "./data/testing/"+indexData[i],
+				success: (function(file){
+					  return function(data){
+						delete filesToLoad[file];
+						processTestResults(data);
+						if(Object.keys(filesToLoad).length === 0){
+							retrieveMetaBugs();
+						}
+					}
+				})(indexData[i]),
+				error: function(jqXHR, textStatus, errorThrown){
+				alert("Failed to retrieve test results.");
+				}
+			});
 
+		}
+	}
+	function processTestResults(data){
+		data = CSVToArray(data);
+		data.forEach(function(value,index){
+			if(!testResults[value[0]])testResults[value[0]]  = [];
+			testResults[value[0]].push(value);
+		});
+	}
 })();

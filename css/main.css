@@ -14,7 +14,7 @@ h4 {
 	background: rgb(245,241,232) url('../images/mozorg-gradient.png') repeat-x top center;
 	border-top: 2px solid #fff;
 	padding: 0em 2em 2em 2em;
-	
+
 }
 .dependbugs div{
 	display: inline;
@@ -82,6 +82,11 @@ tr {
 
 body.show_resolved_bugs .dependbugs div.resolved_bug{display: inline}
 
+.bugdiv .testres{font-size: smaller}
+.bugdiv .testres.pass, .resolved_bug .testres.pass{color:green}
+.bugdiv .testres.fail, .resolved_bug .testres.fail{color:red}
+.bugdiv .testres.needs-attention, .resolved_bug .testres.needs-attention{font-size: large; text-decoration:blink}
+
 /* Mozilla font */
 @font-face { font-family: "OpenSans"; src: url(OpenSans-Light.ttf) format("truetype"); }
 body {font: 16px/24px Georgia, serif;}
@@ -94,4 +99,4 @@ h1 {font-size: 48px; letter-spacing: -2px; line-height: 100%;}
 h2 {font-size: 32px; letter-spacing: -1px; line-height: 100%;}
 h3 {font-size: 28px; letter-spacing: -0.5px; line-height: 100%;}
 h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
-.small, small { font-size: 12px; line-height: 100%;} 
+.small, small { font-size: 12px; line-height: 100%;}
