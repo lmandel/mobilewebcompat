@@ -275,47 +275,5 @@
 		summarydetails.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
 		summaryitem.append(summarydetails);
 	}
-	function retrieveTestIndex(){
-		$.ajax({
-		  url: "./data/testing/index.json",
-		  dataType: 'json',
-		  success: retrieveTestResults,
-		  error: function(jqXHR, textStatus, errorThrown){
-		    alert('Failed to retrieve test results index.');
-		  }
-		});
-	}
-	function retrieveTestResults(indexData){
-		// We assume indexData is a chronologically sorted array
-		// and we want only the newest 4-5 results for any bug
-		// TODO: it would be cool to build on this to find "interesting" points (date of fix, date of apparent regression etc.)
-		// and load per-bug data in a more sophisticated way, probably from a proper database..
-		var filesToLoad = {};
-		for(var i=indexData.length-1;i>=0 && i>indexData.length-6; i--){
-			filesToLoad[indexData[i]]=1;
-			$.ajax({
-				url: "./data/testing/"+indexData[i],
-				success: (function(file){
-					  return function(data){
-						delete filesToLoad[file];
-						processTestResults(data);
-						if(Object.keys(filesToLoad).length === 0){
-							retrieveMetaBugs();
-						}
-					}
-				})(indexData[i]),
-				error: function(jqXHR, textStatus, errorThrown){
-				alert("Failed to retrieve test results.");
-				}
-			});
 
-		}
-	}
-	function processTestResults(data){
-		data = CSVToArray(data);
-		data.forEach(function(value,index){
-			if(!testResults[value[0]])testResults[value[0]]  = [];
-			testResults[value[0]].push(value);
-		});
-	}
 })();
