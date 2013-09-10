@@ -1,12 +1,13 @@
-var topLists = [{
-	 "name": "BD Top Sites",
-	 "url": "bdtopsites.json",
-	 "id": "bdtopsites"
-	},
-	{
+var topLists = [
+{
 	 "name": "Alexa 1000",
 	 "url": "alexa_1000.json",
 	 "id": "alexa1000"
+	},
+	{
+	 "name": "BD Top Sites",
+	 "url": "bdtopsites.json",
+	 "id": "bdtopsites"
 	},
 	{
 	 "name": "BR 50",
