@@ -82,10 +82,9 @@ tr {
 
 body.show_resolved_bugs .dependbugs div.resolved_bug{display: inline}
 
-.bugdiv .testres{font-size: smaller}
-.bugdiv .testres.pass, .resolved_bug .testres.pass{color:green}
-.bugdiv .testres.fail, .resolved_bug .testres.fail{color:red}
-.bugdiv .testres.needs-attention, .resolved_bug .testres.needs-attention{font-size: large; text-decoration:blink}
+.testres.pass{color:green}
+.testres.fail{color:red}
+.testres.needs-attention{font-size: large; text-decoration:blink}
 
 /* Mozilla font */
 @font-face { font-family: "OpenSans"; src: url(OpenSans-Light.ttf) format("truetype"); }
@@ -100,3 +99,25 @@ h2 {font-size: 32px; letter-spacing: -1px; line-height: 100%;}
 h3 {font-size: 28px; letter-spacing: -0.5px; line-height: 100%;}
 h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
 .small, small { font-size: 12px; line-height: 100%;}
+
+.raphael-canvas-parent, .raphael-canvas-parent table, {
+	/*width: 100%;*/
+}
+.list-master-table{
+	border-collapse:collapse;
+}
+.list-master-table .todo a:before{
+	content: "TODO: "
+}
+.list-master-table .todo a{
+	font-size: small;
+	text-decoration: none;
+}
+.list-master-table th{text-align:left}
+.list-master-table .list-details-row{display:none}
+.list-master-table .list-details-row.active{display:table-row}
+.list-status-graph{border: 1px solid black; width: 100%; height: 2em; color: #fff; margin:0;padding:0}
+.list-status-graph span{display: inline-block; height: 2em;margin:0;padding:0}
+.list-status-graph .open{background-color: #700}
+.list-status-graph .resolved{background-color: #070}
+.chart-canvas-parent, .chart-canvas-parent canvas{width: 100%}
