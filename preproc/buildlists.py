@@ -7,7 +7,7 @@ from pprint import pprint
 # The URLs will query bugzilla for bugs where EITHER summary OR the URL field matches the regexp
 urltemplate = 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&ctype=csv&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority'
 # Doing a big ccTLD sweep requires a slightly different regexp..
-ccTLDurltemplate = 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}([[:>:]]|/)&v2=.\.{0}([[:>:]]|/)&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority&ctype=csv'
+ccTLDurltemplate = 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}(/|\s|$)&v2=.\.{0}(/|\s|$)&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority&ctype=csv'
 
 # kill old files?
 kill_old_files = 1
@@ -29,7 +29,7 @@ for fn in glob.glob('../data/*.json'):
 	fcount += 1
 	f = open(fn)
 	data = json.load(f)
-	if 'ccTLD' in data:
+	if 'ccTLD' in data: # We add a ccTLD query - the output may be optional..
 		data['data'].append((data['ccTLD'], ccTLDurltemplate))
 	data = data['data']
 	f.close()
@@ -45,7 +45,7 @@ for fn in glob.glob('../data/*.json'):
 		else:
 			outputfn = hostname
 		# Now, this domain may already have been found in an earlier file. Let's skip ahead if we've already pulled data from bugzilla..
-		if os.path.exists('./data/bugzilla/'+outputfn+'.csv'):def loadBugdata(searchword,
+		if os.path.exists('./data/bugzilla/'+outputfn+'.csv'):
 			continue
 		hcount += 1
 		print "List "+str(fcount)+", host "+str(hcount)+", looking for "+hostname+" bugs...\n"
