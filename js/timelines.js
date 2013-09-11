@@ -12,12 +12,12 @@ $.ajax({
 
 var flagThesePris =  {'P1':1,'P2':2}
 var bz_show_bug = 'https://bugzilla.mozilla.org/show_bug.cgi?id=';
-var alexaGlobalTreshold = 11; // sites that appear higher than 11 in alexa-1000 will not appear in "local" listings
-// should possibly tweak this more.. For example, baidu is #5 and might be better placed in the "local Chinese" listing
+var alexaGlobalTreshold = 4; // sites that appear higher than alexaGlobalTreshold in alexa-1000 will not appear in "local" listings
+// Somewhat hard to find the right value. For example, baidu is #5 and might be better placed in the "local Chinese" listing
 // setting the threshold at 5 will however exclude pretty "global" stuff like amazon.com.
 var resolvedStates = {'RESOLVED':1,'CLOSED':1,'VERIFIED':1};
 var testResults = {};
-function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it..
+function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it.. TODO: remove this and fix retrieveTestIndex when AWCY 2.0 is ready to replace AWCY 1.0 ..
 retrieveTestIndex();
 $(document).ready(function () {
 	if(!(window.masterBugTable)){
