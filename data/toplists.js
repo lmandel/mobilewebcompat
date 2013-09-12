@@ -1,5 +1,10 @@
-var topLists = [
+var topLists =  [/* Order is important: US first, then Alexa-1000 */
 {
+	 "name": "US 50",
+	 "url": "alexa_us.json",
+	 "id": "alexa50us"
+	},
+	{
 	 "name": "Alexa 1000",
 	 "url": "alexa_1000.json",
 	 "id": "alexa1000"
@@ -55,14 +60,24 @@ var topLists = [
 	 "id": "alexa50jp"
 	},
 	{
-	 "name": "KR 50",
+	 "name": "Korea top 50",
 	 "url": "alexa_kr.json",
 	 "id": "alexa50kr"
 	},
 	{
-	 "name": "MX 50",
+	 "name": "Mexico top 50",
 	 "url": "alexa_mx.json",
 	 "id": "alexa50mx"
+	},
+	{
+	 "name": "Poland top 50",
+	 "url": "alexa_pl.json",
+	 "id": "alexa50pl"
+	},
+	{
+	 "name": "Portugal top 50",
+	 "url": "alexa_pt.json",
+	 "id": "alexa50pt"
 	},
 	{
 	 "name": "UK 50",
@@ -70,12 +85,7 @@ var topLists = [
 	 "id": "alexa50uk"
 	},
 	{
-	 "name": "US 50",
-	 "url": "alexa_us.json",
-	 "id": "alexa50us"
-	},
-	{
-	 "name": "VE 50",
+	 "name": "Venezuela 50",
 	 "url": "alexa_ve.json",
 	 "id": "alexa50ve"
 	},

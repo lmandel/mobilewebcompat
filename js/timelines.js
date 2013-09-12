@@ -12,15 +12,12 @@ $.ajax({
 
 var flagThesePris =  {'P1':1,'P2':2}
 var bz_show_bug = 'https://bugzilla.mozilla.org/show_bug.cgi?id=';
-var alexaGlobalTreshold = 4; // sites that appear higher than alexaGlobalTreshold in alexa-1000 will not appear in "local" listings
-// Somewhat hard to find the right value. For example, baidu is #5 and might be better placed in the "local Chinese" listing
-// setting the threshold at 5 will however exclude pretty "global" stuff like amazon.com.
 var resolvedStates = {'RESOLVED':1,'CLOSED':1,'VERIFIED':1};
 var testResults = {};
 function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it.. TODO: remove this and fix retrieveTestIndex when AWCY 2.0 is ready to replace AWCY 1.0 ..
 retrieveTestIndex();
 $(document).ready(function () {
-	if(!(window.masterBugTable)){
+	if(!(window.masterBugTable)){ // TODO: masterBugTable data should load with a good ol' <script> element, not XHR, so we don't need to worry about race conditions here
 		setTimeout(arguments.callee, 500);
 		return;
 	} // try again..
@@ -36,7 +33,7 @@ $(document).ready(function () {
 	row.lastChild.width="70%";
 //	row.appendChild(document.createElement('th')).appendChild(document.createTextNode('Todo'));
 //	row.appendChild(document.createElement('th')).appendChild(document.createTextNode('Closed bugs'));
-	for(var i=0, list; list=topLists[i]; i++){
+	for(var i=0, list, listurl; list=topLists[i]; i++){
 		row = table.appendChild(document.createElement('tr'));
 		row.id='row-'+list.id;
 		a = row.appendChild(document.createElement('th')).appendChild(document.createElement('a'));
@@ -49,22 +46,24 @@ $(document).ready(function () {
 		row.id = 'list:'+list.id+'-details';
 		row.className = 'list-details-row';
 		row.appendChild(document.createElement('td')).setAttribute('colspan', 4);
+		listurl = topLists[i].url;
+		if(/_[a-z]{2}\.json$/.test(listurl))listurl = listurl.replace(/_([a-z]{2})\.json$/, '_$1.cc.json'); // Read the data files with extra ccTLD domains added
 		$.ajax({
-			  url: 'data/'+topLists[i].url,
+			  url: 'data/'+listurl,
 			  crossDomain:false,
 			  dataType: 'json',
-			  success: (function(list){
+			  success: (function(list, listurl){
 			    return function(data){
-				var id=list.id, tr = document.getElementById('row-'+id), data = data.data;
+				var id=list.id, tr = document.getElementById('row-'+id), ccTLD = data.ccTLD, data = data.data;
 				tr.getElementsByTagName('td')[0].textContent = data.length+' sites. ';
 				var todos = [], timedata = [];
-				window.masterBugTable['lists'][list.id] = {data: data };
+				window.masterBugTable['lists'][id] = {data: data };
 				// now we have enough data to calculate numbers, severities etc.
 				var openBugCount=0, resolvedBugCount=0, hasHighPriIssue = false;
 				for(var i = 0, site; site = data[i]; i++){
 					if( ! masterBugTable[site] ){
 						continue;
-					}else if(id !== 'alexa1000' && masterBugTable.lists['alexa1000'] && masterBugTable.lists['alexa1000'].data.indexOf(site)<alexaGlobalTreshold){
+					}else if(shouldExcludeUSSite(id, site)){
 						// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
 						// So let's skip sites
 						continue;
@@ -76,9 +75,9 @@ $(document).ready(function () {
 						if(bug.Opened)timedata.push( [new Date(bug.Opened), 1, 0, bug['Bug ID']+' ☐'] ); // "date object", "change to open count", "change to resolved count"
 						if(bug['Last Resolved'] && ( bug.Status in resolvedStates))timedata.push( [new Date(bug['Last Resolved']), -1, 1, bug['Bug ID']+' ☑'] );
 						if(bug.Priority && bug.Priority in flagThesePris) hasHighPriIssue = true;
-						if(bug.Status === 'NEW' && bug.Whiteboard.indexOf('[sitewait]')===-1){
+						if(bug.Status === 'NEW' && bug.Whiteboard.indexOf('[contactready]')>-1){
 							todos.push( ['Contact '+site+' regarding "'+bug.Summary+'"', bug['Bug ID'], bug.Priority] );
-						}else if(bug.Status === 'UNCONFIRMED' || bug.Whiteboard.indexOf('sniff')===-1){
+						}else if(bug.Status === 'UNCONFIRMED' || bug.Whiteboard.indexOf('[contactready]')===-1){
 							todos.push( ['Analyze "'+bug.Summary+'" problem on '+site, bug['Bug ID'], bug.Priority] );
 						}
 					}
@@ -121,11 +120,11 @@ $(document).ready(function () {
 				}
 				if(location.hash && location.hash.indexOf(list.id)>-1)showListDetails(location.hash);
 			    }
-		  })(topLists[i]),
-			  error: (function(list){return function(jqXHR, textStatus, errorThrown){
-			    alert('Failed to retrieve top list '+list.id +' for url:'+ list.url +'.');
+		  })(topLists[i], listurl),
+			  error: (function(list, listurl){return function(jqXHR, textStatus, errorThrown){
+			    alert('Failed to retrieve top list '+list.id +' for url:'+ list.url +' ('+listurl+').');
 			  }
-			})(topLists[i])
+			})(topLists[i], listurl)
 		});
 
 	}
@@ -186,9 +185,9 @@ function showListDetails(newHash){
 		table = table.appendChild(document.createElement('tbody'));
 		masterBugTable.lists[list].data.forEach(function(host, index){
 			if( !masterBugTable[host] || ( masterBugTable[host] && masterBugTable[host].open.length === 0))return; // List only the hosts with active issues
-			if(list !== 'alexa1000' && masterBugTable.lists['alexa1000'] && masterBugTable.lists['alexa1000'].data.indexOf(host)<alexaGlobalTreshold){
+			if(shouldExcludeUSSite(list, host)){
 				// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
-				// So let's skip sites
+				// So let's skip certain sites..
 				return;
 			}
 			var tr = table.appendChild(document.createElement('tr'));
@@ -264,3 +263,11 @@ function showListDetails(newHash){
 		}
 	}, false);
 };
+function shouldExcludeUSSite(list, host){
+	if(list !== 'alexa50us' && masterBugTable.lists['alexa50us'] && masterBugTable.lists['alexa50us'].data.indexOf(host)>-1 /* && masterBugTable.lists['alexa1000'].data.indexOf(host)<alexaGlobalTreshold */){
+		// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
+		// So let's skip sites
+		return true;
+	}
+	return false;
+}
