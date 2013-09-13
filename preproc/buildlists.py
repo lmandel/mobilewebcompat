@@ -75,10 +75,8 @@ for fn in glob.glob('../data/*.json'):
 		f = open('./data/bugzilla/'+outputfn+'.json', 'w')
 		f.write(json.dumps(bzdataobj, indent=2))
 		f.close()
-		# Returned JSON has .bugs which is an array of  {"cf_last_resolved":"2013-05-01 19:11:04","creation_time":"2012-09-10T07:26:00Z","id":789872,"status":"RESOLVED","summary":"Facebook mobile website: the delete comment button is permanently on the screen","priority":"--","resolution":"FIXED"}
+		# Returned JSON has .bugs which is an array of objects with fields: {cf_last_resolved, creation_time,id,status,summary,priority,resolution}
 		# Now, let's do some more data massage..
-#		csvdatabuf = StringIO.StringIO(csvdata)
-#		csvlines = csv.DictReader(csvdatabuf)
 		if isCCquery :
 			# We want to extract host names for all open *.ccTLD bugs and add them to data
 			# this is to make sure we catch locale sites that Alexa doesn't care about, but
