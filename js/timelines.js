@@ -72,12 +72,13 @@ $(document).ready(function () {
 					resolvedBugCount += masterBugTable[site].resolved.length;
 
 					for(var j=0, bug; bug=masterBugTable[site].open[j]; j++){
+						if(bug.Summary.indexOf('[meta]')>-1)continue;
 						if(bug.Opened)timedata.push( [new Date(bug.Opened), 1, 0, bug['Bug ID']+' ☐'] ); // "date object", "change to open count", "change to resolved count"
 						if(bug['Last Resolved'] && ( bug.Status in resolvedStates))timedata.push( [new Date(bug['Last Resolved']), -1, 1, bug['Bug ID']+' ☑'] );
 						if(bug.Priority && bug.Priority in flagThesePris) hasHighPriIssue = true;
 						if(bug.Status === 'NEW' && bug.Whiteboard.indexOf('[contactready]')>-1){
 							todos.push( ['Contact '+site+' regarding "'+bug.Summary+'"', bug['Bug ID'], bug.Priority] );
-						}else if(bug.Status === 'UNCONFIRMED' || bug.Whiteboard.indexOf('[contactready]')===-1){
+						}else if(bug.Status === 'UNCONFIRMED' || ( bug.Whiteboard.indexOf('[contactready]')===-1 && bug.Whiteboard.indexOf('[sitewait]')===-1)){
 							todos.push( ['Analyze "'+bug.Summary+'" problem on '+site, bug['Bug ID'], bug.Priority] );
 						}
 					}
