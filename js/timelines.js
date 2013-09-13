@@ -1,14 +1,20 @@
 // timelines.js sorts out the time lines for
 // a) Site lists
 // b) Individual sites
-$.ajax({
-  url: "./preproc/data/bugzilla/index.json",
-  dataType: 'json',
-  success: setGlobalVar('masterBugTable'),
-  error: function(jqXHR, textStatus, errorThrown){
-    alert('Failed to retrieve bug data master table (JSON)');
-  }
-});
+/*{
+        "status": "RESOLVED",
+        "whiteboard": "",
+        "url": "http://msnbc.msn.com",
+        "depends_on": "",
+        "last_change_time": "2013-01-16T05:46:56Z",
+        "creation_time": "2012-06-08T08:22:00Z",
+        "summary": "Only the right half of the picture is loaded when advancing through the picture slideshows at msnbc.com",
+        "priority": "--",
+        "id": 762810,
+        "resolution": "WORKSFORME",
+        "cf_last_resolved": "2012-09-27 08:24:22"
+      }
+*/
 
 var flagThesePris =  {'P1':1,'P2':2}
 var bz_show_bug = 'https://bugzilla.mozilla.org/show_bug.cgi?id=';
@@ -17,11 +23,7 @@ var testResults = {};
 function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it.. TODO: remove this and fix retrieveTestIndex when AWCY 2.0 is ready to replace AWCY 1.0 ..
 retrieveTestIndex();
 $(document).ready(function () {
-	if(!(window.masterBugTable)){ // TODO: masterBugTable data should load with a good ol' <script> element, not XHR, so we don't need to worry about race conditions here
-		setTimeout(arguments.callee, 500);
-		return;
-	} // try again..
-	window.masterBugTable['lists']={};
+	window.masterBugTable['lists']={}; // TODO: why not create masterBugTable.lists server-side too?
 	var table = document.body.appendChild(document.createElement('table')), row, a;
 	table.border=1;
 	table.className = 'list-master-table';
@@ -72,14 +74,14 @@ $(document).ready(function () {
 					resolvedBugCount += masterBugTable[site].resolved.length;
 
 					for(var j=0, bug; bug=masterBugTable[site].open[j]; j++){
-						if(bug.Summary.indexOf('[meta]')>-1)continue;
-						if(bug.Opened)timedata.push( [new Date(bug.Opened), 1, 0, bug['Bug ID']+' ☐'] ); // "date object", "change to open count", "change to resolved count"
-						if(bug['Last Resolved'] && ( bug.Status in resolvedStates))timedata.push( [new Date(bug['Last Resolved']), -1, 1, bug['Bug ID']+' ☑'] );
-						if(bug.Priority && bug.Priority in flagThesePris) hasHighPriIssue = true;
-						if(bug.Status === 'NEW' && bug.Whiteboard.indexOf('[contactready]')>-1){
-							todos.push( ['Contact '+site+' regarding "'+bug.Summary+'"', bug['Bug ID'], bug.Priority] );
-						}else if(bug.Status === 'UNCONFIRMED' || ( bug.Whiteboard.indexOf('[contactready]')===-1 && bug.Whiteboard.indexOf('[sitewait]')===-1)){
-							todos.push( ['Analyze "'+bug.Summary+'" problem on '+site, bug['Bug ID'], bug.Priority] );
+						if(bug.summary.indexOf('[meta]')>-1)continue;
+						if(bug.creation_time)timedata.push( [new Date(bug.creation_time), 1, 0, bug.id+' ☐'] ); // "date object", "change to open count", "change to resolved count"
+						if(bug['cf_last_resolved'] && ( bug.status in resolvedStates))timedata.push( [new Date(bug['cf_last_resolved']), -1, 1, bug.id+' ☑'] );
+						if(bug.priority && bug.priority in flagThesePris) hasHighPriIssue = true;
+						if(bug.status === 'NEW' && bug.whiteboard.indexOf('[contactready]')>-1){
+							todos.push( ['Contact '+site+' regarding "'+bug.summary+'"', bug.id, bug.priority] );
+						}else if(bug.status === 'UNCONFIRMED' || ( bug.whiteboard.indexOf('[contactready]')===-1 && bug.whiteboard.indexOf('[sitewait]')===-1)){
+							todos.push( ['Analyze "'+bug.summary+'" problem on '+site, bug.id, bug.priority] );
 						}
 					}
 				}
@@ -197,14 +199,14 @@ function showListDetails(newHash){
 //			paper.text(50, (index*32)+50, host);
 			if(masterBugTable[host])masterBugTable[host].open.forEach(function(bug, bindex){
 				var a = tr.lastChild.appendChild(document.createElement('a'));
-				var resolved = bug.Status in resolvedStates;
-				a.href=bz_show_bug+bug['Bug ID'];
-				a.textContent = bug['Bug ID'];
-				a.title = bug['Summary'];
-				if(bug['Priority'] in flagThesePris)a.className = 'major-issue';
-				if(testResults[bug['Bug ID']]){
+				var resolved = bug.status in resolvedStates;
+				a.href=bz_show_bug+bug.id;
+				a.textContent = bug.id;
+				a.title = bug['summary'];
+				if(bug['priority'] in flagThesePris)a.className = 'major-issue';
+				if(testResults[bug.id]){
 					// We have some automated test results for this bug
-					testResults[bug['Bug ID']].forEach(function(value, index){
+					testResults[bug.id].forEach(function(value, index){
 						// indexes: 0 bug number, 1 date, 2 UA string, 3 status
 						var span = $("<span>");
 						span.addClass("testres");

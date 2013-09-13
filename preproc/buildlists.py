@@ -1,16 +1,15 @@
 #!/usr/bin/env python
  # -*- coding: utf-8 -*-
-# This will generate various Bugzilla URLs and download CSV-formatted lists of bug data
-# TODO: switch to using Bugzilla's JSON output - https://api-dev.bugzilla.mozilla.org/latest/bug
+# This will generate various Bugzilla URLs and download/save JSON-formatted lists of bug data
 
 import json, glob, urllib, os, urllib2,csv,StringIO,re
 from pprint import pprint
 from urlparse import urlparse
 
 # The URLs will query bugzilla for bugs where EITHER summary OR the URL field matches the regexp
-urltemplate = 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&ctype=csv&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority'
-# Doing a "open bugs for ccTLD" sweep requires a slightly different regexp..
-ccTLDurltemplate = 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}(/|%20|$)&v2=.\.{0}(/|%20|.?$)&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority&ctype=csv&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED'
+urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority' # CSV URL was: 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&ctype=csv&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority'
+# Doing a "list sites with open bugs for given ccTLD" sweep requires a slightly different regexp..
+ccTLDurltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}(/|%20|$)&v2=.\.{0}(/|%20|.?$)&o3=substring&f3=status_whiteboard&v3=[country-{0}]&include_fields=id,summary,whiteboard,url&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED' # CSV URL was: 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}(/|%20|$)&v2=.\.{0}(/|%20|.?$)&o3=substring&f3=status_whiteboard&v2=[country-{0}]&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority&ctype=csv&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED'
 
 # kill old files?
 kill_old_files = 1
@@ -66,23 +65,27 @@ for fn in glob.glob('../data/*.json'):
 
 		# Ready to get the data from Bugzilla
 		url = curtemplate.format(searchword.replace('.', '\\.'))
-		u = urllib2.urlopen(url)
-		csvdata = u.read()
+		req = urllib2.Request(url)
+		req.add_header('Accept', 'application/json')
+		bzresponse = urllib2.urlopen(req)
+		bzdata = bzresponse.read()
+		bzdataobj = json.loads(bzdata)
 		# Write a CSV file so we have a record of what we
-		print 'Writing '+outputfn+'.csv'
-		f = open('./data/bugzilla/'+outputfn+'.csv', 'w')
-		f.write(csvdata)
+		print 'Writing '+outputfn+'.json'
+		f = open('./data/bugzilla/'+outputfn+'.json', 'w')
+		f.write(json.dumps(bzdataobj, indent=2))
 		f.close()
+		# Returned JSON has .bugs which is an array of  {"cf_last_resolved":"2013-05-01 19:11:04","creation_time":"2012-09-10T07:26:00Z","id":789872,"status":"RESOLVED","summary":"Facebook mobile website: the delete comment button is permanently on the screen","priority":"--","resolution":"FIXED"}
 		# Now, let's do some more data massage..
-		csvdatabuf = StringIO.StringIO(csvdata)
-		csvlines = csv.DictReader(csvdatabuf)
+#		csvdatabuf = StringIO.StringIO(csvdata)
+#		csvlines = csv.DictReader(csvdatabuf)
 		if isCCquery :
 			# We want to extract host names for all open *.ccTLD bugs and add them to data
 			# this is to make sure we catch locale sites that Alexa doesn't care about, but
 			# which matter enough to our users that bugs are reported
-			for row in csvlines:
+			for row in bzdataobj['bugs']:
 				# We need to extract a host name from either URL or Summary
-				text = row['URL'].strip() or row ['Summary']
+				text = row['url'].strip() or row['summary']
 				#pprint(text)
 				ccHost = ''
 				if re.search( '\s', text) : # summary, we need to do some more work here to extract the domain from the text..
@@ -109,8 +112,8 @@ for fn in glob.glob('../data/*.json'):
 					data['data'].append(ccHost) # the for hostname in data loop will get to this item too and fetch bug info for the domain
 		else :
 			outstructure = {hostname:{"resolved":[], "open":[]}}
-			for row in csvlines:
-				if row['Status'] in ['RESOLVED', 'CLOSED', 'VERIFIED']:
+			for row in bzdataobj['bugs']:
+				if row['status'] in ['RESOLVED', 'CLOSED', 'VERIFIED']:
 					outstructure[hostname]['resolved'].append(row)
 				else :
 					outstructure[hostname]['open'].append(row)
@@ -139,8 +142,8 @@ for fn in glob.glob('../data/*.json'):
 # per list of sites. This may be a good compromise between loading tons of small files and one very large,
 # however requires some special handling right before the continue in lin 31 (if os.path.exists condition)
 # or some per-list files will be missing data
-f = open('./data/bugzilla/index.json', 'w')
-f.write(json.dumps(alloutput, indent=2))
+f = open('../data/masterbugtable.js', 'w')
+f.write('/* This file is generated by preproc/buildlists.py - do not edit */\nvar masterBugTable = '+json.dumps(alloutput, indent=2))
 f.close()
 
 #		quit()
