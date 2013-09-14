@@ -117,7 +117,14 @@ h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
 .list-master-table .list-details-row{display:none}
 .list-master-table .list-details-row.active{display:table-row}
 .list-status-graph{border: 1px solid black; width: 100%; height: 2em; color: #fff; margin:0;padding:0}
-.list-status-graph span{display: inline-block; height: 2em;margin:0;padding:0}
+.list-status-graph a{display: inline-block; height: 2em;margin:0;padding:0;overflow:hidden}
 .list-status-graph .open{background-color: #700}
 .list-status-graph .resolved{background-color: #070}
+.list-status-graph .contacted{background-color: #FC0}
 .chart-canvas-parent, .chart-canvas-parent canvas{width: 100%}
+#metrics{
+	text-align:center;
+	font-size:large;
+	padding: 20px;
+	border: 3px inset #333
+}
