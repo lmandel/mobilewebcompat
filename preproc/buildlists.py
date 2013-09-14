@@ -6,6 +6,8 @@ import json, glob, urllib, os, urllib2,csv,StringIO,re
 from pprint import pprint
 from urlparse import urlparse
 
+os.chdir(os.path.dirname(os.path.abspath(__file__))) # For CRON usage..
+
 # The URLs will query bugzilla for bugs where EITHER summary OR the URL field matches the regexp
 urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority' # CSV URL was: 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&ctype=csv&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority'
 # Doing a "list sites with open bugs for given ccTLD" sweep requires a slightly different regexp..
@@ -24,6 +26,7 @@ f = open('data/aliases.json')
 aliases = json.load(f)
 f.close()
 alloutput={}
+metrics={'allOpenBugsForAllLists':set(), 'hostsWithOpenBugs':set(), 'totalUniqueHosts':set()}
 fcount=0
 hcount=0
 # Iterate over JSON data files (lists of hosts)
@@ -110,11 +113,14 @@ for fn in glob.glob('../data/*.json'):
 					data['data'].append(ccHost) # the for hostname in data loop will get to this item too and fetch bug info for the domain
 		else :
 			outstructure = {hostname:{"resolved":[], "open":[]}}
+			metrics['totalUniqueHosts'].add(hostname)
 			for row in bzdataobj['bugs']:
 				if row['status'] in ['RESOLVED', 'CLOSED', 'VERIFIED']:
 					outstructure[hostname]['resolved'].append(row)
 				else :
 					outstructure[hostname]['open'].append(row)
+					metrics['allOpenBugsForAllLists'].add(row['id'])
+					metrics['hostsWithOpenBugs'].add(hostname)
 				#pprint(outstructure)
 
 			f = open('./data/bugzilla/'+outputfn+'.json', 'w');
@@ -132,6 +138,10 @@ for fn in glob.glob('../data/*.json'):
 	f = open(fn.replace('.json', '.cc.json'), 'w')
 	f.write(json.dumps(data, indent=2))
 	f.close()
+# Calculate metrics
+alloutput['metrics'] = {"numOpenBugs":len(metrics['allOpenBugsForAllLists']), "numHosts":len(metrics['totalUniqueHosts']), "numHostsWithOpenBugs":len(metrics['hostsWithOpenBugs'])}
+
+
 # End of for file in directory loop
 # Make a big file with all the information we found - depending on its size, it might be
 # better to load this than to load each site.json file independently
