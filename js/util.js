@@ -67,32 +67,35 @@ function _createTH(title){
 	th.append(title);
 	return th;
 }
-function retrieveTestIndex(){
+function retrieveTestIndex(done1, done2){
 	$.ajax({
 	  url: "./data/testing/index.json",
 	  dataType: 'json',
-	  success: retrieveTestResults,
+	  success: function(data){retrieveTestResults(data, done1, done2)},
 	  error: function(jqXHR, textStatus, errorThrown){
 	    alert('Failed to retrieve test results index.');
 	  }
 	});
 }
-function retrieveTestResults(indexData){
+function retrieveTestResults(indexData, done1, done2){
 	// We assume indexData is a chronologically sorted array
 	// and we want only the newest 4-5 results for any bug
 	// TODO: it would be cool to build on this to find "interesting" points (date of fix, date of apparent regression etc.)
 	// and load per-bug data in a more sophisticated way, probably from a proper database..
-	var filesToLoad = {};
+	var filesToLoad = {}, loadCounter=0;
 	for(var i=indexData.length-1;i>=0 && i>indexData.length-6; i--){
 		filesToLoad[indexData[i]]=1;
 		$.ajax({
 			url: "./data/testing/"+indexData[i],
 			success: (function(file){
 				  return function(data){
+					loadCounter++;
 					delete filesToLoad[file];
 					processTestResults(data);
-					if(Object.keys(filesToLoad).length === 0){
+					if(Object.keys(filesToLoad).length === 0 && loadCounter === indexData.length){
 						retrieveMetaBugs();
+						done1();
+						done2();
 					}
 				}
 			})(indexData[i]),

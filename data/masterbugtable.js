@@ -123,26 +123,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "bravestman.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": [
-          788522
-        ], 
-        "last_change_time": "2012-10-23T18:49:57Z", 
-        "creation_time": "2012-09-05T15:46:42Z", 
-        "summary": "bravestman.com", 
-        "priority": "--", 
-        "id": 788535, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "wikia.com": {
     "resolved": [], 
     "open": [
@@ -219,37 +199,45 @@ var masterBugTable = {
       }
     ]
   }, 
-  "wwwhatsnew.com": {
+  "mercadolibre.com": {
     "resolved": [], 
     "open": [
       {
         "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://wwwhatsnew.com/", 
+        "whiteboard": "[uaoverride] [country-co][serversniff] [contactready]", 
+        "url": "", 
         "depends_on": "", 
-        "last_change_time": "2013-09-12T22:22:55Z", 
-        "creation_time": "2013-02-20T17:02:48Z", 
-        "summary": "wwwhatsnew.com doesn't recognize B2G UA as mobile", 
+        "last_change_time": "2013-09-12T22:16:04Z", 
+        "creation_time": "2013-01-08T02:50:19Z", 
+        "summary": "mercadolibre.com.co doesn't recognize B2G UA as mobile", 
         "priority": "--", 
-        "id": 843116, 
+        "id": 827661, 
         "resolution": "", 
         "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "ingbank.pl": {
-    "resolved": [], 
-    "open": [
+      }, 
       {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-pl] [serversniff] [sitewait]", 
-        "url": "http://www.ingbank.pl/", 
+        "status": "NEW", 
+        "whiteboard": "[uaoverride] [country-ve] [serversniff] [contactready]", 
+        "url": "http://www.mercadolibre.com.ve/", 
         "depends_on": "", 
-        "last_change_time": "2013-09-11T14:28:41Z", 
-        "creation_time": "2013-01-09T15:45:49Z", 
-        "summary": "ingbank.pl doesn't recognize B2G UA as mobile", 
+        "last_change_time": "2013-09-12T22:21:33Z", 
+        "creation_time": "2013-01-09T15:57:15Z", 
+        "summary": "mercadolibre.com.ve doesn't recognize B2G UA as mobile", 
         "priority": "--", 
-        "id": 828371, 
+        "id": 828425, 
+        "resolution": "", 
+        "cf_last_resolved": ""
+      }, 
+      {
+        "status": "NEW", 
+        "whiteboard": "[uaoverride] [country-mx] [serversniff] [contactready]", 
+        "url": "http://mercadolibre.com.mx", 
+        "depends_on": "", 
+        "last_change_time": "2013-09-12T22:27:35Z", 
+        "creation_time": "2013-06-03T01:58:31Z", 
+        "summary": "mercadolibre.com.mx doesn't recognize B2G UA as mobile", 
+        "priority": "--", 
+        "id": 878642, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -347,24 +335,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "olx.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff][contactready]    ", 
-        "url": "        http://www.olx.com.br/            ", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T21:39:17Z", 
-        "creation_time": "2013-01-04T16:08:44Z", 
-        "summary": "olx.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826720, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "huffingtonpost.com": {
     "resolved": [
       {
@@ -430,24 +400,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "ajw.asahi.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[serversniff] [country-jp] [sitewait]", 
-        "url": "http://ajw.asahi.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-11T14:29:03Z", 
-        "creation_time": "2013-08-05T16:21:13Z", 
-        "summary": "ajw.asahi.com doesn't send mobile content to firefox os", 
-        "priority": "--", 
-        "id": 901569, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "citibank.com": {
     "resolved": [], 
     "open": [
@@ -461,42 +413,6 @@ var masterBugTable = {
         "summary": "citibank.com doesn't recognize B2G UA as mobile", 
         "priority": "--", 
         "id": 843151, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "orange.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://www.orange.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:20:42Z", 
-        "creation_time": "2013-01-09T15:53:14Z", 
-        "summary": "orange.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828406, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "climatempo.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br][serversniff] [contactready]", 
-        "url": "http://www.climatempo.com.br", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:14:41Z", 
-        "creation_time": "2013-01-08T01:01:52Z", 
-        "summary": "climatempo.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827631, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -631,60 +547,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "movistar.com.ve": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-ve] [clientsniff]  [contactready]", 
-        "url": "http://movistar.com.ve/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:21:54Z", 
-        "creation_time": "2013-01-09T16:00:55Z", 
-        "summary": "movistar.com.ve doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828439, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "tor.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-us] [serversniff] [contactready]", 
-        "url": "http://www.tor.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:23:05Z", 
-        "creation_time": "2013-02-20T17:03:46Z", 
-        "summary": "tor.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843121, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "runrun.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "", 
-        "url": "runrun.es", 
-        "depends_on": "", 
-        "last_change_time": "2013-04-01T20:39:47Z", 
-        "creation_time": "2013-04-01T20:39:17Z", 
-        "summary": "runrun.es doesn't recognize B2G or Fennec UAs as mobile", 
-        "priority": "--", 
-        "id": 856786, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "plotek.pl": {
     "resolved": [], 
     "open": [
@@ -740,22 +602,22 @@ var masterBugTable = {
     ]
   }, 
   "welt.de": {
-    "resolved": [], 
-    "open": [
+    "resolved": [
       {
-        "status": "NEW", 
+        "status": "RESOLVED", 
         "whiteboard": "", 
         "url": "http://m.welt.de", 
         "depends_on": "", 
-        "last_change_time": "2013-09-09T19:38:43Z", 
+        "last_change_time": "2013-09-14T12:19:57Z", 
         "creation_time": "2012-08-06T08:10:14Z", 
         "summary": "m.welt.de sends wannabe WAP/XHTML content, causes XML syntax error", 
         "priority": "--", 
         "id": 780563, 
-        "resolution": "", 
-        "cf_last_resolved": ""
+        "resolution": "FIXED", 
+        "cf_last_resolved": "2013-09-14 05:19:57"
       }
-    ]
+    ], 
+    "open": []
   }, 
   "cnn.com": {
     "resolved": [], 
@@ -875,7 +737,7 @@ var masterBugTable = {
         "whiteboard": "[uaoverride] [country-us] [sitewait][serversniff][clientsniff]", 
         "url": "http://www.nytimes.com/", 
         "depends_on": "", 
-        "last_change_time": "2013-09-11T14:36:12Z", 
+        "last_change_time": "2013-09-14T19:11:04Z", 
         "creation_time": "2013-02-20T17:09:06Z", 
         "summary": "nytimes.com doesn't recognize B2G UA as mobile", 
         "priority": "--", 
@@ -937,22 +799,22 @@ var masterBugTable = {
     ]
   }, 
   "guardian.co.uk": {
-    "resolved": [], 
-    "open": [
+    "resolved": [
       {
-        "status": "NEW", 
+        "status": "RESOLVED", 
         "whiteboard": "[engagement]", 
         "url": "http://m.guardian.co.uk/", 
         "depends_on": "", 
-        "last_change_time": "2012-10-23T18:52:44Z", 
+        "last_change_time": "2013-09-14T16:58:32Z", 
         "creation_time": "2012-05-15T13:07:37Z", 
         "summary": "guardian.co.uk - landscape orientation maintains portrait page width", 
         "priority": "--", 
         "id": 755261, 
-        "resolution": "", 
-        "cf_last_resolved": ""
+        "resolution": "WORKSFORME", 
+        "cf_last_resolved": "2013-09-14 09:58:32"
       }
-    ]
+    ], 
+    "open": []
   }, 
   "tripadvisor.com": {
     "resolved": [
@@ -971,26 +833,6 @@ var masterBugTable = {
       }
     ], 
     "open": []
-  }, 
-  "wap.ratp.fr": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": [
-          887855
-        ], 
-        "last_change_time": "2013-07-08T14:42:04Z", 
-        "creation_time": "2013-06-27T16:35:03Z", 
-        "summary": "wap.ratp.fr doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 887856, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
   }, 
   "nk.pl": {
     "resolved": [], 
@@ -1059,6 +901,24 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
+  "globovision.com": {
+    "resolved": [
+      {
+        "status": "RESOLVED", 
+        "whiteboard": "", 
+        "url": "globovision.com", 
+        "depends_on": "", 
+        "last_change_time": "2013-08-16T13:50:49Z", 
+        "creation_time": "2013-03-27T20:44:53Z", 
+        "summary": "globovision.com doesn't recognize B2G UA as mobile", 
+        "priority": "--", 
+        "id": 855450, 
+        "resolution": "FIXED", 
+        "cf_last_resolved": "2013-08-16 06:50:49"
+      }
+    ], 
+    "open": []
+  }, 
   "ask.com": {
     "resolved": [], 
     "open": [
@@ -1108,42 +968,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "bumeran.com.ve": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-ve] [serversniff] [contactready]", 
-        "url": "http://www.bumeran.com.ve/ ", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:22:05Z", 
-        "creation_time": "2013-01-09T16:02:15Z", 
-        "summary": "bumeran.com.ve doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828445, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "elpais.com.co": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-co][serversniff] [contactready]", 
-        "url": "http://elpais.com.co/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:17:23Z", 
-        "creation_time": "2013-01-08T02:52:12Z", 
-        "summary": "elpais.com.co doesn't recognize Fennec and B2G UAs as mobile", 
-        "priority": "--", 
-        "id": 827670, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "wetter.com": {
     "resolved": [
       {
@@ -1180,24 +1004,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "movil.bankinter.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "https://movil.bankinter.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:22:35Z", 
-        "creation_time": "2013-02-20T17:01:55Z", 
-        "summary": "movil.bankinter.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843112, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "dropbox.com": {
     "resolved": [
       {
@@ -1215,60 +1021,6 @@ var masterBugTable = {
       }
     ], 
     "open": []
-  }, 
-  "maruccisports.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-us] [serversniff] [contactready]", 
-        "url": "http://maruccisports.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:23:16Z", 
-        "creation_time": "2013-02-20T17:04:11Z", 
-        "summary": "maruccisports.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843124, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "m.welt.de": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "", 
-        "url": "http://m.welt.de", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-09T19:38:43Z", 
-        "creation_time": "2012-08-06T08:10:14Z", 
-        "summary": "m.welt.de sends wannabe WAP/XHTML content, causes XML syntax error", 
-        "priority": "--", 
-        "id": 780563, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "ingdirect.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://www.ingdirect.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:20:23Z", 
-        "creation_time": "2013-01-09T15:52:26Z", 
-        "summary": "ingdirect.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828401, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
   }, 
   "yandex.ru": {
     "resolved": [], 
@@ -1301,42 +1053,6 @@ var masterBugTable = {
         "summary": "Unable to scroll down listing of items on m.comcast.net", 
         "priority": "--", 
         "id": 743696, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "loteriasyapuestas.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://loteriasyapuestas.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:21:02Z", 
-        "creation_time": "2013-01-09T15:55:37Z", 
-        "summary": "loteriasyapuestas.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828416, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "santander.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "", 
-        "url": "http://www.santander.com.br/", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-23T17:08:09Z", 
-        "creation_time": "2012-10-25T23:11:31Z", 
-        "summary": "[Browser] Virtually unusable Santander Brasil (Brazilian bank) website in B2G browser", 
-        "priority": "--", 
-        "id": 805664, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -1414,19 +1130,19 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "m.bumeran.com.co": {
+  "ingbank.pl": {
     "resolved": [], 
     "open": [
       {
-        "status": "NEW", 
-        "whiteboard": "[serversniff][contactready]", 
-        "url": "", 
+        "status": "ASSIGNED", 
+        "whiteboard": "[uaoverride] [country-pl] [serversniff] [sitewait]", 
+        "url": "http://www.ingbank.pl/", 
         "depends_on": "", 
-        "last_change_time": "2013-09-06T15:32:39Z", 
-        "creation_time": "2013-06-28T10:34:54Z", 
-        "summary": "m.bumeran.com.co doesn't display correctly in Gaia browser", 
-        "priority": "P3", 
-        "id": 888209, 
+        "last_change_time": "2013-09-11T14:28:41Z", 
+        "creation_time": "2013-01-09T15:45:49Z", 
+        "summary": "ingbank.pl doesn't recognize B2G UA as mobile", 
+        "priority": "--", 
+        "id": 828371, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -1469,10 +1185,10 @@ var masterBugTable = {
     "open": [
       {
         "status": "NEW", 
-        "whiteboard": "", 
-        "url": "", 
+        "whiteboard": "[clientsniff][country-ca]", 
+        "url": "http://m.thestar.com", 
         "depends_on": "", 
-        "last_change_time": "2013-02-18T00:49:04Z", 
+        "last_change_time": "2013-09-14T16:34:04Z", 
         "creation_time": "2013-02-17T23:31:46Z", 
         "summary": "Mobile version of m.thestar.com does not appear for Firefox for Android", 
         "priority": "--", 
@@ -1567,24 +1283,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "letras.mus.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff][contactready]", 
-        "url": "http://letras.mus.br/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T08:00:16Z", 
-        "creation_time": "2013-01-03T23:31:58Z", 
-        "summary": "letras.mus.br doesn't recognize Fennec and B2G UAs as mobile", 
-        "priority": "--", 
-        "id": 826517, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "orkut.com": {
     "resolved": [], 
     "open": [
@@ -1633,78 +1331,6 @@ var masterBugTable = {
         "summary": "hao123.com doesn't recognize B2G UA as mobile", 
         "priority": "--", 
         "id": 827633, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "lepoint.fr": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[mobile-compat-form] [serversniff] [clientsniff] [country-fr] [contactready]", 
-        "url": "http://www.lepoint.fr", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:28:50Z", 
-        "creation_time": "2013-09-06T18:07:11Z", 
-        "summary": "lepoint.fr returns desktop site for firefox OS", 
-        "priority": "--", 
-        "id": 913590, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "olx.com.co": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-co][serversniff] [contactready]", 
-        "url": "http://olx.com.co", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:17:49Z", 
-        "creation_time": "2013-01-08T02:53:19Z", 
-        "summary": "olx.com.co doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827672, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "avianca.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-co][clientsniff] [contactready]", 
-        "url": "http://www.avianca.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:18:48Z", 
-        "creation_time": "2013-01-08T02:53:53Z", 
-        "summary": "avianca.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827674, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "rumbo.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "es", 
-        "url": "http://www.rumbo.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-07-22T12:28:12Z", 
-        "creation_time": "2013-07-08T09:17:33Z", 
-        "summary": "www.rumbo.es doesn't display mobile site in Gaia browser", 
-        "priority": "--", 
-        "id": 890842, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -1828,9 +1454,10 @@ var masterBugTable = {
           914313, 
           915727, 
           915746, 
-          915853
+          915853, 
+          916250
         ], 
-        "last_change_time": "2013-09-12T20:33:14Z", 
+        "last_change_time": "2013-09-13T19:27:16Z", 
         "creation_time": "2013-09-12T15:05:37Z", 
         "summary": "[meta] UA detection libraries and modules testing", 
         "priority": "--", 
@@ -1985,42 +1612,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "petardas.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://petardas.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:22:16Z", 
-        "creation_time": "2013-01-09T16:02:37Z", 
-        "summary": "petardas.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828448, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "11870.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://11870.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:23:35Z", 
-        "creation_time": "2013-02-20T17:05:58Z", 
-        "summary": "11870.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843129, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "google.com.mx": {
     "resolved": [
       {
@@ -2065,33 +1656,15 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "antena3.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff]", 
-        "url": "http://www.antena3.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-11T14:25:56Z", 
-        "creation_time": "2013-01-09T15:52:02Z", 
-        "summary": "antena3.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828399, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "bbc.co.uk": {
     "resolved": [], 
     "open": [
       {
         "status": "NEW", 
-        "whiteboard": "", 
+        "whiteboard": "[serversniff][country-uk][contactready]", 
         "url": "http://www.bbc.co.uk/iplayer/radio", 
         "depends_on": "", 
-        "last_change_time": "2013-09-10T16:20:57Z", 
+        "last_change_time": "2013-09-14T16:07:26Z", 
         "creation_time": "2012-07-20T11:52:59Z", 
         "summary": "BBC iPlayer does not detect the Firefox UA", 
         "priority": "--", 
@@ -2220,59 +1793,23 @@ var masterBugTable = {
       }
     ]
   }, 
-  "olx.com.mx": {
-    "resolved": [], 
-    "open": [
+  "tablica.pl": {
+    "resolved": [
       {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-mx] [serversniff] [contactready]", 
-        "url": "http://olx.com.mx", 
+        "status": "RESOLVED", 
+        "whiteboard": "[uaoverride] [country-pl] [clientsniff]", 
+        "url": "http://tablica.pl/", 
         "depends_on": "", 
-        "last_change_time": "2013-09-12T22:27:44Z", 
-        "creation_time": "2013-06-03T01:59:34Z", 
-        "summary": "olx.com.mx doesn't recognize B2G UA as mobile", 
+        "last_change_time": "2013-09-03T15:29:11Z", 
+        "creation_time": "2013-01-09T15:46:13Z", 
+        "summary": "tablica.pl doesn't recognize B2G UA as mobile", 
         "priority": "--", 
-        "id": 878645, 
-        "resolution": "", 
-        "cf_last_resolved": ""
+        "id": 828374, 
+        "resolution": "INVALID", 
+        "cf_last_resolved": "2013-08-09 12:05:06"
       }
-    ]
-  }, 
-  "bol.uol.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-br][serversniff][sitewait]", 
-        "url": "http://bol.uol.com.br", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-26T12:00:31Z", 
-        "creation_time": "2013-01-08T01:00:29Z", 
-        "summary": "bol.uol.com.br doesn't recognize Fennec and B2G UAs as mobile", 
-        "priority": "--", 
-        "id": 827627, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "buenastareas.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-us] [serversniff] [contactready]", 
-        "url": "http://buenastareas.com", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:27:16Z", 
-        "creation_time": "2013-06-03T01:56:05Z", 
-        "summary": "buenastareas.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 878634, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
+    ], 
+    "open": []
   }, 
   "baidu.com": {
     "resolved": [], 
@@ -2287,24 +1824,6 @@ var masterBugTable = {
         "summary": "baidu.com UA sniffing serves non optimized content", 
         "priority": "--", 
         "id": 804642, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "m.atrapalo.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[serversniff][country-es][sitewait]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-06T16:01:14Z", 
-        "creation_time": "2013-06-28T10:23:46Z", 
-        "summary": "m.atrapalo.com doesn't display correctly in Gaia browser", 
-        "priority": "--", 
-        "id": 888207, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -2340,38 +1859,6 @@ var masterBugTable = {
         "summary": "Sky Guide content does not fit screen in mobile browser", 
         "priority": "--", 
         "id": 734786, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "despegar.com.ve": {
-    "resolved": [
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "[uaoverride] [country-ve] [serversniff]", 
-        "url": "http://www.despegar.com.ve/", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-12T18:40:36Z", 
-        "creation_time": "2013-01-09T16:01:50Z", 
-        "summary": "despegar.com.ve doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828443, 
-        "resolution": "FIXED", 
-        "cf_last_resolved": "2013-04-11 20:32:49"
-      }
-    ], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[country-ve] [serversniff] [contactready]", 
-        "url": "http://www.despegar.com.ve/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:28:41Z", 
-        "creation_time": "2013-08-01T18:59:04Z", 
-        "summary": "despegar.com.ve doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 900617, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -2566,35 +2053,19 @@ var masterBugTable = {
       }
     ]
   }, 
-  "bb.com.br": {
+  "eluniversal.com": {
     "resolved": [], 
     "open": [
       {
         "status": "NEW", 
-        "whiteboard": "", 
-        "url": "bb.com.br", 
-        "depends_on": [
-          804880, 
-          826711
-        ], 
-        "last_change_time": "2013-08-09T14:20:38Z", 
-        "creation_time": "2012-10-29T14:39:27Z", 
-        "summary": "[meta] Issues with bb.com.br", 
-        "priority": "--", 
-        "id": 806358, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }, 
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff] [clientsniff][sitewait]", 
-        "url": "http://bb.com.br", 
+        "whiteboard": "[uaoverride] [country-mx] [serversniff] [contactready]", 
+        "url": "http://eluniversal.com.mx", 
         "depends_on": "", 
-        "last_change_time": "2013-08-21T10:30:23Z", 
-        "creation_time": "2013-01-04T16:02:21Z", 
-        "summary": "bb.com.br / bancobrasil.com.br doesn't recognize B2G UA as mobile", 
+        "last_change_time": "2013-09-12T22:27:26Z", 
+        "creation_time": "2013-06-03T01:57:06Z", 
+        "summary": "eluniversal.com.mx doesn't recognize B2G UA as mobile", 
         "priority": "--", 
-        "id": 826711, 
+        "id": 878637, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -2613,24 +2084,6 @@ var masterBugTable = {
         "summary": "weather.com weather map says its incompatible despite loading correctly", 
         "priority": "--", 
         "id": 876311, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "paginasamarillas.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://www.paginasamarillas.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:20:51Z", 
-        "creation_time": "2013-01-09T15:54:59Z", 
-        "summary": "paginasamarillas.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828414, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -2674,23 +2127,23 @@ var masterBugTable = {
       }
     ]
   }, 
-  "tablica.pl": {
-    "resolved": [
+  "letras.mus.br": {
+    "resolved": [], 
+    "open": [
       {
-        "status": "RESOLVED", 
-        "whiteboard": "[uaoverride] [country-pl] [clientsniff]", 
-        "url": "http://tablica.pl/", 
+        "status": "NEW", 
+        "whiteboard": "[uaoverride] [country-br] [serversniff][contactready]", 
+        "url": "http://letras.mus.br/", 
         "depends_on": "", 
-        "last_change_time": "2013-09-03T15:29:11Z", 
-        "creation_time": "2013-01-09T15:46:13Z", 
-        "summary": "tablica.pl doesn't recognize B2G UA as mobile", 
+        "last_change_time": "2013-09-12T08:00:16Z", 
+        "creation_time": "2013-01-03T23:31:58Z", 
+        "summary": "letras.mus.br doesn't recognize Fennec and B2G UAs as mobile", 
         "priority": "--", 
-        "id": 828374, 
-        "resolution": "INVALID", 
-        "cf_last_resolved": "2013-08-09 12:05:06"
+        "id": 826517, 
+        "resolution": "", 
+        "cf_last_resolved": ""
       }
-    ], 
-    "open": []
+    ]
   }, 
   "mercadolibre.com.mx": {
     "resolved": [], 
@@ -2832,6 +2285,24 @@ var masterBugTable = {
       }
     ], 
     "open": []
+  }, 
+  "el-nacional.com": {
+    "resolved": [], 
+    "open": [
+      {
+        "status": "NEW", 
+        "whiteboard": "", 
+        "url": "http://www.el-nacional.com", 
+        "depends_on": "", 
+        "last_change_time": "2013-07-31T10:54:17Z", 
+        "creation_time": "2013-04-01T16:48:16Z", 
+        "summary": "el-nacional.com doesn't recognize B2G UA as mobile", 
+        "priority": "--", 
+        "id": 856662, 
+        "resolution": "", 
+        "cf_last_resolved": ""
+      }
+    ]
   }, 
   "money.pl": {
     "resolved": [], 
@@ -3075,191 +2546,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "pagseguro.uol.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-br][serversniff][sitewait]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-26T12:00:23Z", 
-        "creation_time": "2013-01-08T00:59:36Z", 
-        "summary": "pagseguro.uol.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827625, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "enfemenino.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "enfemenino.com", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:22:26Z", 
-        "creation_time": "2013-02-20T17:00:40Z", 
-        "summary": "enfemenino.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843109, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "techtudo.com.br": {
-    "resolved": [
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:45:39Z", 
-        "creation_time": "2013-01-04T22:03:13Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826842, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:45:39"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:45:55Z", 
-        "creation_time": "2013-01-04T22:03:36Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826843, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:45:55"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:43:46Z", 
-        "creation_time": "2013-01-04T22:10:18Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826854, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:43:46"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:44:00Z", 
-        "creation_time": "2013-01-04T22:14:44Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826857, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:44:00"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:44:15Z", 
-        "creation_time": "2013-01-04T22:16:57Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826859, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:44:15"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:44:32Z", 
-        "creation_time": "2013-01-04T22:17:15Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826860, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:44:32"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "[uaoverride]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:44:50Z", 
-        "creation_time": "2013-01-04T22:18:10Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826862, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:44:50"
-      }, 
-      {
-        "status": "VERIFIED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-04T22:20:08Z", 
-        "creation_time": "2013-01-04T22:05:40Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826848, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 14:19:58"
-      }, 
-      {
-        "status": "VERIFIED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:43:01Z", 
-        "creation_time": "2013-01-04T22:07:09Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826849, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:42:49"
-      }, 
-      {
-        "status": "VERIFIED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-01-05T02:43:33Z", 
-        "creation_time": "2013-01-04T22:08:54Z", 
-        "summary": "techtudo.com.br doesnt recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826850, 
-        "resolution": "DUPLICATE", 
-        "cf_last_resolved": "2013-01-04 18:43:23"
-      }
-    ], 
-    "open": [
-      {
-        "status": "REOPENED", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff][contactready]", 
-        "url": "http://www.techtudo.com.br/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:08:05Z", 
-        "creation_time": "2013-01-04T22:05:03Z", 
-        "summary": "techtudo.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826845, 
-        "resolution": "", 
-        "cf_last_resolved": "2013-04-05 08:33:06"
-      }
-    ]
-  }, 
   "ocn.ne.jp": {
     "resolved": [], 
     "open": [
@@ -3426,24 +2712,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "noticias.uol.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff][contactready]", 
-        "url": "http://noticias.uol.com.br/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T07:54:33Z", 
-        "creation_time": "2013-01-04T16:06:35Z", 
-        "summary": "noticias.uol.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 826715, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "vimeo.com": {
     "resolved": [
       {
@@ -3498,24 +2766,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "m.europapress.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[serversniff][country-es] [contactready]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:28:21Z", 
-        "creation_time": "2013-06-18T10:57:09Z", 
-        "summary": "m.europapress.es doesn't display correctly in Gaia browser", 
-        "priority": "--", 
-        "id": 884240, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "techcrunch.com": {
     "resolved": [], 
     "open": [
@@ -3529,6 +2779,40 @@ var masterBugTable = {
         "summary": "techcrunch articles and frontpage don't load w/ B2G browser user agent string - instead, they get \"The page isn't redirecting properly\"", 
         "priority": "--", 
         "id": 813365, 
+        "resolution": "", 
+        "cf_last_resolved": ""
+      }
+    ]
+  }, 
+  "bb.com.br": {
+    "resolved": [], 
+    "open": [
+      {
+        "status": "NEW", 
+        "whiteboard": "", 
+        "url": "bb.com.br", 
+        "depends_on": [
+          804880, 
+          826711
+        ], 
+        "last_change_time": "2013-08-09T14:20:38Z", 
+        "creation_time": "2012-10-29T14:39:27Z", 
+        "summary": "[meta] Issues with bb.com.br", 
+        "priority": "--", 
+        "id": 806358, 
+        "resolution": "", 
+        "cf_last_resolved": ""
+      }, 
+      {
+        "status": "ASSIGNED", 
+        "whiteboard": "[uaoverride] [country-br] [serversniff] [clientsniff][sitewait]", 
+        "url": "http://bb.com.br", 
+        "depends_on": "", 
+        "last_change_time": "2013-08-21T10:30:23Z", 
+        "creation_time": "2013-01-04T16:02:21Z", 
+        "summary": "bb.com.br / bancobrasil.com.br doesn't recognize B2G UA as mobile", 
+        "priority": "--", 
+        "id": 826711, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -3597,24 +2881,6 @@ var masterBugTable = {
         "summary": "ajw.asahi.com doesn't send mobile content to firefox os", 
         "priority": "--", 
         "id": 901569, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "m.fool.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "UNCONFIRMED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-06-23T14:05:50Z", 
-        "creation_time": "2013-06-23T14:05:38Z", 
-        "summary": "m.fool.com doesn't display correctly in Gaia browser", 
-        "priority": "--", 
-        "id": 886121, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -3689,42 +2955,6 @@ var masterBugTable = {
         "summary": "Unable to play video on mobile Novinky.cz and Super.cz", 
         "priority": "--", 
         "id": 798769, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "tylted.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-us] [serversniff] [sitewait]", 
-        "url": "http://tylted.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-11T14:56:56Z", 
-        "creation_time": "2013-02-20T17:17:17Z", 
-        "summary": "tylted.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843176, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "banorte.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-mx] [serversniff] [contactready]", 
-        "url": "http://banorte.com", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:27:06Z", 
-        "creation_time": "2013-06-03T01:55:31Z", 
-        "summary": "banorte.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 878632, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -3824,24 +3054,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "es.playstation.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://es.playstation.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:23:26Z", 
-        "creation_time": "2013-02-20T17:04:40Z", 
-        "summary": "es.playstation.com doesn't recognize B2G or Fennec UAs as mobile", 
-        "priority": "--", 
-        "id": 843126, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "sport.pl": {
     "resolved": [], 
     "open": [
@@ -3878,24 +3090,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "sat.gob.mx": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-mx] [clientsniff] [contactready]", 
-        "url": "http://sat.gob.mx", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:27:52Z", 
-        "creation_time": "2013-06-03T02:00:03Z", 
-        "summary": "sat.gob.mx doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 878647, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "elmundo.es": {
     "resolved": [], 
     "open": [
@@ -3909,24 +3103,6 @@ var masterBugTable = {
         "summary": "elmundo.es/movil2 doesn't display correctly in Gaia browser", 
         "priority": "--", 
         "id": 887224, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "fotocasa.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://www.fotocasa.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:20:33Z", 
-        "creation_time": "2013-01-09T15:52:50Z", 
-        "summary": "fotocasa.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828403, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -4060,55 +3236,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "magazineluiza.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-br][serversniff][sitewait]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-26T12:05:51Z", 
-        "creation_time": "2013-01-08T01:00:01Z", 
-        "summary": "magazineluiza.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827626, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "news.google.com": {
-    "resolved": [
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "[uaoverride] [country-all] [serversniff]", 
-        "url": "news.google.com", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-09T15:31:08Z", 
-        "creation_time": "2013-02-20T17:08:17Z", 
-        "summary": "news.google.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843134, 
-        "resolution": "FIXED", 
-        "cf_last_resolved": "2013-09-03 11:22:40"
-      }, 
-      {
-        "status": "RESOLVED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-07-02T23:53:46Z", 
-        "creation_time": "2013-07-02T13:00:45Z", 
-        "summary": "news.google.com giving a parsing error. site opens fine in Chrome", 
-        "priority": "--", 
-        "id": 889338, 
-        "resolution": "WORKSFORME", 
-        "cf_last_resolved": "2013-07-02 16:53:46"
-      }
-    ], 
-    "open": []
-  }, 
   "stackoverflow.com": {
     "resolved": [
       {
@@ -4163,24 +3290,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "publico.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://publico.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:21:23Z", 
-        "creation_time": "2013-01-09T15:56:49Z", 
-        "summary": "publico.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828422, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "google.ro": {
     "resolved": [], 
     "open": [
@@ -4194,24 +3303,6 @@ var masterBugTable = {
         "summary": "google.ro - text overlaps on tablet version for Fennec UA", 
         "priority": "--", 
         "id": 804723, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "webmotors.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff] [contactready]", 
-        "url": "http://www.webmotors.com.br/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:11:41Z", 
-        "creation_time": "2013-01-07T23:37:51Z", 
-        "summary": "webmotors.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827573, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -4261,7 +3352,7 @@ var masterBugTable = {
         "whiteboard": "[uaoverride] [country-all] [sitewait] [clientsniff] [lib-yui]", 
         "url": "http://www.linkedin.com", 
         "depends_on": "", 
-        "last_change_time": "2013-09-11T14:28:42Z", 
+        "last_change_time": "2013-09-14T03:59:58Z", 
         "creation_time": "2013-01-03T17:45:49Z", 
         "summary": "linkedin.com doesn't recognize B2G UA as mobile", 
         "priority": "--", 
@@ -4342,24 +3433,6 @@ var masterBugTable = {
         "summary": "ig.com.br doesn't recognize B2G UA as mobile", 
         "priority": "--", 
         "id": 826343, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "lufthansa.de": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[serversniff] [country-de][contactready]", 
-        "url": "                    ", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T21:53:29Z", 
-        "creation_time": "2013-08-14T11:40:53Z", 
-        "summary": "lufthansa.de sends desktop site to B2G", 
-        "priority": "P3", 
-        "id": 905120, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -4516,7 +3589,7 @@ var masterBugTable = {
         "whiteboard": "", 
         "url": "", 
         "depends_on": "", 
-        "last_change_time": "2013-06-03T15:33:54Z", 
+        "last_change_time": "2013-09-13T21:51:06Z", 
         "creation_time": "2013-02-12T21:32:05Z", 
         "summary": "Facebook messaging notification window invoked and dismissed automatically on first access", 
         "priority": "--", 
@@ -4651,7 +3724,7 @@ var masterBugTable = {
         "whiteboard": "[webcompat][serversniff][contactready]", 
         "url": "https://www.facebook.com/amo.editors", 
         "depends_on": "", 
-        "last_change_time": "2013-09-04T21:26:06Z", 
+        "last_change_time": "2013-09-13T21:51:06Z", 
         "creation_time": "2012-12-28T08:11:42Z", 
         "summary": "Shared videos directly on Facebook are not correctly supported - ANDROID", 
         "priority": "--", 
@@ -4690,7 +3763,7 @@ var masterBugTable = {
         "whiteboard": "[TD-29810], [3rd Party][apps watch list1]", 
         "url": "", 
         "depends_on": "", 
-        "last_change_time": "2013-09-10T17:15:56Z", 
+        "last_change_time": "2013-09-13T21:51:06Z", 
         "creation_time": "2013-05-17T08:20:34Z", 
         "summary": "Facebook Photos rendered in news feed are being rendered in poor quality on a FF OS user agent, but in good quality on a Android user agent", 
         "priority": "P1", 
@@ -4714,23 +3787,22 @@ var masterBugTable = {
         "id": 878224, 
         "resolution": "FIXED", 
         "cf_last_resolved": "2013-08-14 09:51:18"
-      }
-    ], 
-    "open": [
+      }, 
       {
-        "status": "NEW", 
+        "status": "RESOLVED", 
         "whiteboard": "", 
         "url": "", 
         "depends_on": "", 
-        "last_change_time": "2012-10-23T18:51:20Z", 
+        "last_change_time": "2013-09-14T12:38:39Z", 
         "creation_time": "2012-03-07T14:48:10Z", 
         "summary": "badoo.com downloads content instead of loading the page in the browser", 
         "priority": "--", 
         "id": 733756, 
-        "resolution": "", 
-        "cf_last_resolved": ""
+        "resolution": "WORKSFORME", 
+        "cf_last_resolved": "2013-09-14 05:38:39"
       }
-    ]
+    ], 
+    "open": []
   }, 
   "clickjogos.uol.com.br": {
     "resolved": [
@@ -4750,24 +3822,6 @@ var masterBugTable = {
     ], 
     "open": []
   }, 
-  "giantbomb.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[m3u]", 
-        "url": "http://www.giantbomb.com/videos/quick-look-the-last-of-us/2300-7467/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-05T12:34:40Z", 
-        "creation_time": "2013-06-18T12:47:02Z", 
-        "summary": "The video player does not work at giantbomb.com", 
-        "priority": "--", 
-        "id": 884280, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "blackberry.com": {
     "resolved": [], 
     "open": [
@@ -4781,24 +3835,6 @@ var masterBugTable = {
         "summary": "blackberry.com main site does not recognize Firefox OS", 
         "priority": "--", 
         "id": 899541, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "comunio.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [serversniff] [contactready]", 
-        "url": "http://www.comunio.es/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:23:43Z", 
-        "creation_time": "2013-02-20T17:07:48Z", 
-        "summary": "comunio.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843132, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -4986,26 +4022,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "theawesomer.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[serversniff][country-us][contactready]", 
-        "url": "", 
-        "depends_on": [
-          909420
-        ], 
-        "last_change_time": "2013-09-06T16:19:41Z", 
-        "creation_time": "2013-06-19T16:36:15Z", 
-        "summary": "theawesomer.com doesn't display correctly in Gaia browser", 
-        "priority": "--", 
-        "id": 884895, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "mercadolivre.com.br": {
     "resolved": [], 
     "open": [
@@ -5024,23 +4040,10 @@ var masterBugTable = {
       }
     ]
   }, 
-  "m.easyjet.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[sitewait][country-uk]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-09T16:19:07Z", 
-        "creation_time": "2013-06-17T14:42:02Z", 
-        "summary": "m.easyjet.com doesn't display correctly in Gaia browser", 
-        "priority": "--", 
-        "id": 883863, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
+  "metrics": {
+    "numHosts": 1250, 
+    "numOpenBugs": 144, 
+    "numHostsWithOpenBugs": 101
   }, 
   "bloomberg.com": {
     "resolved": [
@@ -5059,24 +4062,6 @@ var masterBugTable = {
       }
     ], 
     "open": []
-  }, 
-  "einforma.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es][serversniff] [contactready]", 
-        "url": "http://www.einforma.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:22:46Z", 
-        "creation_time": "2013-02-20T17:02:24Z", 
-        "summary": "einforma.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 843114, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
   }, 
   "go.com": {
     "resolved": [
@@ -5121,42 +4106,6 @@ var masterBugTable = {
         "summary": "ABCnews.go.com doesn't send the mobile version to Firefox on Mobile", 
         "priority": "--", 
         "id": 915339, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "vagalume.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br][serversniff] [contactready]", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:13:37Z", 
-        "creation_time": "2013-01-08T01:01:30Z", 
-        "summary": "vagalume.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827630, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "tecmundo.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br][clientsniff] [contactready]", 
-        "url": "        http://tecmundo.com.br            ", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:15:31Z", 
-        "creation_time": "2013-01-08T01:02:17Z", 
-        "summary": "tecmundo.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827632, 
         "resolution": "", 
         "cf_last_resolved": ""
       }
@@ -5397,6 +4346,19 @@ var masterBugTable = {
       }, 
       {
         "status": "RESOLVED", 
+        "whiteboard": "[MTD], [website-compatibility][sitewait]", 
+        "url": "https://groups.google.com/forum/m/#!topic/mozilla.dev.tree-management/oPLq7LW9iQw", 
+        "depends_on": "", 
+        "last_change_time": "2013-09-14T14:14:54Z", 
+        "creation_time": "2012-03-06T18:34:46Z", 
+        "summary": "groups.google.com (mobile) - \"Show quoted text\" links on threads do not expand the hidden text", 
+        "priority": "--", 
+        "id": 733447, 
+        "resolution": "INVALID", 
+        "cf_last_resolved": "2013-09-14 07:14:54"
+      }, 
+      {
+        "status": "RESOLVED", 
         "whiteboard": "", 
         "url": "", 
         "depends_on": "", 
@@ -5625,9 +4587,9 @@ var masterBugTable = {
       {
         "status": "UNCONFIRMED", 
         "whiteboard": "", 
-        "url": "", 
+        "url": "http://www.google.com", 
         "depends_on": "", 
-        "last_change_time": "2013-07-16T21:38:03Z", 
+        "last_change_time": "2013-09-14T14:01:39Z", 
         "creation_time": "2013-06-30T22:13:09Z", 
         "summary": "Google SearchTools menu unhides then immediately hides again making it useless.", 
         "priority": "--", 
@@ -5637,12 +4599,12 @@ var masterBugTable = {
       }, 
       {
         "status": "NEW", 
-        "whiteboard": "", 
+        "whiteboard": "[sitewait][webkitcss]", 
         "url": "http://m.google.com/plus", 
         "depends_on": [
           739832
         ], 
-        "last_change_time": "2013-03-22T21:57:40Z", 
+        "last_change_time": "2013-09-14T14:21:52Z", 
         "creation_time": "2011-06-29T15:02:50Z", 
         "summary": "Google+ (Plus) Modal Dialogs Show White Text for Font on OK button", 
         "priority": "--", 
@@ -5652,23 +4614,10 @@ var masterBugTable = {
       }, 
       {
         "status": "NEW", 
-        "whiteboard": "[MTD], [website-compatibility]", 
-        "url": "https://groups.google.com/forum/m/#!topic/mozilla.dev.tree-management/oPLq7LW9iQw", 
-        "depends_on": "", 
-        "last_change_time": "2012-10-11T15:43:51Z", 
-        "creation_time": "2012-03-06T18:34:46Z", 
-        "summary": "groups.google.com (mobile) - \"Show quoted text\" links on threads do not expand the hidden text", 
-        "priority": "--", 
-        "id": 733447, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }, 
-      {
-        "status": "NEW", 
         "whiteboard": "[website-compatibility]", 
         "url": "http://sites.google.com/site/totalandroidgbbo00/motorola-defy", 
         "depends_on": "", 
-        "last_change_time": "2012-10-23T18:51:09Z", 
+        "last_change_time": "2013-09-14T15:59:02Z", 
         "creation_time": "2012-03-13T22:38:12Z", 
         "summary": "google sites lays divs all over each other", 
         "priority": "--", 
@@ -5678,10 +4627,10 @@ var masterBugTable = {
       }, 
       {
         "status": "NEW", 
-        "whiteboard": "", 
-        "url": "", 
+        "whiteboard": "[serversniff][webkitcss][contactready]", 
+        "url": "http://books.google.com", 
         "depends_on": "", 
-        "last_change_time": "2013-01-12T19:20:03Z", 
+        "last_change_time": "2013-09-14T15:40:27Z", 
         "creation_time": "2012-05-14T02:09:42Z", 
         "summary": "Google Books - Desktop site renders on fennec native, not mobile site", 
         "priority": "--", 
@@ -5930,78 +4879,6 @@ var masterBugTable = {
       }
     ]
   }, 
-  "groupon.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-br][serversniff][sitewait]", 
-        "url": "http://www.groupon.com.br", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-26T12:14:06Z", 
-        "creation_time": "2013-01-08T01:00:53Z", 
-        "summary": "groupon.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827628, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "bbva.es": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-es] [clientsniff] [serversniff] [contactready]", 
-        "url": "https://www.bbva.es/TLBS/tlbs/esp/index.jsp", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:21:13Z", 
-        "creation_time": "2013-01-09T15:56:04Z", 
-        "summary": "bbva.es doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828418, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "lancenet.com.br": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-br] [serversniff][contactready]", 
-        "url": "        http://www.lancenet.com.br/            ", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T21:47:46Z", 
-        "creation_time": "2013-01-07T23:45:36Z", 
-        "summary": "lancenet.com.br doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 827576, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "olx.com.ve": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "[uaoverride] [country-ve] [serversniff] [contactready]", 
-        "url": "http://www.olx.com.ve/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-12T22:21:42Z", 
-        "creation_time": "2013-01-09T15:59:43Z", 
-        "summary": "olx.com.ve doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 828433, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
   "eluniversal.com.mx": {
     "resolved": [], 
     "open": [
@@ -6015,60 +4892,6 @@ var masterBugTable = {
         "summary": "eluniversal.com.mx doesn't recognize B2G UA as mobile", 
         "priority": "--", 
         "id": 878637, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "elmundo.es/movil2": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "UNCONFIRMED", 
-        "whiteboard": "", 
-        "url": "", 
-        "depends_on": "", 
-        "last_change_time": "2013-07-15T07:23:40Z", 
-        "creation_time": "2013-06-26T12:29:37Z", 
-        "summary": "elmundo.es/movil2 doesn't display correctly in Gaia browser", 
-        "priority": "--", 
-        "id": 887224, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "deadline.com": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "ASSIGNED", 
-        "whiteboard": "[uaoverride] [country-all] [sitewait] [clientsniff]", 
-        "url": "http://www.deadline.com/", 
-        "depends_on": "", 
-        "last_change_time": "2013-09-11T14:28:44Z", 
-        "creation_time": "2013-03-07T17:53:41Z", 
-        "summary": "deadline.com doesn't recognize B2G UA as mobile", 
-        "priority": "--", 
-        "id": 848854, 
-        "resolution": "", 
-        "cf_last_resolved": ""
-      }
-    ]
-  }, 
-  "huffingtonpost.co.uk": {
-    "resolved": [], 
-    "open": [
-      {
-        "status": "NEW", 
-        "whiteboard": "", 
-        "url": "http://www.huffingtonpost.co.uk/mobileweb/slideshow/3053015/291140/?icid=hp_uk-comedy_gallery", 
-        "depends_on": "", 
-        "last_change_time": "2013-08-09T22:30:19Z", 
-        "creation_time": "2013-04-11T09:05:46Z", 
-        "summary": "Huffington Post (Mobile) - Carousel gallery coded using WebKit on huffingtonpost.co.uk", 
-        "priority": "--", 
-        "id": 860668, 
         "resolution": "", 
         "cf_last_resolved": ""
       }

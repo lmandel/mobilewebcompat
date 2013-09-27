@@ -1,158 +1,139 @@
-#!/usr/bin/env python
- # -*- coding: utf-8 -*-
-# This will generate various Bugzilla URLs and download/save JSON-formatted lists of bug data
-
-import json, glob, urllib, os, urllib2,csv,StringIO,re
+#!/usr/bin/python
+import json, glob, urllib, os, urllib2,csv,StringIO,re, sys
 from pprint import pprint
 from urlparse import urlparse
 
+if os.path.exists('/home/hallvors/lib'): # custom path for tldextract module on hallvord.com host.
+    sys.path.insert(1, '/home/hallvors/lib/tldextract-1.2-py2.6.egg') # TODO: remove or fix this for people.mozilla :)
+import tldextract
+
 os.chdir(os.path.dirname(os.path.abspath(__file__))) # For CRON usage..
+# We generally want to handle the main domains (i.e. google.com for www.google.com) instead of the full host names
+# however, for some major sites with lots of distinct properties we loose too much useful information if we classify it just by domain name..
+# conf['subdomainsWeWant'] is a list of hostnames that should not be reduced to domain names. For these, we'll strip any *www.* prefix, but
+# no other subdomains
+conf = { 'weWantSubdomainsFor': r'(\.google\.com|\.live\.com|\.yahoo\.com|\.js$)' } # the latter is not, strictly speaking, a subdomain..
 
-# The URLs will query bugzilla for bugs where EITHER summary OR the URL field matches the regexp
-urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority' # CSV URL was: 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=%28\.|^%29{0}&v2=%28\.|^%29{0}&ctype=csv&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority'
-# Doing a "list sites with open bugs for given ccTLD" sweep requires a slightly different regexp..
-ccTLDurltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}(/|%20|$)&v2=.\.{0}(/|%20|.?$)&o3=substring&f3=status_whiteboard&v3=[country-{0}]&include_fields=id,summary,whiteboard,url&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED' # CSV URL was: 'https://bugzilla.mozilla.org/buglist.cgi?component=Mobile&f1=bug_file_loc&f2=short_desc&j_top=OR&o1=regexp&o2=regexp&product=Tech%20Evangelism&query_format=advanced&v1=.\.{0}(/|%20|$)&v2=.\.{0}(/|%20|.?$)&o3=substring&f3=status_whiteboard&v2=[country-{0}]&human=1w&columnlist=bug_id%2Copendate%2Cchangeddate%2Cbug_status%2Cresolution%2Cdependson%2Cstatus_whiteboard%2Cshort_desc%2Ccf_last_resolved%2Cbug_file_loc%2Cpriority&ctype=csv&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED'
+# http://stackoverflow.com/questions/8230315/python-sets-are-not-json-serializable :-(
+class SetEncoder(json.JSONEncoder):
+    def default(self, obj):
+       if isinstance(obj, set):
+          return list(obj)
+       return json.JSONEncoder.default(self, obj)
 
-# kill old files?
-kill_old_files = 1
-
-# Empty the directory of temporary data files from bugzilla before iterating over data to fetch a new cache
-if kill_old_files :
-	for fn in glob.glob('./data/bugzilla/*.*'):
-		os.unlink(fn)
-
-# read alias file
 f = open('data/aliases.json')
 aliases = json.load(f)
 f.close()
-alloutput={}
-metrics={'allOpenBugsForAllLists':set(), 'hostsWithOpenBugs':set(), 'totalUniqueHosts':set()}
-fcount=0
-hcount=0
-# Iterate over JSON data files (lists of hosts)
-for fn in glob.glob('../data/*.json'):
-	if '.cc.json' in fn:
-		continue # This loop will add .json files to the directory we're iterating over. We don't want to do this infinitely..
-	fcount += 1
-	f = open(fn)
-	data = json.load(f)
-	isCCquery = 0
-	if 'ccTLD' in data: # We add a ccTLD query that will make the script pick up bugs for hostnames with this ccTLD
-		data['data'].append((data['ccTLD'], ccTLDurltemplate))
-	f.close()
-	for hostname in data['data']: #
-		if isinstance(hostname, tuple):
-			# sorry that this is a bit ugly. It's hacked on afterwards, and that shows.
-			curtemplate = hostname[1]
-			hostname = hostname[0]
-			isCCquery = 1
-		else :
-			curtemplate = urltemplate
-			isCCquery = 0
-		# Now, we want to create some output files, but if the URL in the JSON file has a pathname having the / is ugly and not cross-platform compatible
-		if '/' in hostname:
-			outputfn = hostname.replace('/', '_')
-		else:
-			outputfn = hostname
-		pprint(outputfn)
-		# Now, this domain may already have been found in an earlier file. Let's skip ahead if we've already pulled data from bugzilla..
-		if os.path.exists('./data/bugzilla/'+outputfn+'.csv'):
-			continue
-		hcount += 1
-		print "List "+str(fcount)+" - "+fn+", host "+str(hcount)+", looking for "+hostname+" bugs...\n"
-		# if we have an alias, the alias is what we want to search for
-		if hostname in aliases :
-			searchword = aliases[hostname]
-		else :
-			searchword = hostname
 
-		# Ready to get the data from Bugzilla
-		url = curtemplate.format(searchword.replace('.', '\\.'))
-		req = urllib2.Request(url)
-		req.add_header('Accept', 'application/json')
+
+def main():
+	urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&product=Tech%20Evangelism&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority,flags'
+	outputfn = 'test-output'
+	req = urllib2.Request(urltemplate)
+	req.add_header('Accept', 'application/json')
+	if 1 : # get data from bugzilla (slow..)
 		bzresponse = urllib2.urlopen(req)
 		bzdata = bzresponse.read()
 		bzdataobj = json.loads(bzdata)
-		# Write a CSV file so we have a record of what we
 		print 'Writing '+outputfn+'.json'
 		f = open('./data/bugzilla/'+outputfn+'.json', 'w')
 		f.write(json.dumps(bzdataobj, indent=2))
 		f.close()
-		# Returned JSON has .bugs which is an array of objects with fields: {cf_last_resolved, creation_time,id,status,summary,priority,resolution}
-		# Now, let's do some more data massage..
-		if isCCquery :
-			# We want to extract host names for all open *.ccTLD bugs and add them to data
-			# this is to make sure we catch locale sites that Alexa doesn't care about, but
-			# which matter enough to our users that bugs are reported
-			for row in bzdataobj['bugs']:
-				# We need to extract a host name from either URL or Summary
-				text = row['url'].strip() or row['summary']
-				#pprint(text)
-				ccHost = ''
-				if re.search( '\s', text) : # summary, we need to do some more work here to extract the domain from the text..
-					text = re.split('\s', text)
-					for word in text :
-						word = word.strip('.') # make sure we don't assume a random 'foo.' is a domain due to a sentence-delimiting dot in summary..
-						if '.' in word: # now go on to assume the first white-space separated string that contains at least one internal period is a domain name
-							ccHost = word
-							break
-				else :
-					ccHost = text
+	else :
+		#TEMPORARY code to speed up testing:
+		f = open('./data/bugzilla/'+outputfn+'.json', 'r')
+		bzdataobj = json.load(f)
+		f.close()
 
-				if re.search('https?:\/\/', ccHost):
-					ccHost = urlparse(ccHost)[1]
-					#print 'urlpars\'d '+ccHost
-				if ccHost == '': # we didn't find any host name here..
-					continue
-				# Elsewhere in the data files, domain names are typically www-less ...
-				ccHost = re.sub('^www\.', '', ccHost)
-				#print 'found ccHost: '+ccHost
-				if not ccHost in data['data']:
-					print 'Found new host with ccTLD search: '+ccHost
-					pprint(ccHost)
-					data['data'].append(ccHost) # the for hostname in data loop will get to this item too and fetch bug info for the domain
-		else :
-			outstructure = {hostname:{"resolved":[], "open":[]}}
-			metrics['totalUniqueHosts'].add(hostname)
-			for row in bzdataobj['bugs']:
-				if row['status'] in ['RESOLVED', 'CLOSED', 'VERIFIED']:
-					outstructure[hostname]['resolved'].append(row)
-				else :
-					outstructure[hostname]['open'].append(row)
-					metrics['allOpenBugsForAllLists'].add(row['id'])
-					metrics['hostsWithOpenBugs'].add(hostname)
-				#pprint(outstructure)
+	masterBugTable = {'hostIndex':{}, 'bugs':{}, 'lists':{}}
+	for fn in glob.glob('../data/*.json'):
+		f = open(fn)
+		data = json.load(f)
+		match = re.search(r'/data/(.*)\.json$', fn, re.I)
+		if match :
+			listname = match.groups()[0]
+			masterBugTable['lists'][listname] = data
+		f.close()
 
-			f = open('./data/bugzilla/'+outputfn+'.json', 'w');
-			f.write(json.dumps(outstructure, indent=2))
-			f.close()
-			# If the search returned bugs, add them
-			if len(outstructure[hostname]['resolved']) or len(outstructure[hostname]['open']):
-				alloutput[hostname]=outstructure[hostname]
-	# End of for hostname in data - loop. Got to Karl's Nirvana.
-	# we may have found some new, never seen before ccTLD sites with open bugs.
-	# As we've extended the list of relevant domains, let's save it.
-	for hostname in data['data']:
-		if isinstance(hostname, tuple):
-			data['data'].remove(hostname) # we don't want this tuple included when dumping the extended host name list to file...
-	f = open(fn.replace('.json', '.cc.json'), 'w')
-	f.write(json.dumps(data, indent=2))
+	metrics={'allOpenBugsForAllLists':set(), 'hostsWithOpenBugs':set(), 'totalUniqueHosts':set()}
+
+	for bug in bzdataobj['bugs'] :
+		if re.search(r'\[meta\]', bug['summary'], re.I) : # We don't care about [meta] stuff. Why? Well, we're post-post-modern, that's why.
+			continue
+		masterBugTable['bugs'][bug['id']] = bug;
+		# extract host names:
+		hostnames = set()
+		if 'url' in bug :
+			hostnames = hostsFromText(bug['url']) # extract host name from URL field
+		if 'summary' in bug :
+			hostnames = hostnames.union(hostsFromText(bug['summary'])) # ...and extract host name(s) from summary
+		#
+		for host in hostnames :
+			if not host in masterBugTable['hostIndex'] :
+				masterBugTable['hostIndex'][host] = {'open':[], 'resolved':[]}
+				metrics['totalUniqueHosts'].add(host)
+
+			if bug['status'] in ['RESOLVED', 'CLOSED', 'VERIFIED'] :
+				masterBugTable['hostIndex'][host]['resolved'].append(bug['id'])
+			else :
+				masterBugTable['hostIndex'][host]['open'].append(bug['id'])
+				metrics['allOpenBugsForAllLists'].add(bug['id'])
+				metrics['hostsWithOpenBugs'].add(host)
+			# Done looking at bug status, updating structures and calculating metrics
+		# Done processing each host mentioned for this bug
+	# Done processing all bugs in the data dump, one at a time
+
+	# Calculate metrics
+	masterBugTable['metrics'] = {"numOpenBugs":len(metrics['allOpenBugsForAllLists']), "numHosts":len(metrics['totalUniqueHosts']), "numHostsWithOpenBugs":len(metrics['hostsWithOpenBugs'])}
+	# Write a JS(ON) file
+	print 'Writing '+outputfn+'.js'
+	f = open('./data/bugzilla/'+outputfn+'.js', 'w')
+	f.write('/* This file is generated by preproc/buildlists.py - do not edit */\nvar masterBugTable = '+json.dumps(masterBugTable, indent=2, cls=SetEncoder))
 	f.close()
-# Calculate metrics
-alloutput['metrics'] = {"numOpenBugs":len(metrics['allOpenBugsForAllLists']), "numHosts":len(metrics['totalUniqueHosts']), "numHostsWithOpenBugs":len(metrics['hostsWithOpenBugs'])}
+	return;
 
+	print "Content-type: text/html"
+	print
+	print "<html><head>"
+	print "<title>Hello World from Python</title>"
+	print "</head><body>"
+	print "Standard Hello World from a Python CGI Script"
+	print "</body></html>"
 
-# End of for file in directory loop
-# Make a big file with all the information we found - depending on its size, it might be
-# better to load this than to load each site.json file independently
+def hostsFromText(text):
+	#  We need to extract any hosts names mentioned in
+	#    a) URL field
+	#    b) Summary
+	#    c) Alias words from aliases.json (i.e. "Hotmail" in summary -> file under live.com)
+	#  Also, we want domain names without subdomains (no www. or m. prefixes, for example)
+	#  This is a generic method to extract one or more domain names from a text string - the argument can be a URL or some text with a host name mentioned
+	text = text.strip().lower()
+	hosts = []
+	text = re.split('\s', text)
+	for word in text :
+		word = word.strip('.()!?,[]') # make sure we don't assume a random 'foo.' is a domain due to a sentence-delimiting dot in summary.. Also removing some other characters that might be adjacent..
+		if '.' in word: # now go on to assume the first white-space separated string that contains at least one internal period is a domain name
+			hosts.append(word)
+		else : #
+			for hostname in aliases :
+				if aliases[hostname] in word :
+					#print ('alias match '+hostname+' in '+word+' '+' '.join(text))
+					hosts.append(hostname)
+	# now we've listed any words/character sequences that contain internal dots.
+	# However, we do not want www. or m. or similar prefixes, so we'll run through the list and use
+	# tldextract to remove those
+	uniquehosts = set()
+	for hostname in hosts :
+		parts = tldextract.extract(hostname)
+		if re.search(conf['weWantSubdomainsFor'], hostname, re.I) and not re.search('^www', parts[0]) :
+			hostname = '.'.join( parts[0:3])
+		else :
+			hostname = '.'.join( parts[1:3])
 
-#TODO: consider moving this into the "for file in directory" loop, meaning we write one "allbugs.json" file
-# per list of sites. This may be a good compromise between loading tons of small files and one very large,
-# however requires some special handling right before the continue in lin 31 (if os.path.exists condition)
-# or some per-list files will be missing data
-f = open('../data/masterbugtable.js', 'w')
-f.write('/* This file is generated by preproc/buildlists.py - do not edit */\nvar masterBugTable = '+json.dumps(alloutput, indent=2))
-f.close()
+		uniquehosts.add(hostname)
 
-#		quit()
+	# That's it! (We hope..)
+	return uniquehosts
 
+if __name__ == "__main__":
+    main()
