@@ -37,19 +37,11 @@ function fillTables() {
 	row.appendChild(document.createElement('th')).appendChild(document.createTextNode('Number of sites'));
 	row.appendChild(document.createElement('th')).appendChild(document.createTextNode('Status'));
 	row.lastChild.width="70%";
-	for(var listnum=0, list, listurl; list=topLists[listnum]; listnum++){
-		row = table.appendChild(document.createElement('tr'));
-		row.id='row-'+list.id;
-		a = row.appendChild(document.createElement('th')).appendChild(document.createElement('a'));
-		a.appendChild(document.createTextNode(list.name));
-		a.href = '#list:'+list.id+'-details';
-		row.appendChild(document.createElement('td'));
-		row.appendChild(document.createElement('td'));
-		row = table.appendChild(document.createElement('tr'));
-		row.id = 'list:'+list.id+'-details';
-		row.className = 'list-details-row';
-		row.appendChild(document.createElement('td')).setAttribute('colspan', 4);
-		listurl = list.url;
+	for(var listnum=0, list; list=topLists[listnum]; listnum++){
+		// constructListRows(table, list)
+		constructListRows(table, list)
+		// end constructListRows()
+		
 		var data = masterBugTable.lists[list.id].data;
 		var id=list.id, tr = document.getElementById('row-'+id), ccTLD = masterBugTable.lists[list.id].ccTLD;
 		// one round purely for Alexa-related metrics, before we mix in the non-Alexa domains..
@@ -69,83 +61,8 @@ function fillTables() {
 			}
 		}
 		tr.getElementsByTagName('td')[0].textContent = data.length+' sites. ';
-		var todos = [], timedata = [];
-		//window.masterBugTable['lists'][id] = {data: data };
-		// now we have enough data to calculate numbers, severities etc.
-		var openBugIds=[], resolvedBugIds=[], contactedBugIds=[];
-		var openBugCount=0, resolvedBugCount=0, contactedBugCount=0, hasHighPriIssue = false;
-		for(var i = 0, site; site = data[i]; i++){
-			if( ! masterBugTable.hostIndex[site] ){
-				continue;
-			}else if(shouldExcludeUSSite(id, site)){
-				// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
-				// So let's skip sites
-				continue;
-			}
-			for(var j=0, bugnum, bug; bugnum=masterBugTable.hostIndex[site].open[j]; j++){//console.log(bug.summary+' '+bug.whiteboard)
-				bug = masterBugTable.bugs[bugnum];
-				bug.whiteboard = bug.whiteboard||'';
-				if(bug.summary.indexOf('[meta]')>-1)continue;
-				if(bug.creation_time)timedata.push( [new Date(bug.creation_time), 1, 0, bug.id+' ☐'] ); // "date object", "change to open count", "change to resolved count"
-				if(bug.whiteboard.indexOf('[sitewait]')>-1){
-					contactedBugIds.push(bug.id);
-					contactedBugCount++;
-				}else{
-					openBugIds.push(bug.id);
-					openBugCount++;
-				}
-				if(bug.priority && bug.priority in flagThesePris) hasHighPriIssue = true;
-				if(bug.status === 'NEW' && bug.whiteboard.indexOf('[contactready]')>-1){
-					todos.push( ['Contact '+site+' regarding "'+bug.summary+'"', bug.id, bug.priority] );
-				}else if(bug.status === 'UNCONFIRMED' || ( bug.whiteboard.indexOf('[contactready]')===-1 && bug.whiteboard.indexOf('[sitewait]')===-1)){
-					todos.push( ['Analyze "'+bug.summary+'" problem on '+site, bug.id, bug.priority] );
-				}
-			}
-			for(var j=0, bug; bug=masterBugTable.hostIndex[site].resolved[j]; j++){
-				bug = masterBugTable.bugs[bug];
-				if(bug['cf_last_resolved'] && ( bug.status in resolvedStates)){
-					// Firefox's date parser really likes that T between date and time..
-					timedata.push( [new Date((bug['cf_last_resolved']).replace(/\s/, 'T')), -1, 1, bug.id+' ☑'] );
-					resolvedBugCount++;
-					resolvedBugIds.push(bug.id);
-				}
-			}
-		}
-
-		if(openBugCount + contactedBugCount +  resolvedBugCount > 0){
-			var d = tr.getElementsByTagName('td')[1].appendChild(document.createElement('div'));
-			d.className = 'list-status-graph';
-			[[resolvedBugIds, 'resolved'], [contactedBugIds, 'contacted'], [openBugIds, 'open']].forEach(function(details){
-				if(details[0].length===0)return;
-				var d2;
-				(d2=d.appendChild(document.createElement('a'))).appendChild(document.createTextNode(details[0].length+' '+details[1]));
-				d2.className = details[1];
-				d2.style.width = (parseInt((details[0].length / (openBugCount+contactedBugCount+resolvedBugCount))*100)) + '%';
-				d2.href = bz_list_specific_bug+ details[0].join(',');
-			});
-		}
-		window.masterBugTable['lists'][list.id].timedata = timedata;
-		window.masterBugTable['lists'][list.id].counts = {open:openBugCount+contactedBugCount, resolved:resolvedBugCount};
-		if(hasHighPriIssue){
-			tr.classList.add('major-issue');
-		}else if(openBugCount>0){
-			tr.classList.add('minor-issue');
-		}
-		if(todos.length>0){ // will this ever be false? :-p
-			(function(todos){
-			var d = tr.getElementsByTagName('td')[1].appendChild(document.createElement('div'));
-			d.className = 'todo';
-			d.appendChild(document.createElement('a')).href = bz_show_bug+todos[0][1];
-			d.firstChild.appendChild(document.createTextNode(todos[0][0]));
-			d.appendChild(document.createElement('hr'));
-			var b = d.appendChild(document.createElement('button'));
-			b.appendChild(document.createTextNode('<<'));
-			b.onclick = function(){updateTodoRow(d, todos, -1)};
-			var b = d.appendChild(document.createElement('button'));
-			b.appendChild(document.createTextNode('>>'));
-			b.onclick = function(){updateTodoRow(d, todos, 1)};})(todos);
-		}
-		if(location.hash && location.hash.indexOf(list.id)>-1)showListDetails(location.hash.substr(1));
+		calculateListDetails(tr, list, true)
+		if(location.hash && location.hash.indexOf(list.id)>-1)showListDetails(location.hash.substr(1), true);
 	} // end of toplist loop
 	if(masterBugTable.metrics){
 		var numUniqueAlexaHosts = Object.keys(alexaListsUniqueHosts).length;
@@ -173,7 +90,7 @@ function fillTables() {
 }
 window.onhashchange = function(e){
 	var newHash = e.newURL.substr(e.newURL.indexOf('#')+1);
-	showListDetails(newHash);
+	showListDetails(newHash, true);
 	// removing and adding lots of content in document from hashchange event tends to mess up "scroll to #hash" logic in browsers
 	// let's fix that again with a little help from jQuery..
 	setTimeout(function(){
@@ -242,6 +159,7 @@ function regressionTable(){
 
 	if(shifts.length){
 		for(var i=0, a; i<shifts.length; i++){
+			if(shifts[i].type!='regr')continue; // only list regressions.. for now.
 			bug = shifts[i].bug;
 			tr = tb.appendChild(document.createElement('tr'));
 			tr.classList.add(shifts[i].type);
@@ -254,7 +172,7 @@ function regressionTable(){
 
 }
 
-function showListDetails(newHash){
+function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 	$('.active').removeClass('active');
 	var detailsrow = document.getElementById(newHash);
 	var list = newHash.substring(5, newHash.length-8);
@@ -265,8 +183,10 @@ function showListDetails(newHash){
 		table.className = 'list-details-subtable';
 		table = table.appendChild(document.createElement('tbody'));
 		masterBugTable.lists[list].data.forEach(function(host, index){
-			if( !masterBugTable.hostIndex[host] || ( masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length === 0))return; // List only the hosts with active issues
-			if(shouldExcludeUSSite(list, host)){
+			if(! showSitesWithoutBugs){
+				if( !masterBugTable.hostIndex[host] || ( masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length === 0))return; // List only the hosts with active issues
+			}
+			if(excludeUS && shouldExcludeUSSite(list, host)){
 				// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
 				// So let's skip certain sites..
 				return;
@@ -275,40 +195,46 @@ function showListDetails(newHash){
 			tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(host));
 			tr.appendChild(document.createElement('td'));
 //			paper.text(50, (index*32)+50, host);
-			if(masterBugTable.hostIndex[host])masterBugTable.hostIndex[host].open.forEach(function(bug, bindex){
-				bug = masterBugTable.bugs[bug];
-				var a = tr.lastChild.appendChild(document.createElement('a'));
-				var resolved = bug.status in resolvedStates;
-				a.href=bz_show_bug+bug.id;
-				a.textContent = bug.id;
-				a.title = bug['summary'];
-				if(bug['priority'] in flagThesePris)a.className = 'major-issue';
-				if(testResults[bug.id]){
-					// We have some automated test results for this bug
-					a.parentNode.appendChild(document.createElement('span')).appendChild(document.createTextNode(' - test results: '));
-					testResults[bug.id].forEach(function(value, index){
-						// indexes: 0 bug number, 1 date, 2 UA string, 3 status
-						var span = $("<span>");
-						span.addClass("testres");
-						span.title = "Tested on "+value[1];
-						span.append("\u25AA"); // black square
-						if( value[3] === "true" ){
-							span.addClass("pass");
+			if(masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length){
+				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
+				bugtable.className = 'nested-bug-table';
+				masterBugTable.hostIndex[host].open.forEach(function(bug, bindex){
+					bug = masterBugTable.bugs[bug];
+					var bugrow = bugtable.appendChild(document.createElement('tr'));
+					bugrow.appendChild(document.createElement('td'));
+					var a = bugrow.lastChild.appendChild(document.createElement('a'));
+					var resolved = bug.status in resolvedStates; // always false here..
+					a.href=bz_show_bug+bug.id;
+					a.textContent = bug.id;
+					bugrow.appendChild(document.createElement('td'));
+					var a = bugrow.lastChild.appendChild(document.createElement('a'));
+					a.href=bz_show_bug+bug.id;
+					a.textContent = bug.summary;
+					a.title = bug['summary'];
+					if(bug['priority'] in flagThesePris)a.className = 'major-issue';
+					bugrow.appendChild(document.createElement('td'));
+					if(testResults[bug.id]){
+						// We have some automated test results for this bug
+						var lastResult = testResults[bug.id][0];
+						var testresultspan = bugrow.lastChild.appendChild(document.createElement('span'));
+						testresultspan.classList.add('testres');
+						testresultspan.appendChild(document.createTextNode('Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
+						testresultspan.appendChild(document.createElement('strong')).appendChild(document.createTextNode('\u25AA '+(lastResult[3] === 'true'?'pass' : lastResult[3]==='false'? 'fail':lastResult[3])));
+						if( lastResult[3] === "true" ){
+							testresultspan.classList.add("pass");
 							if(!resolved){
-								span.addClass("needs-attention");
+								testresultspan.classList.add("needs-attention");
 							}
-						}
-						else{
-							span.addClass("fail");
+						}else{
+							testresultspan.classList.add("fail");
 							if(resolved){
-								span.addClass("needs-attention");
+								testresultspan.classList.add("needs-attention");
 							}
 						}
-						a.nextSibling.appendChild(span[0]);
-					});
-				}
-				tr.lastChild.appendChild(document.createTextNode(' '));
-			});
+					}
+					//tr.lastChild.appendChild(document.createTextNode(' '));
+				});
+			}
 		});
 		var timedata = masterBugTable.lists[list].timedata, openBugCount = masterBugTable.lists[list].counts.open, resolvedBugCount=masterBugTable.lists[list].counts.resolved;
 		timedata.sort( function(a,b){ if((+a[0])>(+b[0]))return 1; return -1; } ); // sort chronologically descending (most recent first)
@@ -322,29 +248,31 @@ function showListDetails(newHash){
 		};
 		var maxChartValue = 0;
 		if(timedata.length > 0){
-			for(var i=timedata.length-1; i>0; i--){
+			for(var i=timedata.length-1; i>=0; i--){
 				if(timedata[i][0].getTime()<treshold && chartdata.datasets[0].data.length>=16)break;
 				chartdata.labels.unshift(timedata[i][3]+' '+timedata[i][0].getFullYear()+'-'+(timedata[i][0].getMonth()+1)+'-'+timedata[i][0].getDate());
-				openBugCount -= timedata[i][1];
-				resolvedBugCount -= timedata[i][2];
 				chartdata.datasets[0].data.unshift(resolvedBugCount); // green is dataset 0
 				chartdata.datasets[1].data.unshift(openBugCount); // red is dataset 1
+				openBugCount -= timedata[i][1];
+				resolvedBugCount -= timedata[i][2];
 				if(Math.max(resolvedBugCount, openBugCount)>maxChartValue) maxChartValue = Math.max(resolvedBugCount, openBugCount);
 			}
 		}
 		// If trawling timedata didn't yield at least two data points, no graphs will be drawn. This looks silly. Let's make sure we have at least two numbers..
 		while(chartdata.datasets[0].data.length < 2){
-				chartdata.datasets[0].data.push(resolvedBugCount); // green is dataset 0
-				chartdata.datasets[1].data.push(openBugCount); // red is dataset 1
+				chartdata.datasets[0].data.push(chartdata.datasets[0].data[0]||0); // green is dataset 0
+				chartdata.datasets[1].data.push(chartdata.datasets[1].data[0]||0); // red is dataset 1
 				chartdata.labels.push('');
 		}
-		var scaleStepWidth = Math.ceil(maxChartValue/10);
+		
+		var scaleStepWidth = maxChartValue > 9 ? Math.ceil(maxChartValue/10) : 1;
+		var scaleSteps = Math.min(10, maxChartValue||1);
 		var div = td.appendChild(document.createElement('div'));
 		div.className = 'chart-canvas-parent';
 		var canvas = div.appendChild(document.createElement('canvas'));
 		// Here's an ugly hack.. Chart apparently requires canvas.width to be set. We're still display:none though, so we have to grab the width of the ancestor table..
 		canvas.width = div.parentNode.parentNode.parentNode.offsetWidth; canvas.height = 200;
-		new Chart(canvas.getContext('2d')).Line(chartdata, {scaleShowLabels:true, scaleOverlay:true, bezierCurve: true, scaleLabel:'<%=value%> bugs', scaleOverride:true, scaleStartValue:0,  scaleSteps:10, scaleStepWidth:scaleStepWidth});
+		new Chart(canvas.getContext('2d')).Line(chartdata, {scaleShowLabels:true, scaleOverlay:true, bezierCurve: true, scaleLabel:'<%=value%> bugs', scaleOverride:true, scaleStartValue:0,  scaleSteps:scaleSteps, scaleStepWidth:scaleStepWidth});
 	}
 
 	detailsrow.classList.add('active');
@@ -378,40 +306,177 @@ function listMissingTestBugs(onlyOpenBugs){
 function quickSearchInit(){
     var p = document.getElementById('metrics').appendChild(document.createElement('p'));
     var qs = p.appendChild(document.createElement('input'));
-    qs.placeholder = 'Type domain name..';
+    qs.placeholder = 'Type domain name or *.pattern..';
+		qs.style.minWidth = '250px';
     var dl = p.appendChild(document.createElement('datalist'));
     dl.id = qs.list = 'datalist-hostnames';
     qs.setAttribute('list', 'datalist-hostnames');
     for(var host in masterBugTable.hostIndex){
         dl.appendChild(document.createElement('option')).value = host;
     }
-
-    function addDomainDetails(domain){
-        if(domain === '' || masterBugTable.hostIndex[domain] ){
-            if(p.getElementsByTagName('table').length){
-                p.removeChild(p.getElementsByTagName('table')[0]);
-            }
-        }
-        if(  ! masterBugTable.hostIndex[domain] )return;
-        masterBugTable.lists.tmp = {counts:{}, data:[domain], timedata:[]}
-        var listMemberships = [];
-        for(var list in masterBugTable.lists){
-            if(masterBugTable.lists[list].data.indexOf(domain)>-1){
-                listMemberships.push( '#'+(masterBugTable.lists[list].data.indexOf(domain)+1)+' in '+list );
-            }
-        }
+		var delay; // Make sure there is a small delay after typing, to avoid queueing up too much work
+		function uniQueue(){
+			if(delay)clearTimeout(delay);
+			delay = setTimeout(addDomainDetails, 500);
+		}
+    function addDomainDetails(){
+				var domain = qs.value;
+				var data=[];
+				if(p.getElementsByTagName('table').length){
+						p.removeChild(p.getElementsByTagName('table')[0]);
+				}
+				if(domain === '')return;
+				if(masterBugTable.hostIndex[domain]){
+					data.push(domain);
+				}else{
+					var domains = Object.keys(masterBugTable.hostIndex);
+					if(domain.indexOf('*')>-1){ // wildcard matching
+						var pattern ='^'+domain.replace(/\./g, '\\.').replace(/\*/g, '.*')+'$';
+						var rx = new RegExp(pattern);
+						for(var i=0; i<domains.length; i++){
+							if(rx.test(domains[i]))data.push(domains[i]);
+						}
+					}else if(domain !== ''){ // substr matching
+						for(var i=0; i<domains.length; i++){
+							if(domains[i].indexOf(domain)>-1)data.push(domains[i]);
+						}
+					}
+				}
+        masterBugTable.lists.custom = {id:'custom', name:'Custom list: '+domain,counts:{}, data:data, timedata:[]}
         var t = p.appendChild(document.createElement('table'));
         t.className = 'single-domain-detail-table';
-        t.appendChild(document.createElement('tr')).id='list:tmp-details';
-        showListDetails('list:tmp-details');
-        return;
-        var buglinks = {open:[], resolved:[]};
-        for(state in buglinks){
-            for(var i = 0, bug; bug = masterBugTable.hostIndex[domain][state][i]; i++){
-                buglinks[state].push('<a href="' + bz_show_bug+bug+'">'+bug+': '+masterBugTable.bugs[bug].summary+'</a>');
-            }
-        }
-        t.innerHTML = '<tr><th>'+domain+'</th><th>Open bugs</th><th>Closed bugs</th></tr><tr><td>'+(listMemberships.length? listMemberships.join(', ') : 'Not in lists')+'</td><td valign="top"><h1>'+masterBugTable.hostIndex[domain].open.length+'</h1><ul><li>'+buglinks.open.join('<li>')+'</li></ul></td><td valign="top"><h1>'+masterBugTable.hostIndex[domain].resolved.length+'</h1>'+buglinks.resolved.join('<br>')+'</td></tr>';
+				constructListRows(t, masterBugTable.lists.custom);
+				t.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].textContent = data.length+' sites. ';
+				calculateListDetails(document.getElementById('row-custom'), masterBugTable.lists.custom, false);
+        showListDetails('list:custom-details', false, true);
     }
-    qs.addEventListener('input', function(e){ addDomainDetails(e.target.value); }, false);
+    qs.addEventListener('input', function(e){ uniQueue(); }, false);
+}
+
+function constructListRows(table, list){
+		var row = table.appendChild(document.createElement('tr'));
+		row.id='row-'+list.id;
+		var a = row.appendChild(document.createElement('th')).appendChild(document.createElement('a'));
+		a.appendChild(document.createTextNode(list.name));
+		a.href = '#list:'+list.id+'-details';
+		row.appendChild(document.createElement('td'));
+		row.appendChild(document.createElement('td'));
+		row = table.appendChild(document.createElement('tr'));
+		row.id = 'list:'+list.id+'-details';
+		row.className = 'list-details-row';
+		row.appendChild(document.createElement('td')).setAttribute('colspan', 4);
+}
+
+function calculateListDetails(tr, list, excludeUS){
+		var todos = [], timedata = [];
+		// now we have enough data to calculate numbers, severities etc.
+		var openBugIds=[], resolvedBugIds=[], contactedBugIds=[];
+		var openBugCount=0, resolvedBugCount=0, contactedBugCount=0, hasHighPriIssue = false;
+		var data = masterBugTable.lists[list.id].data;
+		for(var i = 0, site; site = data[i]; i++){
+			if( ! masterBugTable.hostIndex[site] ){
+				continue;
+			}else if(excludeUS){
+				if(shouldExcludeUSSite(list.id, site)){
+					// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
+					// So let's skip sites
+					continue;
+				}
+			}
+			for(var j=0, bugnum, bug; bugnum=masterBugTable.hostIndex[site].open[j]; j++){//console.log(bug.summary+' '+bug.whiteboard)
+				bug = masterBugTable.bugs[bugnum];
+				bug.whiteboard = bug.whiteboard||'';
+				if(bug.summary.indexOf('[meta]')>-1)continue;
+				if(bug.creation_time)timedata.push( [new Date(bug.creation_time), 1, 0, bug.id+' ☐'] ); // "date object", "change to open count", "change to resolved count"
+				if(bug.whiteboard.indexOf('[sitewait]')>-1){
+					contactedBugIds.push(bug.id);
+					contactedBugCount++;
+				}else{
+					openBugIds.push(bug.id);
+					openBugCount++;
+				}
+				if(bug.priority && bug.priority in flagThesePris) hasHighPriIssue = true;
+				if(bug.status === 'NEW' && bug.whiteboard.indexOf('[contactready]')>-1){
+					todos.push( ['Contact '+site+' regarding "'+bug.summary+'"', bug.id, bug.priority] );
+				}else if(bug.status === 'UNCONFIRMED' || ( bug.whiteboard.indexOf('[contactready]')===-1 && bug.whiteboard.indexOf('[sitewait]')===-1)){
+					todos.push( ['Analyze "'+bug.summary+'" problem on '+site, bug.id, bug.priority] );
+				}
+			}
+			for(var j=0, bug; bug=masterBugTable.hostIndex[site].resolved[j]; j++){
+				bug = masterBugTable.bugs[bug];
+				if(bug['cf_last_resolved'] && ( bug.status in resolvedStates)){
+					// Firefox's date parser really likes that T between date and time..
+					timedata.push( [new Date((bug['cf_last_resolved']).replace(/\s/, 'T')), -1, 1, bug.id+' ☑'] );
+					resolvedBugCount++;
+					resolvedBugIds.push(bug.id);
+				}
+			}
+		}
+
+		if(openBugCount + contactedBugCount +  resolvedBugCount > 0){
+			var d = tr.getElementsByTagName('td')[1].appendChild(document.createElement('div'));
+			d.className = 'list-status-graph';
+			[[resolvedBugIds, 'resolved'], [contactedBugIds, 'contacted'], [openBugIds, 'open']].forEach(function(details){
+				if(details[0].length===0)return;
+				var d2;
+				(d2=d.appendChild(document.createElement('a'))).appendChild(document.createTextNode(details[0].length+' '+details[1]));
+				d2.className = details[1];
+				d2.style.width = (parseInt((details[0].length / (openBugCount+contactedBugCount+resolvedBugCount))*100)) + '%';
+				d2.href = bz_list_specific_bug+ details[0].join(',');
+			});
+		}
+		window.masterBugTable['lists'][list.id].timedata = timedata;
+		window.masterBugTable['lists'][list.id].counts = {open:openBugCount+contactedBugCount, resolved:resolvedBugCount};
+		if(hasHighPriIssue){
+			tr.classList.add('major-issue');
+		}else if(openBugCount>0){
+			tr.classList.add('minor-issue');
+		}
+		if(todos.length>0){ // will this ever be false? :-p
+			(function(todos){
+			var d = tr.getElementsByTagName('td')[1].appendChild(document.createElement('div'));
+			d.className = 'todo';
+			d.appendChild(document.createElement('a')).href = bz_show_bug+todos[0][1];
+			d.firstChild.appendChild(document.createTextNode(todos[0][0]));
+			d.appendChild(document.createElement('hr'));
+			var b = d.appendChild(document.createElement('button'));
+			b.appendChild(document.createTextNode('<<'));
+			b.onclick = function(){updateTodoRow(d, todos, -1)};
+			var b = d.appendChild(document.createElement('button'));
+			b.appendChild(document.createTextNode('>>'));
+			b.onclick = function(){updateTodoRow(d, todos, 1)};})(todos);
+		}
+	
+}
+
+function millisecondsToStr (milliseconds) {
+    // TIP: to find current time in milliseconds, use:
+    // var  current_time_milliseconds = new Date().getTime();
+
+    function numberEnding (number) { //todo: replace with a wiser code
+        return (number > 1) ? 's' : '';
+    }
+
+    var temp = milliseconds / 1000;
+    var years = Math.floor(temp / 31536000);
+    if (years) {
+        return years + ' year' + numberEnding(years);
+    }
+    var days = Math.floor((temp %= 31536000) / 86400);
+    if (days) {
+        return days + ' day' + numberEnding(days);
+    }
+    var hours = Math.floor((temp %= 86400) / 3600);
+    if (hours) {
+        return hours + ' hour' + numberEnding(hours);
+    }
+    var minutes = Math.floor((temp %= 3600) / 60);
+    if (minutes) {
+        return minutes + ' minute' + numberEnding(minutes);
+    }
+    var seconds = temp % 60;
+    if (seconds) {
+        return seconds + ' second' + numberEnding(seconds);
+    }
+    return 'now'; //'just now' //or other string you like;
 }
