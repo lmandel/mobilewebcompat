@@ -1,0 +1,6 @@
+DirectoryIndex timeline.html
+
+<Files ".git">
+Order Allow,Deny
+Deny from all
+</Files>
