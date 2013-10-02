@@ -82,8 +82,9 @@ function retrieveTestResults(indexData, done1, done2){
 	// and we want only the newest 4-5 results for any bug
 	// TODO: it would be cool to build on this to find "interesting" points (date of fix, date of apparent regression etc.)
 	// and load per-bug data in a more sophisticated way, probably from a proper database..
-	var filesToLoad = {}, loadCounter=0;
-	for(var i=indexData.length-1;i>=0 && i>indexData.length-6; i--){
+	var filesToLoad = {}, loadCounter=0, numFilesToLoad = 1;
+        indexData = indexData.slice(-numFilesToLoad);
+	for(var i=indexData.length-1;i>=0; i--){
 		filesToLoad[indexData[i]]=1;
 		$.ajax({
 			url: "./data/testing/"+indexData[i],
