@@ -41,7 +41,7 @@ function fillTables() {
 		// constructListRows(table, list)
 		constructListRows(table, list)
 		// end constructListRows()
-		
+
 		var data = masterBugTable.lists[list.id].data;
 		var id=list.id, tr = document.getElementById('row-'+id), ccTLD = masterBugTable.lists[list.id].ccTLD;
 		// one round purely for Alexa-related metrics, before we mix in the non-Alexa domains..
@@ -86,7 +86,6 @@ function fillTables() {
 		m.appendChild(document.createTextNode(' tests fail'))*/
                 quickSearchInit();
 	}
-
 }
 window.onhashchange = function(e){
 	var newHash = e.newURL.substr(e.newURL.indexOf('#')+1);
@@ -264,7 +263,7 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 				chartdata.datasets[1].data.push(chartdata.datasets[1].data[0]||0); // red is dataset 1
 				chartdata.labels.push('');
 		}
-		
+
 		var scaleStepWidth = maxChartValue > 9 ? Math.ceil(maxChartValue/10) : 1;
 		var scaleSteps = Math.min(10, maxChartValue||1);
 		var div = td.appendChild(document.createElement('div'));
@@ -349,8 +348,15 @@ function quickSearchInit(){
 				t.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].textContent = data.length+' sites. ';
 				calculateListDetails(document.getElementById('row-custom'), masterBugTable.lists.custom, false);
         showListDetails('list:custom-details', false, true);
+        location.hash = '#list:custom-details:'+domain;
     }
     qs.addEventListener('input', function(e){ uniQueue(); }, false);
+    // support custom list in hash
+    if(location.hash && location.hash.indexOf('list:custom-details:')>-1){
+        var searchFromHash = location.hash.substr(21);
+        qs.value = searchFromHash;
+        uniQueue();
+    }
 }
 
 function constructListRows(table, list){
@@ -446,7 +452,7 @@ function calculateListDetails(tr, list, excludeUS){
 			b.appendChild(document.createTextNode('>>'));
 			b.onclick = function(){updateTodoRow(d, todos, 1)};})(todos);
 		}
-	
+
 }
 
 function millisecondsToStr (milliseconds) {
