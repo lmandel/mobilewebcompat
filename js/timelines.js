@@ -89,7 +89,7 @@ function fillTables() {
 }
 window.onhashchange = function(e){
 	var newHash = e.newURL.substr(e.newURL.indexOf('#')+1);
-	if(newHash.indexOf('list:custom-details')===-1)showListDetails(newHash, true); // custom list hash will be handled in quickSearchInit()
+	if(newHash.indexOf('list:custom')===-1)showListDetails(newHash, true); // custom list hash will be handled in quickSearchInit()
 	// removing and adding lots of content in document from hashchange event tends to mess up "scroll to #hash" logic in browsers
 	// let's fix that again with a little help from jQuery..
 	setTimeout(function(){
@@ -353,7 +353,7 @@ function quickSearchInit(){
     qs.addEventListener('input', function(e){ uniQueue(); }, false);
     // support custom list in hash
     if(location.hash && location.hash.indexOf('list:custom:')>-1){
-        var searchFromHash = location.hash.substr(21);
+        var searchFromHash = location.hash.substr(13);
         qs.value = searchFromHash;
         uniQueue();
     }
