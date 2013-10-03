@@ -174,7 +174,7 @@ function regressionTable(){
 function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 	$('.active').removeClass('active');
 	var detailsrow = document.getElementById(newHash);
-	var list = newHash.substring(5, newHash.length-8);
+	var list = newHash.substring(5);
 	if(!detailsrow)throw 'Details TR not found for '+newHash;
 	if(!detailsrow.firstChild.hasChildNodes()){
 		var td = detailsrow.firstChild;
@@ -347,12 +347,12 @@ function quickSearchInit(){
 				constructListRows(t, masterBugTable.lists.custom);
 				t.getElementsByTagName('tr')[0].getElementsByTagName('td')[0].textContent = data.length+' sites. ';
 				calculateListDetails(document.getElementById('row-custom'), masterBugTable.lists.custom, false);
-        showListDetails('list:custom-details', false, true);
-        location.hash = '#list:custom-details:'+domain;
+        showListDetails('list:custom', false, true);
+        location.hash = '#list:custom:'+domain;
     }
     qs.addEventListener('input', function(e){ uniQueue(); }, false);
     // support custom list in hash
-    if(location.hash && location.hash.indexOf('list:custom-details:')>-1){
+    if(location.hash && location.hash.indexOf('list:custom:')>-1){
         var searchFromHash = location.hash.substr(21);
         qs.value = searchFromHash;
         uniQueue();
@@ -364,11 +364,11 @@ function constructListRows(table, list){
 		row.id='row-'+list.id;
 		var a = row.appendChild(document.createElement('th')).appendChild(document.createElement('a'));
 		a.appendChild(document.createTextNode(list.name));
-		a.href = '#list:'+list.id+'-details';
+		a.href = '#list:'+list.id;
 		row.appendChild(document.createElement('td'));
 		row.appendChild(document.createElement('td'));
 		row = table.appendChild(document.createElement('tr'));
-		row.id = 'list:'+list.id+'-details';
+		row.id = 'list:'+list.id;
 		row.className = 'list-details-row';
 		row.appendChild(document.createElement('td')).setAttribute('colspan', 4);
 }
