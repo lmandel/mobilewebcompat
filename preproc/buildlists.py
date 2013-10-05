@@ -36,7 +36,7 @@ def main():
 	req = urllib2.Request(urltemplate)
 	req.add_header('Accept', 'application/json')
 #	req.add_header('User-agent', 'Mozilla/5.0 (Windows NT 5.1; rv:27.0) Gecko/20100101 Firefox/27.0')
-	if 0 : # get data from bugzilla (slow..)
+	if 1 : # get data from bugzilla (slow..)
 		bzresponse = urllib2.urlopen(req, timeout=240)
 		bzdata = bzresponse.read()
 		bzdataobj = json.loads(bzdata)
