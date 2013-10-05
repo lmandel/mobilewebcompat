@@ -402,9 +402,16 @@ function calculateListDetails(tr, list, excludeUS){
 					openBugCount++;
 				}
 				if(bug.priority && bug.priority in flagThesePris) hasHighPriIssue = true;
+				// We don't want bugs with a needinfo in the Todos - this todo should probably be handled by the needinfo "target"
+				var hasNeedInfoFlag = false;
+				if(bug.flags){
+					bug.flags.forEach(function(flag){
+						if(flag.name === 'needinfo') hasNeedInfoFlag = true;
+					});
+				}
 				if(bug.status === 'NEW' && bug.whiteboard.indexOf('[contactready]')>-1){
 					todos.push( ['Contact '+site+' regarding "'+bug.summary+'"', bug.id, bug.priority] );
-				}else if(bug.status === 'UNCONFIRMED' || ( bug.whiteboard.indexOf('[contactready]')===-1 && bug.whiteboard.indexOf('[sitewait]')===-1)){
+				}else if((bug.status === 'UNCONFIRMED' || ( bug.whiteboard.indexOf('[contactready]')===-1 && bug.whiteboard.indexOf('[sitewait]')===-1)) && ! hasNeedInfoFlag ){
 					todos.push( ['Analyze "'+bug.summary+'" problem on '+site, bug.id, bug.priority] );
 				}
 			}
