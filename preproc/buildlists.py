@@ -4,7 +4,7 @@ from pprint import pprint
 from urlparse import urlparse
 
 import socket
-socket.setdefaulttimeout(400) # Seconds. Loading Bugzilla searches can be slow
+socket.setdefaulttimeout(240) # Seconds. Loading Bugzilla searches can be slow
 
 if os.path.exists('/home/hallvors/lib'): # custom path for tldextract module on hallvord.com host.
     sys.path.insert(1, '/home/hallvors/lib/tldextract-1.2-py2.6.egg') # TODO: remove or fix this for people.mozilla :)
@@ -36,8 +36,8 @@ def main():
 	req = urllib2.Request(urltemplate)
 	req.add_header('Accept', 'application/json')
 #	req.add_header('User-agent', 'Mozilla/5.0 (Windows NT 5.1; rv:27.0) Gecko/20100101 Firefox/27.0')
-	if 1 : # get data from bugzilla (slow..)
-		bzresponse = urllib2.urlopen(req, None, 120)
+	if 0 : # get data from bugzilla (slow..)
+		bzresponse = urllib2.urlopen(req, timeout=240)
 		bzdata = bzresponse.read()
 		bzdataobj = json.loads(bzdata)
 		print 'Writing '+outputfn+'.json'
@@ -51,12 +51,11 @@ def main():
 		f.close()
 
 	masterBugTable = {'hostIndex':{}, 'bugs':{}, 'lists':{}}
-	for fn in glob.glob('../data/*.json'):
+	for fn in glob.glob('..' + os.sep +'data' + os.sep + '*.json'):
 		f = open(fn)
 		data = json.load(f)
-		match = re.search(r'/data/(.*)\.json$', fn, re.I)
-		if match :
-			listname = match.groups()[0]
+		listname = os.path.splitext(os.path.basename(fn))[0]		
+		if listname :
 			masterBugTable['lists'][listname] = data
 		f.close()
 
