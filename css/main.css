@@ -159,3 +159,10 @@ h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
 .list-details-subtable>tbody>tr>td{
 	border-bottom: 1px solid grey;
 }
+.sitelink{
+	float:right;
+	visibility:hidden;
+}
+td:hover>.sitelink{
+	visibility:visible;
+}
