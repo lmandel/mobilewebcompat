@@ -191,9 +191,12 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 				return;
 			}
 			var tr = table.appendChild(document.createElement('tr'));
-			tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(host));
+			tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(host+' '));
+                        var a = tr.lastChild.insertBefore(document.createElement('a'), tr.lastChild.firstChild);
+                        a.className = 'sitelink';
+                        a.href = 'http://'+host;
+                        a.textContent = '\u2192 ';
 			tr.appendChild(document.createElement('td'));
-//			paper.text(50, (index*32)+50, host);
 			if(masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length){
 				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
 				bugtable.className = 'nested-bug-table';
@@ -209,8 +212,8 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 					var a = bugrow.lastChild.appendChild(document.createElement('a'));
 					a.href=bz_show_bug+bug.id;
 					a.textContent = bug.summary;
-					a.title = bug['summary'];
-					if(bug['priority'] in flagThesePris)a.className = 'major-issue';
+					a.title = bug.summary;
+					if(bug.priority in flagThesePris)a.className = 'major-issue';
 					bugrow.appendChild(document.createElement('td'));
 					if(testResults[bug.id]){
 						// We have some automated test results for this bug

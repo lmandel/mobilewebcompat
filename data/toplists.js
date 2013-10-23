@@ -1,6 +1,6 @@
 var topLists =  [/* Order is important: US first, then Alexa-1000 */
 {
-	 "name": "US 50",
+	 "name": "U.S. 50",
 	 "url": "alexa50us.json",
 	 "id": "alexa50us"
 	},
@@ -15,47 +15,47 @@ var topLists =  [/* Order is important: US first, then Alexa-1000 */
 	 "id": "bdtopsites"
 	},
 	{
-	 "name": "BR 50",
+	 "name": "Brazil top 50",
 	 "url": "alexa50br.json",
 	 "id": "alexa50br"
 	},
 	{
-	 "name": "CA 50",
+	 "name": "Canada top 50",
 	 "url": "alexa50ca.json",
 	 "id": "alexa50ca"
 	},
 	{
-	 "name": "CN 50",
+	 "name": "China top 50",
 	 "url": "alexa50cn.json",
 	 "id": "alexa50cn"
 	},
 	{
-	 "name": "CO 50",
+	 "name": "Colombia top 50",
 	 "url": "alexa50co.json",
 	 "id": "alexa50co"
 	},
 	{
-	 "name": "DE 50",
+	 "name": "Germany top 50",
 	 "url": "alexa50de.json",
 	 "id": "alexa50de"
 	},
 	{
-	 "name": "ES 50",
+	 "name": "Spain top 50",
 	 "url": "alexa50es.json",
 	 "id": "alexa50es"
 	},
 	{
-	 "name": "FR 50",
+	 "name": "France top 50",
 	 "url": "alexa50fr.json",
 	 "id": "alexa50fr"
 	},
 	{
-	 "name": "IT 50",
+	 "name": "Italy top 50",
 	 "url": "alexa50it.json",
 	 "id": "alexa50it"
 	},
 	{
-	 "name": "JP 50",
+	 "name": "Japan top 50",
 	 "url": "alexa50jp.json",
 	 "id": "alexa50jp"
 	},
