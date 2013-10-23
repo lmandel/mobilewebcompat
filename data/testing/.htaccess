@@ -1,0 +1,8 @@
+AuthUserFile /home/hallvors/.htpasswd
+AuthName "Test data submission auth"
+AuthType Basic
+<Files "upload.php">
+  require user hsteen@mozilla.com
+</Files>
+# Cache any files here for a year!
+Header set Cache-Control "max-age=302400, public"
