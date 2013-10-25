@@ -1,6 +1,6 @@
-DirectoryIndex timeline.html
+<filesmatch "^(manifest|stackato)\.yml$">
+  order allow,deny
+  deny from all
+</filesmatch>
 
-<Files ".git">
-Order Allow,Deny
-Deny from all
-</Files>
+DirectoryIndex timeline.html
