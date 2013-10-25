@@ -196,6 +196,7 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
                         a.className = 'sitelink';
                         a.href = 'http://'+host;
                         a.textContent = '\u2192 ';
+                        a.title = host; // a11y - text content is not exactly descriptive for this link..
 			tr.appendChild(document.createElement('td'));
 			if(masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length){
 				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
