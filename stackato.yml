@@ -1,9 +1,10 @@
 name: arewecompatibleyet
 framework:
     type: php
-cron: 0	2,6,10,14,18,22	*	*	*	python preproc/buildlists.py
-ignore: .git
- url:
+cron:
+     - 0	2,6,10,14,18,22	*	*	*	/usr/bin/python $HOME/preproc/buildlists.py
+ignores: ["tmp", ".git"]
+url:
      - arewecompatibleyet.com.paas.allizom.org
      - arewecompatibleyet.com
      - www.arewecompatibleyet.com
