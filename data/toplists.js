@@ -93,4 +93,9 @@ var topLists =  [/* Order is important: US first, then Alexa-1000 */
 	 "name": "Mail",
 	 "url": "mail.json",
 	 "id": "mail"
+	},
+	{
+	 "name": "Top video sites",
+	 "url": "topvideosites.json",
+	 "id": "topvideosites"
 	}];
