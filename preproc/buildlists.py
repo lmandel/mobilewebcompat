@@ -30,7 +30,7 @@ f.close()
 
 
 def main():
-	urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&product=Tech%20Evangelism&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority,flags'
+	urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&product=Tech%20Evangelism&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority' # removed ",flags" to work around bugzilla bug..
 	outputfn = 'test-output'
 	pprint('Getting '+urltemplate)
 	req = urllib2.Request(urltemplate)
@@ -54,7 +54,7 @@ def main():
 	for fn in glob.glob('..' + os.sep +'data' + os.sep + '*.json'):
 		f = open(fn)
 		data = json.load(f)
-		listname = os.path.splitext(os.path.basename(fn))[0]		
+		listname = os.path.splitext(os.path.basename(fn))[0]
 		if listname :
 			masterBugTable['lists'][listname] = data
 		f.close()
