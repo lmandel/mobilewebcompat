@@ -8,3 +8,6 @@ url:
      - arewecompatibleyet.com.paas.allizom.org
      - arewecompatibleyet.com
      - www.arewecompatibleyet.com
+requirements:
+    pip:
+      - tldextract
