@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import json, glob, urllib, os, urllib2,csv,StringIO,re, sys
+import json, glob, urllib, os, urllib2,csv,StringIO,re, sys, time
 from pprint import pprint
 from urlparse import urlparse
 
@@ -89,6 +89,7 @@ def main():
 
 	# Calculate metrics
 	masterBugTable['metrics'] = {"numOpenBugs":len(metrics['allOpenBugsForAllLists']), "numHosts":len(metrics['totalUniqueHosts']), "numHostsWithOpenBugs":len(metrics['hostsWithOpenBugs'])}
+        masterBugTable['timestamp'] = time.time()
 	# Write a JS(ON) file
 	print 'Writing masterbugtable.js'
 	f = open('../data/masterbugtable.js', 'w')

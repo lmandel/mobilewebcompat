@@ -50,6 +50,11 @@ var topLists =  [/* Order is important: US first, then Alexa-1000 */
 	 "id": "alexa50fr"
 	},
 	{
+	 "name": "Greece top 100",
+	 "url": "alexa50gr.json",
+	 "id": "alexa50gr"
+	},
+	{
 	 "name": "Italy top 50",
 	 "url": "alexa50it.json",
 	 "id": "alexa50it"
