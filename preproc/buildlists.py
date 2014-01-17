@@ -40,10 +40,10 @@ def main():
 		bzresponse = urllib2.urlopen(req, timeout=240)
 		bzdata = bzresponse.read()
 		bzdataobj = json.loads(bzdata)
-		print 'Writing '+outputfn+'.json'
-		f = open('./data/bugzilla/'+outputfn+'.json', 'w')
-		f.write(json.dumps(bzdataobj, indent=2))
-		f.close()
+#		print 'Writing '+outputfn+'.json'
+#		f = open('./data/bugzilla/'+outputfn+'.json', 'w')
+#		f.write(json.dumps(bzdataobj, indent=2))
+#		f.close()
 	else :
 		#TEMPORARY code to speed up testing:
 		f = open('./data/bugzilla/'+outputfn+'.json', 'r')
