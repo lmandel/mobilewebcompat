@@ -47,4 +47,5 @@
          "bancomer.com.mx",
          "terra.com.mx",
          "go.com",
-         "paypal.com"]}
+         "paypal.com"],
+	"ccTLD":"mx"}

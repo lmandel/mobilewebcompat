@@ -1,0 +1,13 @@
+name: arewecompatibleyet
+framework:
+    type: php
+cron:
+     - "0	2,6,10,14,18,22	*	*	*	cd $HOME/preproc; /usr/bin/python buildlists.py"
+ignores: ["tmp", ".git"]
+url:
+     - arewecompatibleyet.com.paas.mozilla.org
+     - arewecompatibleyet.com
+     - www.arewecompatibleyet.com
+requirements:
+    pip:
+      - tldextract
