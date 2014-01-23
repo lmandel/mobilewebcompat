@@ -13,7 +13,7 @@ import tldextract
 os.chdir(os.path.dirname(os.path.abspath(__file__))) # For CRON usage..
 # We generally want to handle the main domains (i.e. google.com for www.google.com) instead of the full host names
 # however, for some major sites with lots of distinct properties we loose too much useful information if we classify it just by domain name..
-# conf['subdomainsWeWant'] is a list of hostnames that should not be reduced to domain names. For these, we'll strip any *www.* prefix, but
+# conf['weWantSubdomainsFor'] is a list of hostnames that should not be reduced to domain names. For these, we'll strip any *www.* prefix, but
 # no other subdomains
 conf = { 'weWantSubdomainsFor': r'(\.google\.com|\.live\.com|\.yahoo\.com|\.js$)' } # the latter is not, strictly speaking, a subdomain..
 
