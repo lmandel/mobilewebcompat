@@ -323,7 +323,7 @@ function quickSearchInit(){
 			delay = setTimeout(addDomainDetails, 500);
 		}
     function addDomainDetails(){
-				var domain = qs.value;
+				var domain = qs.value.toLowerCase();
 				var data=[];
 				if(p.getElementsByTagName('table').length){
 						p.removeChild(p.getElementsByTagName('table')[0]);
