@@ -1,6 +1,8 @@
 name: arewecompatibleyet
 framework:
-    type: php
+    type: python
+processes:
+    web: $STACKATO_UWSGI --check-static $HOME --static-map /=$HOME/timeline.html
 cron:
      - "0	2,6,10,14,18,22	*	*	*	cd $HOME/preproc; /usr/bin/python buildlists.py"
 ignores: ["tmp", ".git"]
@@ -11,3 +13,5 @@ url:
 requirements:
     pip:
       - tldextract
+services:
+  ${name}-files: filesystem
