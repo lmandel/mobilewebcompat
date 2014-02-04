@@ -289,8 +289,8 @@ function shouldExcludeUSSite(list, host){
 	// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
 	// So let's skip sites from local listings even if they are popular in that country..
 	if(list === 'alexa1000' || list === 'alexa50us') return false; // include all sites in these lists
-	if( masterBugTable.lists['alexa1000'] && masterBugTable.lists['alexa1000'].data.indexOf(host)>-1  && masterBugTable.lists['alexa1000'].data.indexOf(host)<alexaGlobalTreshold ){
-	//if( list !== 'alexa50us' && masterBugTable.lists['alexa50us'] && masterBugTable.lists['alexa50us'].data.indexOf(host)>-1 /* && masterBugTable.lists['alexa1000'].data.indexOf(host)<alexaGlobalTreshold */){
+	//if( masterBugTable.lists['alexa1000'] && masterBugTable.lists['alexa1000'].data.indexOf(host)>-1  && masterBugTable.lists['alexa1000'].data.indexOf(host)<alexaGlobalTreshold ){
+	if( list !== 'alexa50us' && masterBugTable.lists['alexa50us'] && masterBugTable.lists['alexa50us'].data.indexOf(host)>-1 /* && masterBugTable.lists['alexa1000'].data.indexOf(host)<alexaGlobalTreshold */){
 		return true;
 	}
 	return false;
