@@ -222,7 +222,7 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 						var testresultspan = bugrow.lastChild.appendChild(document.createElement('span'));
 						testresultspan.classList.add('testres');
 						testresultspan.appendChild(document.createTextNode('Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
-						testresultspan.appendChild(document.createElement('strong')).appendChild(document.createTextNode('\u25AA '+(lastResult[3] === 'true'?'pass' : lastResult[3]==='false'? 'fail':lastResult[3])));
+						testresultspan.appendChild(document.createElement('strong')).appendChild(document.createTextNode('\u25AA '+(lastResult[3] === 'true'?'might be fixed, needs check' : lastResult[3]==='false'? 'fail':lastResult[3])));
 						if( lastResult[3] === "true" ){
 							testresultspan.classList.add("pass");
 							if(!resolved){
