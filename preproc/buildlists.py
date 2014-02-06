@@ -1,4 +1,11 @@
 #!/usr/bin/python
+
+# Other possible sources of tech evang bugs:
+# http://code.google.com/p/chromium/issues/csv?can=2&q=label%3ANeeds-Evangelism&colspec=ID%20Pri%20M%20Iteration%20ReleaseBlock%20Cr%20Status%20Owner%20Summary%20OS%20Modified
+# https://bugs.webkit.org/buglist.cgi?bug_file_loc=&bug_file_loc_type=allwordssubstr&bug_id=&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED&bugidtype=include&chfieldfrom=&chfieldto=Now&chfieldvalue=&component=Evangelism&email1=&email2=&emailassigned_to1=1&emailassigned_to2=1&emailcc2=1&emailreporter2=1&emailtype1=substring&emailtype2=substring&field-1-0-0=component&field-1-1-0=bug_status&field0-0-0=noop&keywords=&keywords_type=allwords&long_desc=&long_desc_type=substring&query_format=advanced&remaction=&short_desc=&short_desc_type=allwordssubstr&type-1-0-0=anyexact&type-1-1-0=anyexact&type0-0-0=noop&value-1-0-0=Evangelism&value-1-1-0=UNCONFIRMED%2CNEW%2CASSIGNED%2CREOPENED&value0-0-0=&ctype=csv
+
+# None for Opera of course :-(
+
 import json, glob, urllib, os, urllib2,csv,StringIO,re, sys, time
 from pprint import pprint
 from urlparse import urlparse
@@ -54,11 +61,13 @@ def main():
 	for fn in glob.glob('..' + os.sep +'data' + os.sep + '*.json'):
 		f = open(fn)
 		data = json.load(f)
-		listname = os.path.splitext(os.path.basename(fn))[0]
-		if listname :
-			masterBugTable['lists'][listname] = data
 		f.close()
+		listname = os.path.splitext(os.path.basename(fn))[0]
 
+		if listname:
+			masterBugTable['lists'][listname] = data
+			masterBugTable['lists'][listname]['metrics']={'numOpenBugs':0, 'numClosedBugs':0}
+		f.close()
 	metrics={'allOpenBugsForAllLists':set(), 'hostsWithOpenBugs':set(), 'totalUniqueHosts':set()}
 
 	for bug in bzdataobj['bugs'] :
@@ -88,8 +97,16 @@ def main():
 	# Done processing all bugs in the data dump, one at a time
 
 	# Calculate metrics
+	# total metrics - all lists
 	masterBugTable['metrics'] = {"numOpenBugs":len(metrics['allOpenBugsForAllLists']), "numHosts":len(metrics['totalUniqueHosts']), "numHostsWithOpenBugs":len(metrics['hostsWithOpenBugs'])}
         masterBugTable['timestamp'] = time.time()
+	# local metrics..
+	for the_list in masterBugTable['lists']:
+		the_list_data = masterBugTable['lists'][the_list]
+		for domain in the_list_data['data']:
+			if str(domain) in masterBugTable['hostIndex']:
+				the_list_data['metrics']['numOpenBugs'] += len(masterBugTable['hostIndex'][domain]['open'])
+				the_list_data['metrics']['numClosedBugs'] += len(masterBugTable['hostIndex'][domain]['resolved'])
 	# Write a JS(ON) file
 	print 'Writing masterbugtable.js'
 	f = open('../data/masterbugtable.js', 'w')
