@@ -1,13 +1,14 @@
-var topLists =  [/* Order is important: US first, then Alexa-1000 */
+/* Order is important: US first, then -1000 */
+var topLists = [
 {
 	 "name": "U.S. 50",
-	 "url": "alexa50us.json",
-	 "id": "alexa50us"
+	 "url": "us50.json",
+	 "id": "us50"
 	},
 	{
-	 "name": "Alexa 1000",
-	 "url": "alexa1000.json",
-	 "id": "alexa1000"
+	 "name": "Top 1000",
+	 "url": "1000.json",
+	 "id": "1000"
 	},
 	{
 	 "name": "BD Top Sites",
@@ -16,98 +17,98 @@ var topLists =  [/* Order is important: US first, then Alexa-1000 */
 	},
 	{
 	 "name": "Brazil top 50",
-	 "url": "alexa50br.json",
-	 "id": "alexa50br"
+	 "url": "br50.json",
+	 "id": "br50"
 	},
 	{
 	 "name": "Canada top 50",
-	 "url": "alexa50ca.json",
-	 "id": "alexa50ca"
+	 "url": "ca50.json",
+	 "id": "ca50"
 	},
 	{
 	 "name": "China top 50",
-	 "url": "alexa50cn.json",
-	 "id": "alexa50cn"
+	 "url": "cn50.json",
+	 "id": "cn50"
 	},
 	{
 	 "name": "Colombia top 50",
-	 "url": "alexa50co.json",
-	 "id": "alexa50co"
+	 "url": "co50.json",
+	 "id": "co50"
 	},
 	{
 	 "name": "Germany top 50",
-	 "url": "alexa50de.json",
-	 "id": "alexa50de"
+	 "url": "de50.json",
+	 "id": "de50"
 	},
 	{
 	 "name": "Spain top 50",
-	 "url": "alexa50es.json",
-	 "id": "alexa50es"
+	 "url": "es50.json",
+	 "id": "es50"
 	},
 	{
 	 "name": "France top 100",
-	 "url": "alexa100fr.json",
-	 "id": "alexa100fr"
+	 "url": "fr100.json",
+	 "id": "fr100"
 	},
 	{
 	 "name": "Greece top 100",
-	 "url": "alexa100gr.json",
-	 "id": "alexa100gr"
+	 "url": "gr100.json",
+	 "id": "gr100"
 	},
 	{
 	 "name": "India top 100",
-	 "url": "alexa100in.json",
-	 "id": "alexa100in"
+	 "url": "in100.json",
+	 "id": "in100"
 	},
 	{
 	 "name": "Italy top 50",
-	 "url": "alexa50it.json",
-	 "id": "alexa50it"
+	 "url": "it50.json",
+	 "id": "it50"
 	},
 	{
 	 "name": "Japan top 50",
-	 "url": "alexa50jp.json",
-	 "id": "alexa50jp"
+	 "url": "jp50.json",
+	 "id": "jp50"
 	},
 	{
 	 "name": "Korea top 50",
-	 "url": "alexa50kr.json",
-	 "id": "alexa50kr"
+	 "url": "kr50.json",
+	 "id": "kr50"
 	},
 	{
 	 "name": "Mexico top 50",
-	 "url": "alexa50mx.json",
-	 "id": "alexa50mx"
+	 "url": "mx50.json",
+	 "id": "mx50"
 	},
 	{
 	 "name": "Poland top 50",
-	 "url": "alexa50pl.json",
-	 "id": "alexa50pl"
+	 "url": "pl50.json",
+	 "id": "pl50"
 	},
 	{
 	 "name": "Portugal top 50",
-	 "url": "alexa50pt.json",
-	 "id": "alexa50pt"
+	 "url": "pt50.json",
+	 "id": "pt50"
 	},
 	{
 		"name": "South Africa 150",
-		"url": "alexa150za.json",
-		"id": "alexa150za"
+		"url": "za150.json",
+		"id": "za150"
 	},
 	{
 		"name": "Sweden 60",
-		"url": "alexa60se.json",
-		"id": "alexa60se"
+		"url": "se60.json",
+		"id": "se60"
 	},
 	{
 	 "name": "UK 50",
-	 "url": "alexa50uk.json",
-	 "id": "alexa50uk"
+	 "url": "uk50.json",
+	 "id": "uk50"
 	},
 	{
 	 "name": "Venezuela 50",
-	 "url": "alexa50ve.json",
-	 "id": "alexa50ve"
+	 "url": "ve50.json",
+	 "id": "ve50"
 	},
 	{
 	 "name": "Mail",
@@ -118,4 +119,4 @@ var topLists =  [/* Order is important: US first, then Alexa-1000 */
 	 "name": "Top video sites",
 	 "url": "topvideosites.json",
 	 "id": "topvideosites"
-	}];
+	}]
