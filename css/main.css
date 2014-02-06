@@ -147,6 +147,10 @@ h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
 .nested-bug-table{
 	border: 0px;
 }
+.nested-bug-table tr.resolved td a{
+	font-style: italic;
+	color: #444;
+}
 .nested-bug-table td:last-child{
 	width: 25%;
 }

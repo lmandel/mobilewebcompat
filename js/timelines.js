@@ -38,9 +38,7 @@ function fillTables() {
 	row.appendChild(document.createElement('th')).appendChild(document.createTextNode('Status'));
 	row.lastChild.width="70%";
 	for(var listnum=0, list; list=topLists[listnum]; listnum++){
-		// constructListRows(table, list)
 		constructListRows(table, list)
-		// end constructListRows()
 
 		var data = masterBugTable.lists[list.id].data;
 		var id=list.id, tr = document.getElementById('row-'+id), ccTLD = masterBugTable.lists[list.id].ccTLD;
@@ -198,45 +196,17 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
                         a.textContent = '\u2192 ';
                         a.title = host; // a11y - text content is not exactly descriptive for this link..
 			tr.appendChild(document.createElement('td'));
-			if(masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length){
+			if(masterBugTable.hostIndex[host] && (masterBugTable.hostIndex[host].open.length || (showSitesWithoutBugs && masterBugTable.hostIndex[host].resolved.length)) ){
 				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
 				bugtable.className = 'nested-bug-table';
 				masterBugTable.hostIndex[host].open.forEach(function(bug, bindex){
-					bug = masterBugTable.bugs[bug];
-					var bugrow = bugtable.appendChild(document.createElement('tr'));
-					bugrow.appendChild(document.createElement('td'));
-					var a = bugrow.lastChild.appendChild(document.createElement('a'));
-					var resolved = bug.status in resolvedStates; // always false here..
-					a.href=bz_show_bug+bug.id;
-					a.textContent = bug.id;
-					bugrow.appendChild(document.createElement('td'));
-					var a = bugrow.lastChild.appendChild(document.createElement('a'));
-					a.href=bz_show_bug+bug.id;
-					a.textContent = bug.summary;
-					a.title = bug.summary;
-					if(bug.priority in flagThesePris)a.className = 'major-issue';
-					bugrow.appendChild(document.createElement('td'));
-					if(testResults[bug.id]){
-						// We have some automated test results for this bug
-						var lastResult = testResults[bug.id][0];
-						var testresultspan = bugrow.lastChild.appendChild(document.createElement('span'));
-						testresultspan.classList.add('testres');
-						testresultspan.appendChild(document.createTextNode('Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
-						testresultspan.appendChild(document.createElement('strong')).appendChild(document.createTextNode('\u25AA '+(lastResult[3] === 'true'?'might be fixed, needs check' : lastResult[3]==='false'? 'fail':lastResult[3])));
-						if( lastResult[3] === "true" ){
-							testresultspan.classList.add("pass");
-							if(!resolved){
-								testresultspan.classList.add("needs-attention");
-							}
-						}else{
-							testresultspan.classList.add("fail");
-							if(resolved){
-								testresultspan.classList.add("needs-attention");
-							}
-						}
-					}
-					//tr.lastChild.appendChild(document.createTextNode(' '));
+					addBugTableCell(bugtable, bug, bindex);
 				});
+				if (showSitesWithoutBugs && masterBugTable.hostIndex[host].resolved.length) {
+					masterBugTable.hostIndex[host].resolved.forEach(function(bug, bindex){
+						addBugTableCell(bugtable, bug, bindex);
+					});					
+				};
 			}
 		});
 		var timedata = masterBugTable.lists[list].timedata, openBugCount = masterBugTable.lists[list].counts.open, resolvedBugCount=masterBugTable.lists[list].counts.resolved;
@@ -464,6 +434,58 @@ function calculateListDetails(tr, list, excludeUS){
 			b.onclick = function(){updateTodoRow(d, todos, 1)};})(todos);
 		}
 
+}
+function addBugTableCell(bugtable, bug, bindex){
+	bug = masterBugTable.bugs[bug];
+	var bugrow = bugtable.appendChild(document.createElement('tr'));
+	bugrow.appendChild(document.createElement('td'));
+	var a = bugrow.lastChild.appendChild(document.createElement('a'));
+	var resolved = bug.status in resolvedStates;
+	bugrow.classList.add(resolved?'resolved':'open')
+	a.href=bz_show_bug+bug.id;
+	a.textContent = bug.id;
+	bugrow.appendChild(document.createElement('td'));
+	var a = bugrow.lastChild.appendChild(document.createElement('a'));
+	a.href=bz_show_bug+bug.id;
+	a.textContent = bug.summary ;
+	a.title = bug.summary;
+	if(resolved)a.appendChild(document.createTextNode(' - '+bug.status+':'+bug.resolution));
+	if(bug.priority in flagThesePris)a.className = 'major-issue';
+	bugrow.appendChild(document.createElement('td'));
+	if(testResults[bug.id]){
+		// We have some automated test results for this bug
+		var lastResult = testResults[bug.id][0];
+		var testresultspan = bugrow.lastChild.appendChild(document.createElement('span'));
+		testresultspan.classList.add('testres');
+		testresultspan.appendChild(document.createTextNode('Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
+		var resultdesc = '';
+		if(resolved && lastResult[3] === 'true'){
+			resultdesc = 'Verified passing';
+		}else if(lastResult[3] === 'true' && ! resolved){
+			resultdesc = 'might be fixed, needs check'; 
+		}else if(lastResult[3]==='false' && resolved && bug.resolution in {'INVALID':1, 'WONTFIX':1}){
+			resultdesc = ':-(';
+		}else if(lastResult[3]==='false' && resolved){
+			resultdesc = 'might have regressed, needs check'
+		}else if(lastResult[3]==='false'){
+			resultdesc = 'fail';
+		}else{
+			resultdesc = lastResult[3];
+		}
+		testresultspan.appendChild(document.createElement('strong')).appendChild(document.createTextNode('\u25AA '+resultdesc));
+		if( lastResult[3] === "true" ){
+			testresultspan.classList.add("pass");
+			if(!resolved){
+				testresultspan.classList.add("needs-attention");
+			}
+		}else{
+			testresultspan.classList.add("fail");
+			if(resolved){
+				testresultspan.classList.add("needs-attention");
+			}
+		}
+	}
+	//tr.lastChild.appendChild(document.createTextNode(' '));
 }
 
 function millisecondsToStr (milliseconds) {
