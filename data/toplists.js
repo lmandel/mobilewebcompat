@@ -26,6 +26,11 @@ var topLists = [
 	 "id": "ca50"
 	},
 	{
+	 "name": "Chile top 100",
+	 "url": "cl100.json",
+	 "id": "cl100"
+	},
+	{
 	 "name": "China top 50",
 	 "url": "cn50.json",
 	 "id": "cn50"
@@ -104,6 +109,11 @@ var topLists = [
 	 "name": "UK 50",
 	 "url": "uk50.json",
 	 "id": "uk50"
+	},
+	{
+	 "name": "Uruguay 90",
+	 "url": "uy90.json",
+	 "id": "uy90"
 	},
 	{
 	 "name": "Venezuela 50",
