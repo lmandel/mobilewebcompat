@@ -1,0 +1,197 @@
+<html>
+<head><title>screen shot comparison bug reporter</title><meta charset="utf-8">
+<style type="text/css">
+input{width: 50%;} 
+div.d1{width: 50%; float:left;position:relative;}div.d2{width: 40%;float:right;}form{float:right; width:40%;}
+div.d1 span{position: absolute; top: 0; background: rgba(50, 50, 50, 0.3); opacity: 0.5; border: 2px outset #000}
+div.d1 #fxOSLabel{left: 0;}div.d1 #iOSLabel{right: 0.5em;} div.d1 img{padding-top: 1.5em;max-width: 98%}
+</style>
+<script src="http://arewecompatibleyet.com/data/masterbugtable.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var country = /cctld=(.+)/.test(location.search) ? RegExp.$1 : 'in';
+var dataurl = 'http://hallvord.com/temp/moz/'+country+'/comp/'; // location.pathname.indexOf(country+'/comp/') > -1 ? './' : country+'/comp/';
+var xhr = new XMLHttpRequest(); xhr.open('GET', dataurl+'idx.js', false);xhr.send();
+var imagelist = JSON.parse(xhr.responseText);
+var div = document.body.appendChild(document.createElement('div')); div.className = 'd1';
+var sp1 = div.appendChild(document.createElement('span')),  sp2 = div.appendChild(document.createElement('span'));
+sp1.id = 'fxOSLabel',sp2.id = 'iOSLabel';
+sp1.textContent = 'Requested with Firefox OS UA string', sp2.textContent = 'Requested with iOS UA string';
+var current_bugs = document.body.appendChild(document.createElement('div')); current_bugs.className = 'd2';
+current_bugs.appendChild(document.createElement('h1'));
+current_bugs.appendChild(document.createElement('h2')).textContent = 'Current bugs';
+window.onload = function(){
+	var img = div.appendChild(document.createElement('img'));
+	//img.style.maxWidth="100%;
+	var i = location.hash ? parseInt(location.hash.substr(1)) : 0;
+	div.appendChild(document.createElement('br'));
+	var a=current_bugs.getElementsByTagName('h1')[0].appendChild(document.createElement('a'));
+	function nextImg(){
+		i++;
+		if(i>imagelist.length-1)i=imagelist.length-1;
+		go();
+		// preloading..
+		if(i+1 in imagelist)(new Image()).src = dataurl+imagelist[i+1].name;
+	}
+	function prevImg(){
+		i--;
+		if(i<0)i=0;
+		go();
+	}
+	function go(){
+		img.src = dataurl + imagelist[i].name;
+		location.hash = '#'+i;
+		document.getElementsByName('bug_file_loc')[0].value = a.href = 'http://' + (a.textContent = imagelist[i].hostname);
+		document.title = 'image '+(i+1)+'/'+imagelist.length;
+		updateSummDesc();
+		current_bugs.getElementsByTagName('h2').textContent = 'Current bugs for '+imagelist[i].hostname;
+		while(current_bugs.childNodes.length>2)current_bugs.removeChild(current_bugs.lastChild);
+		if(masterBugTable.hostIndex[imagelist[i].hostname]){
+			var dabugs = masterBugTable.hostIndex[imagelist[i].hostname].open.concat(masterBugTable.hostIndex[imagelist[i].hostname].resolved);
+			for (var j = 0, id; id = dabugs[j]; j++) {
+				var a2 = current_bugs.appendChild(document.createElement('a'));
+				a2.href = 'https://bugzilla.mozilla.org/show_bug.cgi?id='+id;
+				a2.textContent = masterBugTable.bugs[id].summary;
+				current_bugs.appendChild(document.createTextNode(' '+masterBugTable.bugs[id].status+' '+masterBugTable.bugs[id].resolution));
+				current_bugs.appendChild(document.createElement('br'));
+				current_bugs.appendChild(document.createElement('br'));
+			};
+		}
+		if(current_bugs.childNodes.length===2){
+			current_bugs.appendChild(document.createElement('p')).appendChild(document.createTextNode('No bugs reported for '+imagelist[i].hostname+'! :-o'))
+		}
+	}
+	document.getElementsByName('status_whiteboard')[0].value = document.getElementsByName('status_whiteboard')[0].value.replace(/\[country-.*?\]/, '[country-'+country+']')
+	go();
+	window.onhashchange = function(){
+		var num = parseInt(location.hash.substr(1));
+		if(num != i && !isNaN(num)){
+			i = num;
+			go();
+		}
+	}
+	document.onkeyup = function(e){
+		//if (e.target.tagName in {'INPUT':1,'BUTTON':1,'TEXTAREA':1}) {return;};
+		if(e.keyCode === 37)return prevImg();
+		if(e.keyCode === 39)return nextImg();
+	}
+	document.onclick = function(e){
+		if(e.target.id === 'prev')prevImg(),e.preventDefault();
+		if(e.target.id === 'next')nextImg(),e.preventDefault();
+	}
+	window.checkHttpHeaders = function(){
+		window.status='Checking headers, please wait...';
+		var x = new XMLHttpRequest();
+		x.open('GET', 'headers.py?url=' + (imagelist[i].fullUrl || imagelist[i].hostname), true);
+		x.onreadystatechange=function(){
+			if(x.readyState!=4)return;
+			window.status='';
+			if(x.responseText){
+				if(confirm('Check returned: \n'+x.responseText+'\n\nInsert into comment field?')){
+					document.getElementsByName('comment')[0].value+='\n\n'+x.responseText;
+					document.getElementsByName('status_whiteboard')[0].value += '[serversniff][contactready]'
+				}
+			}else{
+				alert('No interestingness here, headers pretty much equal')
+			}
+		}
+		x.send();
+	}
+}
+
+
+
+function updateSummDesc(){
+	var url = document.getElementsByName('bug_file_loc')[0].value;
+	document.links[0].href = url;
+	var host = document.links[0].hostname;
+	document.getElementsByName('short_desc')[0].value = host + ' '+document.getElementsByTagName('select')[0].value+' Firefox OS';
+	if (document.getElementsByTagName('select')[0].selectedIndex<3 && /^\s+$/.test(document.getElementsByName('comment')[0].value)) {
+		//document.getElementsByName('comment')[0].value=='Compare Content-length for the HTTP requests below'
+	}else if(/^\s+$/.test(document.getElementsByName('comment')[0].value)){
+		document.getElementsByName('status_whiteboard')[0].value = document.getElementsByName('status_whiteboard')[0].value.replace(/\[serversniff\]/, '[webkitcss]');
+	}
+}
+
+
+
+</script>
+
+<form action="https://bugzilla.mozilla.org/enter_bug.cgi">
+	<hr>
+	<p><em>Go through images with prev/next buttons below or left/right arrow button</em></p>
+<button id="prev">&lt;&lt;</button>
+<button id="next">&gt;&gt;</button>
+
+	<p>If you notice an issue that's not reported, please test to check that it's a real issue. You can pre-fill some values in Bugzilla from this form:</p>
+<p>URL: <input name="bug_file_loc" value="http://" type=text onchange="updateSummDesc()"><a href=""></a></p>
+<p>Type problem: <select  onchange="updateSummDesc()"><option>sends desktop site to</option><option>sends simplified site to</option><option>sends wap content to</option><option>has broken layout in</option><option>does not play video in</option></select></p>
+<p>Summary: <input name="short_desc" value=" sends desktop site to Firefox OS" type=text></p>
+<p>Whiteboard: <input name="status_whiteboard" value="[country-]" type=text></p>
+Further comments:
+<textarea name="comment"></textarea>
+<p>HTTP header check: <button onclick="checkHttpHeaders();return false;">Check now</button></p>
+<bR><input type="submit" value="Send to bugzilla">
+	<br>
+<em>Note: click "Submit bug" on the next screen to finish reporting the issue. Please consider uploading screenshot as attachment.</em>
+
+<input name="alias" value="" type=hidden>
+<input name="assigned_to" value="nobody@mozilla.org" type=hidden>
+<input name="blocked" value="" type=hidden>
+
+<input name="attach_text" value="" type=hidden>
+
+<input name="bug_ignored" value="0" type=hidden>
+<input name="bug_severity" value="normal" type=hidden>
+<input name="bug_status" value="NEW" type=hidden>
+<input name="cf_blocking_b2g" value="---" type=hidden>
+<input name="cf_blocking_fennec" value="---" type=hidden>
+<input name="cf_crash_signature" value="" type=hidden>
+<input name="cf_status_b2g18" value="---" type=hidden>
+<input name="cf_status_b2g_1_1_hd" value="---" type=hidden>
+<input name="cf_status_b2g_1_2" value="---" type=hidden>
+<input name="cf_status_b2g_1_3" value="---" type=hidden>
+<input name="cf_status_b2g_1_4" value="---" type=hidden>
+<input name="cf_status_firefox26" value="---" type=hidden>
+<input name="cf_status_firefox27" value="---" type=hidden>
+<input name="cf_status_firefox28" value="---" type=hidden>
+<input name="cf_status_firefox29" value="---" type=hidden>
+<input name="cf_status_firefox_esr24" value="---" type=hidden>
+<input name="cf_tracking_b2g18" value="---" type=hidden>
+<input name="cf_tracking_firefox26" value="---" type=hidden>
+<input name="cf_tracking_firefox27" value="---" type=hidden>
+<input name="cf_tracking_firefox28" value="---" type=hidden>
+<input name="cf_tracking_firefox29" value="---" type=hidden>
+<input name="cf_tracking_firefox_esr24" value="---" type=hidden>
+<input name="cf_tracking_firefox_relnote" value="---" type=hidden>
+<input name="cf_tracking_relnote_b2g" value="---" type=hidden>
+<input name="component" value="Mobile" type=hidden>
+<input name="contenttypeentry" value="" type=hidden>
+<input name="contenttypemethod" value="autodetect" type=hidden>
+<input name="contenttypeselection" value="text/plain" type=hidden>
+<input name="data" value="" type=hidden>
+<input name="defined_groups" value="1" type=hidden>
+<input name="dependson" value="" type=hidden>
+<input name="description" value="" type=hidden>
+<input name="flag_type-4" value="X" type=hidden>
+<input name="flag_type-607" value="X" type=hidden>
+<input name="flag_type-800" value="X" type=hidden>
+<input name="form_name" value="enter_bug" type=hidden>
+<input name="keywords" value="" type=hidden>
+<input name="op_sys" value="Gonk (Firefox OS)" type=hidden>
+<input name="priority" value="--" type=hidden>
+<input name="product" value="Tech Evangelism" type=hidden>
+<input name="qa_contact" value="" type=hidden>
+<input name="rep_platform" value="All" type=hidden>
+<input name="requestee_type-4" value="" type=hidden>
+<input name="requestee_type-607" value="" type=hidden>
+<input name="requestee_type-800" value="" type=hidden>
+<input name="target_milestone" value="---" type=hidden>
+<input name="version" value="unspecified" type=hidden> 
+<hr>
+</form>
+
+</body></html>
