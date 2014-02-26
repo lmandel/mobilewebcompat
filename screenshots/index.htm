@@ -1,20 +1,27 @@
-<html>
+<!DOCTYPE html><html>
 <head><title>screen shot comparison bug reporter</title><meta charset="utf-8">
 <style type="text/css">
 input{width: 50%;} 
 div.d1{width: 50%; float:left;position:relative;}div.d2{width: 40%;float:right;}form{float:right; width:40%;}
 div.d1 span{position: absolute; top: 0; background: rgba(50, 50, 50, 0.3); opacity: 0.5; border: 2px outset #000}
 div.d1 #fxOSLabel{left: 0;}div.d1 #iOSLabel{right: 0.5em;} div.d1 img{padding-top: 1.5em;max-width: 98%}
+.err{display:none;position: absolute;background: #faa; top: 5%; width: 80%}
+body.show_err .err{display:block;}
 </style>
 <script src="http://arewecompatibleyet.com/data/masterbugtable.js"></script>
 </head>
 <body>
-
+<div class="err">Error</div>
 <script type="text/javascript">
 
 var country = /cctld=(.+)/.test(location.search) ? RegExp.$1 : 'in';
 var dataurl = 'http://hallvord.com/temp/moz/'+country+'/comp/'; // location.pathname.indexOf(country+'/comp/') > -1 ? './' : country+'/comp/';
-var xhr = new XMLHttpRequest(); xhr.open('GET', dataurl+'idx.js', false);xhr.send();
+var xhr = new XMLHttpRequest(); 
+if(!('withCredentials' in xhr)){document.body.className='show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Your browser does not support CORS (cross-origin XMLHttpRequest). Use a newer web browser to make this page work.';throw 'CORS support required';}
+if(typeof window.masterBugTable === 'undefined'){
+	document.body.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Bug data missing (masterbugtable.js did not load). List of existing bugs will not be shown.'
+}
+xhr.open('GET', dataurl+'idx.js', false);xhr.send();
 var imagelist = JSON.parse(xhr.responseText);
 var div = document.body.appendChild(document.createElement('div')); div.className = 'd1';
 var sp1 = div.appendChild(document.createElement('span')),  sp2 = div.appendChild(document.createElement('span'));
@@ -49,7 +56,7 @@ window.onload = function(){
 		updateSummDesc();
 		current_bugs.getElementsByTagName('h2').textContent = 'Current bugs for '+imagelist[i].hostname;
 		while(current_bugs.childNodes.length>2)current_bugs.removeChild(current_bugs.lastChild);
-		if(masterBugTable.hostIndex[imagelist[i].hostname]){
+		if(window.masterBugTable && masterBugTable.hostIndex[imagelist[i].hostname]){
 			var dabugs = masterBugTable.hostIndex[imagelist[i].hostname].open.concat(masterBugTable.hostIndex[imagelist[i].hostname].resolved);
 			for (var j = 0, id; id = dabugs[j]; j++) {
 				var a2 = current_bugs.appendChild(document.createElement('a'));
@@ -63,8 +70,9 @@ window.onload = function(){
 		if(current_bugs.childNodes.length===2){
 			current_bugs.appendChild(document.createElement('p')).appendChild(document.createTextNode('No bugs reported for '+imagelist[i].hostname+'! :-o'))
 		}
+		document.getElementsByName('status_whiteboard')[0].value = '[country-'+country+']';
+		document.getElementsByName('comment')[0].value = '';
 	}
-	document.getElementsByName('status_whiteboard')[0].value = document.getElementsByName('status_whiteboard')[0].value.replace(/\[country-.*?\]/, '[country-'+country+']')
 	go();
 	window.onhashchange = function(){
 		var num = parseInt(location.hash.substr(1));
@@ -74,7 +82,7 @@ window.onload = function(){
 		}
 	}
 	document.onkeyup = function(e){
-		//if (e.target.tagName in {'INPUT':1,'BUTTON':1,'TEXTAREA':1}) {return;};
+		if (e.target.tagName in {'INPUT':1,'BUTTON':1,'TEXTAREA':1}) {return;};
 		if(e.keyCode === 37)return prevImg();
 		if(e.keyCode === 39)return nextImg();
 	}
@@ -85,17 +93,23 @@ window.onload = function(){
 	window.checkHttpHeaders = function(){
 		window.status='Checking headers, please wait...';
 		var x = new XMLHttpRequest();
-		x.open('GET', 'headers.py?url=' + (imagelist[i].fullUrl || imagelist[i].hostname), true);
+		var url = document.getElementsByName('bug_file_loc')[0].value;
+		x.open('GET', 'headers.py?url=' + (url), true);
 		x.onreadystatechange=function(){
 			if(x.readyState!=4)return;
 			window.status='';
-			if(x.responseText){
-				if(confirm('Check returned: \n'+x.responseText+'\n\nInsert into comment field?')){
-					document.getElementsByName('comment')[0].value+='\n\n'+x.responseText;
-					document.getElementsByName('status_whiteboard')[0].value += '[serversniff][contactready]'
+			if(x.status == 200){
+				if(x.responseText == ''){
+					alert('No interestingness here, headers pretty much equal')
+				}else{
+					var str = x.responseText;
+					if(confirm('Check returned: \n'+str+'\n\nInsert into comment field?')){
+						document.getElementsByName('comment')[0].value='\n\n'+str;
+						document.getElementsByName('status_whiteboard')[0].value += '[serversniff][contactready]'
+					}
 				}
-			}else{
-				alert('No interestingness here, headers pretty much equal')
+			}else if (x.status == 500 || x.status == 404) {
+				alert('Sorry, there was a technical problem. Hopefully it will get sorted out..')
 			}
 		}
 		x.send();
