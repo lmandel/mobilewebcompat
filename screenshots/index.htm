@@ -7,11 +7,13 @@ div.d1 span{position: absolute; top: 0; background: rgba(50, 50, 50, 0.3); opaci
 div.d1 #fxOSLabel{left: 0;}div.d1 #iOSLabel{right: 0.5em;} div.d1 img{padding-top: 1.5em;max-width: 98%}
 .err{display:none;position: absolute;background: #faa; top: 5%; width: 80%}
 body.show_err .err{display:block;}
+.infolink{position: absolute; top:0; right: 0; display: block;}
 </style>
 <script src="http://arewecompatibleyet.com/data/masterbugtable.js"></script>
 </head>
 <body>
 <div class="err">Error</div>
+<a href="#help" class="infolink">What's this about??</a>
 <script type="text/javascript">
 
 var country = /cctld=(.+)/.test(location.search) ? RegExp.$1 : 'in';
@@ -130,7 +132,17 @@ function updateSummDesc(){
 	}
 }
 
-
+document.getElementsByClassName('infolink')[0].addEventListener('click', function(e){
+	var el = document.getElementById('help');
+	el.style.position = 'absolute';
+	el.style.top = e.target.offsetHeight + 'px';
+	el.style.width = '35%';
+	el.style.right = 0;
+	el.style.border = '2px solid blue';
+	el.style.background = '#fff'
+	el.getElementsByClassName('close')[0].onclick = function(){el.setAttribute('style', 'clear:both');}
+	e.preventDefault();
+}, false)
 
 </script>
 
@@ -207,5 +219,24 @@ Further comments:
 <input name="version" value="unspecified" type=hidden> 
 <hr>
 </form>
+
+<div style="clear:both" id="help">
+<a href="#" class="close">X</a>
+<h1>So, what's this about?</h1>
+<p>In short: <b>find</b> sites that give Firefox OS a worse user experience than other smartphones, <b>report bugs</b> so that we can follow up.</p>
+<h2>Cool, how?</h2>
+<ol>
+	<li>Scroll through screenshots until you find one where the left and right screenshots look different, the left seems like a worse user experience, and the "Current bugs" list is empty.
+	<li>Optionally use the "HTTP header check" feature and if the response is interesting, click OK to insert into the form
+	<li>Click "Send to bugzilla"-button, and on the next page scroll down and click "Submit bug". (You will need an account at bugzilla.mozilla.org for this step)
+	<li>Go back (two steps) to this page and keep scrolling through screenshots as long as you wish.
+</ol>
+<h2>Gotchas?</h2>
+<ul><li>It can be helpful to test on a real Firefox OS phone or an emulator if in doubt..
+	<li>If one of the screenshots looks like it didn't load fully, it probably needs manual testing to see if it's an issue. You can ignore those screenshots if you don't have a device
+	<li>The <b>current bugs</b> list is updated every two hours, so you will not see your bug reports appear immediately. (Also if somebody else is reviewing at the same time, you might report duplicate bugs.)
+	
+</ul>
+</div>
 
 </body></html>
