@@ -1,7 +1,7 @@
 <!DOCTYPE html><html>
 <head><title>screen shot comparison bug reporter</title><meta charset="utf-8">
 <style type="text/css">
-input{width: 50%;} 
+input[type=text]{width: 50%;} 
 div.d1{width: 50%; float:left;position:relative;}div.d2{width: 40%;float:right;}form{float:right; width:40%;}
 div.d1 span{position: absolute; top: 0; background: rgba(50, 50, 50, 0.3); opacity: 0.5; border: 2px outset #000}
 div.d1 #fxOSLabel{left: 0;}div.d1 #iOSLabel{right: 0.5em;} div.d1 img{padding-top: 1.5em;max-width: 98%}
@@ -23,7 +23,12 @@ if(!('withCredentials' in xhr)){document.body.className='show_err';document.getE
 if(typeof window.masterBugTable === 'undefined'){
 	document.body.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Bug data missing (masterbugtable.js did not load). List of existing bugs will not be shown.'
 }
-xhr.open('GET', dataurl+'idx.js', false);xhr.send();
+try{
+	xhr.open('GET', dataurl+'idx.js', false);xhr.send();
+}catch(e){
+		document.body.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Failed to load list of images for this top-level domain'
+
+}
 var imagelist = JSON.parse(xhr.responseText);
 var div = document.body.appendChild(document.createElement('div')); div.className = 'd1';
 var sp1 = div.appendChild(document.createElement('span')),  sp2 = div.appendChild(document.createElement('span'));
@@ -36,19 +41,23 @@ window.onload = function(){
 	var img = div.appendChild(document.createElement('img'));
 	//img.style.maxWidth="100%;
 	var i = location.hash ? parseInt(location.hash.substr(1)) : 0;
+	if(isNaN(i))i = 0;
 	div.appendChild(document.createElement('br'));
 	var a=current_bugs.getElementsByTagName('h1')[0].appendChild(document.createElement('a'));
-	function nextImg(){
-		i++;
-		if(i>imagelist.length-1)i=imagelist.length-1;
+	function setIndex(down){
+		var skipknown = document.getElementById('skipknown').checked;
+		do{
+			if(down)i--; else i++;
+		}while( skipknown && imagelist[i] && window.masterBugTable && masterBugTable.hostIndex[imagelist[i].hostname] && masterBugTable.hostIndex[imagelist[i].hostname].open.length);
+		if (down && i<0) {
+			i = 0;
+		}else if(i > imagelist.length - 1){
+			i = imagelist.length - 1;
+		}
 		go();
 		// preloading..
 		if(i+1 in imagelist)(new Image()).src = dataurl+imagelist[i+1].name;
-	}
-	function prevImg(){
-		i--;
-		if(i<0)i=0;
-		go();
+		if(i+2 in imagelist)(new Image()).src = dataurl+imagelist[i+2].name;
 	}
 	function go(){
 		img.src = dataurl + imagelist[i].name;
@@ -85,12 +94,12 @@ window.onload = function(){
 	}
 	document.onkeyup = function(e){
 		if (e.target.tagName in {'INPUT':1,'BUTTON':1,'TEXTAREA':1}) {return;};
-		if(e.keyCode === 37)return prevImg();
-		if(e.keyCode === 39)return nextImg();
+		if(e.keyCode === 37)return setIndex(true);
+		if(e.keyCode === 39)return setIndex();
 	}
 	document.onclick = function(e){
-		if(e.target.id === 'prev')prevImg(),e.preventDefault();
-		if(e.target.id === 'next')nextImg(),e.preventDefault();
+		if(e.target.id === 'prev')setIndex(true),e.preventDefault();
+		if(e.target.id === 'next')setIndex(),e.preventDefault();
 	}
 	window.checkHttpHeaders = function(){
 		window.status='Checking headers, please wait...';
@@ -150,7 +159,7 @@ document.getElementsByClassName('infolink')[0].addEventListener('click', functio
 	<hr>
 	<p><em>Go through images with prev/next buttons below or left/right arrow button</em></p>
 <button id="prev">&lt;&lt;</button>
-<button id="next">&gt;&gt;</button>
+<button id="next">&gt;&gt;</button> <label><input type="checkbox" id="skipknown"> Skip screenshots for sites with open bugs</label>
 
 	<p>If you notice an issue that's not reported, please test to check that it's a real issue. You can pre-fill some values in Bugzilla from this form:</p>
 <p>URL: <input name="bug_file_loc" value="http://" type=text onchange="updateSummDesc()"><a href=""></a></p>
@@ -223,7 +232,7 @@ Further comments:
 <div style="clear:both" id="help">
 <a href="#" class="close">X</a>
 <h1>So, what's this about?</h1>
-<p>In short: <b>find</b> sites that give Firefox OS a worse user experience than other smartphones, <b>report bugs</b> so that we can follow up.</p>
+<p>In short: <b>find</b> sites that give Firefox OS a worse user experience than other smartphones, <b>report bugs</b> so that we can follow up. Perhaps you'd like to watch a <a href="https://air.mozilla.org/compcast-1-reviewing-screenshots-reporting-bugs/">screencast explaining screenshot reviews</a>?</p>
 <h2>Cool, how?</h2>
 <ol>
 	<li>Scroll through screenshots until you find one where the left and right screenshots look different, the left seems like a worse user experience, and the "Current bugs" list is empty.
