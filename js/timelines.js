@@ -385,7 +385,8 @@ function calculateListDetails(tr, list, excludeUS){
 				}
 				if(bug.status === 'NEW' && bug.whiteboard.indexOf('[contactready]')>-1){
 					todos.push( ['Contact '+site+' regarding "'+bug.summary+'"', bug.id, bug.priority] );
-				}else if((bug.status === 'UNCONFIRMED' || ( bug.whiteboard.indexOf('[contactready]')===-1 && bug.whiteboard.indexOf('[sitewait]')===-1)) && ! hasNeedInfoFlag ){
+				}else if((bug.status === 'UNCONFIRMED' || ( ! /\[((not|)contactready|sitewait|(server|client)sniff)\]/.test(bug.whiteboard) )) && ! hasNeedInfoFlag ){
+					// We ignore bugs that have: notcontactready, contactready, sitewait, serversniff, clientsniff labels in whiteboard, and bugs with a 'needinfo' flag
 					todos.push( ['Analyze "'+bug.summary+'" problem on '+site, bug.id, bug.priority] );
 				}
 			}
