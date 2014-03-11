@@ -39,6 +39,10 @@ def check_url(url, iteration=0):
     # Now compare selected responses..
     output = []
     try:
+        if not 'content-length' in responses[0].headers:
+            responses[0].headers['content-length'] = 0
+        if not 'content-length' in responses[1].headers:
+            responses[1].headers['content-length'] = 0
         biggest_cl = int(max(responses[0].headers['content-length'], responses[1].headers['content-length']))
         difference = abs(int(responses[0].headers['content-length']) - int(responses[1].headers['content-length']))
         if biggest_cl > 0:
