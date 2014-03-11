@@ -16,6 +16,16 @@ var topLists = [
 	 "id": "bdtopsites"
 	},
 	{
+	 "name": "Albania top 90",
+	 "url": "al90.json",
+	 "id": "al90"
+	},
+	{
+	 "name": "Argentina top 90",
+	 "url": "ar90.json",
+	 "id": "ar90"
+	},
+	{
 	 "name": "Brazil top 50",
 	 "url": "br50.json",
 	 "id": "br50"
@@ -99,6 +109,11 @@ var topLists = [
 	 "name": "Norway top 70",
 	 "url": "no70.json",
 	 "id": "no70"
+	},
+	{
+	 "name": "Peru top 270",
+	 "url": "pe270.json",
+	 "id": "pe270"
 	},
 	{
 	 "name": "Poland top 50",
