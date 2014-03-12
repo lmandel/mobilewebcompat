@@ -26,7 +26,7 @@ var topLists = [
 	 "id": "ar90"
 	},
 	{
-	 "name": "Brazil top 50",
+	 "name": "Brazil top 250",
 	 "url": "br50.json",
 	 "id": "br50"
 	},
