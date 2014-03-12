@@ -163,10 +163,31 @@ h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
 .list-details-subtable>tbody>tr>td{
 	border-bottom: 1px solid grey;
 }
+.list-details-subtable.open .closed, .list-details-subtable.open .no_bugs{
+	display:none;
+}
+.list-details-subtable.closed .open, .list-details-subtable.closed .no_bugs{
+	display:none;
+}
+.list-details-subtable.no_bugs .open, .list-details-subtable.no_bugs .closed{
+	display:none;
+}
 .sitelink{
 	float:right;
 	visibility:hidden;
 }
 td:hover>.sitelink{
 	visibility:visible;
+}
+
+.touch_friendly .sitelink{
+	visibility: visible;
+}
+thead .tabs td{
+	text-align: center;
+}
+thead .tabs a{
+	display: inline-block;
+	border: thin solid black;
+	margin-left: 2%;
 }

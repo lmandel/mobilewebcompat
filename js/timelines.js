@@ -25,6 +25,7 @@ var testResults = {};
 // some variables related to calculating Alexa metrics..
 var alexaListsUniqueHosts = {}, alexaListsUniqueHostsWithOpenBugs={}, uniqueAlexaListedBugs={};
 masterBugTable.metrics.failingTests = 0;
+if('ontouchstart' in window){document.documentElement.classList.add('touch_friendly');} // show links always rather than on hover if touch..
 function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it.. TODO: remove this and fix retrieveTestIndex when AWCY 2.0 is ready to replace AWCY 1.0 ..
 retrieveTestIndex(fillTables, regressionTable);
 function fillTables() {
@@ -177,32 +178,49 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 	if(!detailsrow.firstChild.hasChildNodes()){
 		var td = detailsrow.firstChild;
 		var table =  td.appendChild(document.createElement('table'));
-		table.className = 'list-details-subtable';
-		table = table.appendChild(document.createElement('tbody'));
+		var thead = table.appendChild(document.createElement('thead'));
+		thead.innerHTML = '<tr class="tabs"><td colspan="3"></td></tr>';
+		thead.rows[0].cells[0].appendChild(elm('a','Open bugs', {href:"#", onclick:function(){table.classList.remove('closed');table.classList.remove('no_bugs'); table.classList.add('open');return false;}}));
+		thead.rows[0].cells[0].appendChild(elm('a','Closed bugs', {href:"#", onclick:function(){table.classList.remove('open');table.classList.remove('no_bugs'); table.classList.add('closed');return false;}}));
+		thead.rows[0].cells[0].appendChild(elm('a','No bugs', {href:"#", onclick:function(){table.classList.remove('closed');table.classList.remove('open'); table.classList.add('no_bugs');return false;}}));
+		table.className = 'list-details-subtable open';
+		openTable = table.appendChild(document.createElement('tbody'));
+		openTable.className = 'open';
+		var closedTable = table.appendChild(document.createElement('tbody'));
+		closedTable.className = 'closed';
+		var noBugsTable = table.appendChild(document.createElement('tbody'));
+		noBugsTable.className = 'no_bugs';
 		masterBugTable.lists[list].data.forEach(function(host, index){
-			if(! showSitesWithoutBugs){
+			var add_to_table;
+			if((! (host in masterBugTable.hostIndex)) || (masterBugTable.hostIndex[host].resolved.length === 0 && masterBugTable.hostIndex[host].open.length === 0) ){
+				// we don't know anything about this site..
+				add_to_table = noBugsTable;
+			}else if( masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length === 0 ){
+				add_to_table = closedTable;
+			}else{
+				add_to_table = openTable;
+			}
+/*			if(! showSitesWithoutBugs){
 				if( !masterBugTable.hostIndex[host] || ( masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length === 0))return; // List only the hosts with active issues
 			}
+*/
 			if(excludeUS && shouldExcludeUSSite(list, host)){
 				// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
 				// So let's skip certain sites..
 				return;
 			}
-			var tr = table.appendChild(document.createElement('tr'));
+			var tr = add_to_table.appendChild(document.createElement('tr'));
 			tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(host+' '));
-                        var a = tr.lastChild.insertBefore(document.createElement('a'), tr.lastChild.firstChild);
-                        a.className = 'sitelink';
-                        a.href = 'http://'+host;
-                        a.textContent = '\u2192 ';
-                        a.title = host; // a11y - text content is not exactly descriptive for this link..
+                        var a = tr.lastChild.insertBefore(elm('a','\u2192 ', {target:'_blank', href:'http://'+host, title:host, className:'sitelink'} ), tr.lastChild.firstChild);
+                        // title important for a11y - text content is not exactly descriptive for this link..
 			tr.appendChild(document.createElement('td'));
-			if(masterBugTable.hostIndex[host] && (masterBugTable.hostIndex[host].open.length || (showSitesWithoutBugs && masterBugTable.hostIndex[host].resolved.length)) ){
+			if(masterBugTable.hostIndex[host] && (masterBugTable.hostIndex[host].open.length || ((showSitesWithoutBugs || add_to_table === closedTable ) && masterBugTable.hostIndex[host].resolved.length)) ){
 				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
 				bugtable.className = 'nested-bug-table';
 				masterBugTable.hostIndex[host].open.forEach(function(bug, bindex){
 					addBugTableCell(bugtable, bug, bindex);
 				});
-				if (showSitesWithoutBugs && masterBugTable.hostIndex[host].resolved.length) {
+				if ( (showSitesWithoutBugs || add_to_table === closedTable )&& masterBugTable.hostIndex[host].resolved.length) {
 					masterBugTable.hostIndex[host].resolved.forEach(function(bug, bindex){
 						addBugTableCell(bugtable, bug, bindex);
 					});					
@@ -427,11 +445,9 @@ function calculateListDetails(tr, list, excludeUS){
 			d.appendChild(document.createElement('a')).href = bz_show_bug+todos[0][1];
 			d.firstChild.appendChild(document.createTextNode(todos[0][0]));
 			d.appendChild(document.createElement('hr'));
-			var b = d.appendChild(document.createElement('button'));
-			b.appendChild(document.createTextNode('<<'));
+			var b = d.appendChild(elm('button', '<<'));
 			b.onclick = function(){updateTodoRow(d, todos, -1)};
-			var b = d.appendChild(document.createElement('button'));
-			b.appendChild(document.createTextNode('>>'));
+			var b = d.appendChild(elm('button', '>>'));
 			b.onclick = function(){updateTodoRow(d, todos, 1)};})(todos);
 		}
 
@@ -440,25 +456,19 @@ function addBugTableCell(bugtable, bug, bindex){
 	bug = masterBugTable.bugs[bug];
 	var bugrow = bugtable.appendChild(document.createElement('tr'));
 	bugrow.appendChild(document.createElement('td'));
-	var a = bugrow.lastChild.appendChild(document.createElement('a'));
+	var a = bugrow.lastChild.appendChild(elm('a', bug.id, {href:bz_show_bug+bug.id}));
 	var resolved = bug.status in resolvedStates;
 	bugrow.classList.add(resolved?'resolved':'open')
-	a.href=bz_show_bug+bug.id;
-	a.textContent = bug.id;
 	bugrow.appendChild(document.createElement('td'));
-	var a = bugrow.lastChild.appendChild(document.createElement('a'));
-	a.href=bz_show_bug+bug.id;
-	a.textContent = bug.summary ;
-	a.title = bug.summary;
+	var a = bugrow.lastChild.appendChild(elm('a', bug.summary, {href:bz_show_bug+bug.id, title:bug.summary}));
 	if(resolved)a.appendChild(document.createTextNode(' - '+bug.status+':'+bug.resolution));
 	if(bug.priority in flagThesePris)a.className = 'major-issue';
 	bugrow.appendChild(document.createElement('td'));
 	if(testResults[bug.id]){
 		// We have some automated test results for this bug
 		var lastResult = testResults[bug.id][0];
-		var testresultspan = bugrow.lastChild.appendChild(document.createElement('span'));
+		var testresultspan = bugrow.lastChild.appendChild(elm('span', 'Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
 		testresultspan.classList.add('testres');
-		testresultspan.appendChild(document.createTextNode('Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
 		var resultdesc = '';
 		if(resolved && lastResult[3] === 'true'){
 			resultdesc = 'Verified passing';
@@ -473,7 +483,7 @@ function addBugTableCell(bugtable, bug, bindex){
 		}else{
 			resultdesc = lastResult[3];
 		}
-		testresultspan.appendChild(document.createElement('strong')).appendChild(document.createTextNode('\u25AA '+resultdesc));
+		testresultspan.appendChild(elm('strong', '\u25AA '+resultdesc));
 		if( lastResult[3] === "true" ){
 			testresultspan.classList.add("pass");
 			if(!resolved){
@@ -487,6 +497,14 @@ function addBugTableCell(bugtable, bug, bindex){
 		}
 	}
 	//tr.lastChild.appendChild(document.createTextNode(' '));
+}
+
+function elm(tagname, text, attributes){
+	var e=document.createElement(tagname);
+	if(text)e.appendChild(document.createTextNode(text));
+	attributes = attributes || {};
+	for(var prop in attributes)e[prop] = attributes[prop];
+	return e;
 }
 
 function millisecondsToStr (milliseconds) {
