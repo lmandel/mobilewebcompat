@@ -76,6 +76,12 @@ function retrieveTestIndex(done1, done2){
 	    alert('Failed to retrieve test results index.');
 	  }
 	});
+	$.ajax({
+		url: 'data/manual_testing.json',
+		dataType:'json',
+		success: function(data){manualTestResults = data;},
+		error:function(){}
+	});
 }
 function retrieveTestResults(indexData, done1, done2){
 	// We assume indexData is a chronologically sorted array

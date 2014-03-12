@@ -21,7 +21,8 @@ var bz_show_bug = 'https://bugzilla.mozilla.org/show_bug.cgi?id=';
 var bz_list_specific_bug = 'https://bugzilla.mozilla.org/buglist.cgi?bug_id=';
 var resolvedStates = {'RESOLVED':1,'CLOSED':1,'VERIFIED':1};
 var alexaGlobalTreshold = 4;
-var testResults = {};
+var testResults = {}; // automated test results, per bug
+var manualTestResults = {}; // manual test results, per site, will contain a list of "ok" flags for a specific date/browser
 // some variables related to calculating Alexa metrics..
 var alexaListsUniqueHosts = {}, alexaListsUniqueHostsWithOpenBugs={}, uniqueAlexaListedBugs={};
 masterBugTable.metrics.failingTests = 0;
@@ -200,19 +201,15 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 			}else{
 				add_to_table = openTable;
 			}
-/*			if(! showSitesWithoutBugs){
-				if( !masterBugTable.hostIndex[host] || ( masterBugTable.hostIndex[host] && masterBugTable.hostIndex[host].open.length === 0))return; // List only the hosts with active issues
-			}
-*/
 			if(excludeUS && shouldExcludeUSSite(list, host)){
 				// now.. the local lists become more interesting and useful if the big, "global" sites are taken out.
 				// So let's skip certain sites..
 				return;
 			}
 			var tr = add_to_table.appendChild(document.createElement('tr'));
-			tr.appendChild(document.createElement('td')).appendChild(document.createTextNode(host+' '));
-                        var a = tr.lastChild.insertBefore(elm('a','\u2192 ', {target:'_blank', href:'http://'+host, title:host, className:'sitelink'} ), tr.lastChild.firstChild);
-                        // title important for a11y - text content is not exactly descriptive for this link..
+			tr.appendChild(elm('td', host+' '));
+            // title important for a11y - text content is not exactly descriptive for this link..
+            var a = tr.lastChild.insertBefore(elm('a','\u2192 ', {target:'_blank', href:'http://'+host, title:host, className:'sitelink'} ), tr.lastChild.firstChild);
 			tr.appendChild(document.createElement('td'));
 			if(masterBugTable.hostIndex[host] && (masterBugTable.hostIndex[host].open.length || ((showSitesWithoutBugs || add_to_table === closedTable ) && masterBugTable.hostIndex[host].resolved.length)) ){
 				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
@@ -225,6 +222,19 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
 						addBugTableCell(bugtable, bug, bindex);
 					});					
 				};
+			}
+			if(manualTestResults[host]){ // Interesting.. we have manual test results for this site
+				var p;
+				if(tr.lastChild.hasChildNodes()){ // there's a table of bug data in the right column of the site table, let's put this information in the left column
+					p = tr.firstChild.appendChild(elm('p', 'Manual test:'));
+				}else{
+					p = tr.lastChild.appendChild(elm('p', 'Manual test: '));
+				}
+				p.className = 'manualTestResults';
+				p.appendChild(elm('strong', manualTestResults[host].status)).className = manualTestResults[host].status === 'ok' ? 'pass':'fail';
+				p.appendChild(document.createElement('br'));
+				var testdate = new Date(manualTestResults[host].date);
+				p.appendChild(elm('small', 'Tested by '+manualTestResults[host].tested_by+' using '+manualTestResults[host].tested_on+', '+millisecondsToStr(Date.now()-testdate.getTime())+' ago'));
 			}
 		});
 		var timedata = masterBugTable.lists[list].timedata, openBugCount = masterBugTable.lists[list].counts.open, resolvedBugCount=masterBugTable.lists[list].counts.resolved;
