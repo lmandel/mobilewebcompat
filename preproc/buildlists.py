@@ -12,7 +12,6 @@
 import json, glob, urllib, os, urllib2,csv,StringIO,re, sys, time
 from pprint import pprint
 from urlparse import urlparse
-
 import socket
 socket.setdefaulttimeout(240) # Seconds. Loading Bugzilla searches can be slow
 
@@ -117,20 +116,24 @@ def hostsFromText(text):
 		if '.' in word: # now go on to assume the first white-space separated string that contains at least one internal period is a domain name
 			hosts.append(word)
 		else : #
-			for hostname in aliases :
-				if aliases[hostname] in word :
+			for hostname in aliases:
+				if aliases[hostname] in word:
 					#print ('alias match '+hostname+' in '+word+' '+' '.join(text))
 					hosts.append(hostname)
 	# now we've listed any words/character sequences that contain internal dots.
 	# However, we do not want www. or m. or similar prefixes, so we'll run through the list and use
 	# tldextract to remove those
 	uniquehosts = set()
-	for hostname in hosts :
+
+	for hostname in hosts:
 		parts = tldextract.extract(hostname)
-		if re.search(conf['weWantSubdomainsFor'], hostname, re.I) and not re.search('^www', parts[0]) :
-			hostname = '.'.join( parts[0:3])
-		else :
-			hostname = '.'.join( parts[1:3])
+		if parts.domain == '' or parts.domain == 'www':
+			hostname = parts.suffix # Hello blogspot.com and friends..
+		else:
+			if re.search(conf['weWantSubdomainsFor'], hostname, re.I) and not re.search('^www', parts[0]):
+				hostname = '.'.join(parts[0:3])
+			else:
+				hostname = '.'.join(parts[1:3])
 
 		uniquehosts.add(hostname)
 
