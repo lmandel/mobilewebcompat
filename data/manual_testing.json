@@ -1,5 +1,0 @@
-{
-	"example.com" : { "date":"2014-03-12", "tested_by": "hallvord", "tested_on":"Firefox OS", "status": "ok" },
-	"broken.example.com" : { "date":"2014-03-12", "tested_by": "hallvord", "tested_on":"Firefox OS", "status": "not ok" }
-
-}
