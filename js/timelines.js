@@ -92,7 +92,7 @@ window.onhashchange = function(e){
 	if(newHash.indexOf('list:custom')===-1)showListDetails(newHash, true); // custom list hash will be handled in quickSearchInit()
 	// removing and adding lots of content in document from hashchange event tends to mess up "scroll to #hash" logic in browsers
 	// let's fix that again with a little help from jQuery..
-	setTimeout(function(){
+	if(newHash && document.getElementById(newHash))setTimeout(function(){
 		$(document.documentElement).animate({scrollTop:$(document.getElementById(newHash).previousSibling).offset().top}, 10);
 	}, 10);
 }
@@ -171,7 +171,7 @@ function regressionTable(){
 
 }
 
-function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
+function showListDetails(newHash, excludeUS){
 	$('.active').removeClass('active');
 	var detailsrow = document.getElementById(newHash);
 	var list = newHash.substring(5);
@@ -211,13 +211,13 @@ function showListDetails(newHash, excludeUS, showSitesWithoutBugs){
             // title important for a11y - text content is not exactly descriptive for this link..
             var a = tr.lastChild.insertBefore(elm('a','\u2192 ', {target:'_blank', href:'http://'+host, title:host, className:'sitelink'} ), tr.lastChild.firstChild);
 			tr.appendChild(document.createElement('td'));
-			if(masterBugTable.hostIndex[host] && (masterBugTable.hostIndex[host].open.length || ((showSitesWithoutBugs || add_to_table === closedTable ) && masterBugTable.hostIndex[host].resolved.length)) ){
+			if(masterBugTable.hostIndex[host] && (masterBugTable.hostIndex[host].open.length || (add_to_table === closedTable && masterBugTable.hostIndex[host].resolved.length)) ){
 				var bugtable = tr.lastChild.appendChild(document.createElement('table')); // yes, it's all about data..! TABLE is quite correct, even nested..
 				bugtable.className = 'nested-bug-table';
 				masterBugTable.hostIndex[host].open.forEach(function(bug, bindex){
 					addBugTableCell(bugtable, bug, bindex);
 				});
-				if ( (showSitesWithoutBugs || add_to_table === closedTable )&& masterBugTable.hostIndex[host].resolved.length) {
+				if ( add_to_table === closedTable && masterBugTable.hostIndex[host].resolved.length) {
 					masterBugTable.hostIndex[host].resolved.forEach(function(bug, bindex){
 						addBugTableCell(bugtable, bug, bindex);
 					});					
@@ -331,15 +331,17 @@ function quickSearchInit(){
 					data.push(domain);
 				}else{
 					var domains = Object.keys(masterBugTable.hostIndex);
+					// include all sites we know about (hm.. we sort of should have a unique array..)
+					for(var list in masterBugTable.lists)domains = domains.concat(masterBugTable.lists[list].data);
 					if(domain.indexOf('*')>-1){ // wildcard matching
 						var pattern ='^'+domain.replace(/\./g, '\\.').replace(/\*/g, '.*')+'$';
 						var rx = new RegExp(pattern);
 						for(var i=0; i<domains.length; i++){
-							if(rx.test(domains[i]))data.push(domains[i]);
+							if(rx.test(domains[i]) && data.indexOf(domains[i])==-1)data.push(domains[i]);
 						}
 					}else if(domain !== ''){ // substr matching
 						for(var i=0; i<domains.length; i++){
-							if(domains[i].indexOf(domain)>-1)data.push(domains[i]);
+							if(domains[i].indexOf(domain)>-1 && data.indexOf(domains[i])==-1)data.push(domains[i]);
 						}
 					}
 				}
