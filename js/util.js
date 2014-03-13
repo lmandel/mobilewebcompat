@@ -77,7 +77,7 @@ function retrieveTestIndex(done1, done2){
 	  }
 	});
 	$.ajax({
-		url: 'data/manual_testing.json',
+		url: 'data/testing/manual_testing.json',
 		dataType:'json',
 		success: function(data){manualTestResults = data;},
 		error:function(){}
