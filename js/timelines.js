@@ -224,17 +224,25 @@ function showListDetails(newHash, excludeUS){
 				};
 			}
 			if(manualTestResults[host]){ // Interesting.. we have manual test results for this site
-				var p;
-				if(tr.lastChild.hasChildNodes()){ // there's a table of bug data in the right column of the site table, let's put this information in the left column
-					p = tr.firstChild.appendChild(elm('p', 'Manual test:'));
+				var p, mResult, div;
+				if(!('length' in manualTestResults[host])){ // only a single result.. let's arrayify it.
+					mResult = [manualTestResults[host]];
 				}else{
-					p = tr.lastChild.appendChild(elm('p', 'Manual test: '));
+					mResult = manualTestResults[host];
 				}
-				p.className = 'manualTestResults';
-				p.appendChild(elm('strong', manualTestResults[host].status)).className = manualTestResults[host].status === 'ok' ? 'pass':'fail';
-				p.appendChild(document.createElement('br'));
-				var testdate = new Date(manualTestResults[host].date);
-				p.appendChild(elm('small', 'Tested by '+manualTestResults[host].tested_by+' using '+manualTestResults[host].tested_on+', '+millisecondsToStr(Date.now()-testdate.getTime())+' ago'));
+				if(tr.lastChild.hasChildNodes()){ // there's a table of bug data in the right column of the site table, let's put this information in the left column
+					div = tr.firstChild.appendChild(elm('div'));
+				}else{
+					div = tr.lastChild.appendChild(elm('div'));
+				}
+				mResult.forEach(function(result){
+					var p = div.appendChild(elm('p', 'Manual test: '))
+					p.className = 'manualTestResults';
+					p.appendChild(elm('strong', result.status)).className = result.status === 'ok' ? 'pass':'fail';
+					p.appendChild(document.createElement('br'));
+					var testdate = new Date(result.date);
+					p.appendChild(elm('small', 'Tested by '+result.tested_by+' using '+result.tested_on+', '+millisecondsToStr(Date.now()-testdate.getTime())+' ago'));
+				});
 			}
 		});
 		var timedata = masterBugTable.lists[list].timedata, openBugCount = masterBugTable.lists[list].counts.open, resolvedBugCount=masterBugTable.lists[list].counts.resolved;
