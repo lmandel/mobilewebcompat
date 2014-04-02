@@ -11,11 +11,6 @@ var topLists = [
 	 "id": "1000"
 	},
 	{
-	 "name": "BD Top Sites",
-	 "url": "bdtopsites.json",
-	 "id": "bdtopsites"
-	},
-	{
 	 "name": "Albania top 90",
 	 "url": "al90.json",
 	 "id": "al90"
@@ -24,6 +19,11 @@ var topLists = [
 	 "name": "Argentina top 90",
 	 "url": "ar90.json",
 	 "id": "ar90"
+	},
+	{
+	 "name": "Bangladesh top sites",
+	 "url": "bd280.json",
+	 "id": "bd280"
 	},
 	{
 	 "name": "Brazil top 250",
