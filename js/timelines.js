@@ -223,12 +223,17 @@ function showListDetails(newHash, excludeUS){
 					});					
 				};
 			}
-			if(manualTestResults[host]){ // Interesting.. we have manual test results for this site
+			/* conundrum: some of our lists contain URLs - not just host names (i.e. the "video" list is full of stuff like whitehouse.gov/live ) 
+				When registering manual test results, should people have to register the full URL? It's inconvenient and error-prone.
+				So let's support registering manual test results under hostname only.
+			*/
+			var hostname = getHostname(host);
+			if(manualTestResults[hostname]){ // Interesting.. we have manual test results for this site
 				var p, mResult, div;
-				if(!('length' in manualTestResults[host])){ // only a single result.. let's arrayify it.
-					mResult = [manualTestResults[host]];
+				if(!('length' in manualTestResults[hostname])){ // only a single result.. let's arrayify it.
+					mResult = [manualTestResults[hostname]];
 				}else{
-					mResult = manualTestResults[host];
+					mResult = manualTestResults[hostname];
 				}
 				if(tr.lastChild.hasChildNodes()){ // there's a table of bug data in the right column of the site table, let's put this information in the left column
 					div = tr.firstChild.appendChild(elm('div'));
@@ -525,6 +530,11 @@ function elm(tagname, text, attributes){
 	attributes = attributes || {};
 	for(var prop in attributes)e[prop] = attributes[prop];
 	return e;
+}
+
+function getHostname(str){
+	if(!/^https?:/.test(str))str = 'http://'+str;
+	return elm('a', null, {href:str}).hostname;
 }
 
 function millisecondsToStr (milliseconds) {
