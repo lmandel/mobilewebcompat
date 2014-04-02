@@ -2,16 +2,17 @@ name: arewecompatibleyet
 framework:
     type: python
 processes:
-    web: $STACKATO_UWSGI --check-static $HOME --static-map /=$HOME/timeline.html
+    web: $STACKATO_UWSGI --static-map /css/=$HOME/css/ --static-map /js/=$HOME/js/ --static-map /images/=$HOME/images/ --static-map /data/=$HOME/data/
 cron:
      - "0	2,6,10,14,18,22	*	*	*	cd $HOME/preproc; /usr/bin/python buildlists.py"
-ignores: ["tmp", ".git"]
+ignores: ["tmp", ".git", "update.bat"]
 url:
      - arewecompatibleyet.com.paas.mozilla.org
      - arewecompatibleyet.com
      - www.arewecompatibleyet.com
 requirements:
-    pip:
+    pypm:
       - tldextract
+      - requests
 services:
   ${name}-files: filesystem
