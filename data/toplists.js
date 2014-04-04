@@ -46,6 +46,11 @@ var topLists = [
 	 "id": "cn50"
 	},
 	{
+	 "name": "Colombia top sites",
+	 "url": "co50.json",
+	 "id": "co50"
+	},
+	{
 	 "name": "Croatia top 100",
 	 "url": "hr100.json",
 	 "id": "hr100"
@@ -56,19 +61,9 @@ var topLists = [
 	 "id": "cz100"
 	},
 	{
-	 "name": "Colombia top 50",
-	 "url": "co50.json",
-	 "id": "co50"
-	},
-	{
 	 "name": "Germany top 50",
 	 "url": "de50.json",
 	 "id": "de50"
-	},
-	{
-	 "name": "Spain top 50",
-	 "url": "es50.json",
-	 "id": "es50"
 	},
 	{
 	 "name": "France top 100",
@@ -101,7 +96,7 @@ var topLists = [
 	 "id": "kr50"
 	},
 	{
-	 "name": "Mexico top 50",
+	 "name": "Mexico top sites",
 	 "url": "mx50.json",
 	 "id": "mx50"
 	},
@@ -129,6 +124,11 @@ var topLists = [
 		"name": "South Africa 150",
 		"url": "za150.json",
 		"id": "za150"
+	},
+	{
+	 "name": "Spain top 50",
+	 "url": "es50.json",
+	 "id": "es50"
 	},
 	{
 		"name": "Sweden 60",
