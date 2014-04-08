@@ -6,27 +6,29 @@ div.d1{width: 50%; float:left;position:relative;}div.d2{width: 40%;float:right;}
 div.d1 span{position: absolute; top: 0; background: rgba(50, 50, 50, 0.3); opacity: 0.5; border: 2px outset #000}
 div.d1 #fxOSLabel{left: 0;}div.d1 #iOSLabel{right: 0.5em;} div.d1 img{padding-top: 1.5em;max-width: 98%}
 .err{display:none;position: absolute;background: #faa; top: 5%; width: 80%}
-body.show_err .err{display:block;}
+html.show_err .err{display:block;}
 .infolink{position: absolute; top:0; right: 0; display: block;}
 </style>
 <script src="http://arewecompatibleyet.com/data/masterbugtable.js"></script>
+<script src="./js/translationdictionary.js"></script>
 </head>
-<body>
+<body lang="en">
 <div class="err">Error</div>
-<a href="#help" class="infolink">What's this about??</a>
+<div class="langlink"><a href="#" onclick="setLang('en')">English</a> | <a href="#" onclick="setLang('es')">Espanol</a></div>
+<a href="#help" class="infolink">What's this about?</a>
 <script type="text/javascript">
 
 var country = /cctld=(.+)/.test(location.search) ? RegExp.$1 : 'in';
 var dataurl = 'http://hallvord.com/temp/moz/'+country+'/comp/'; // location.pathname.indexOf(country+'/comp/') > -1 ? './' : country+'/comp/';
 var xhr = new XMLHttpRequest(); 
-if(!('withCredentials' in xhr)){document.body.className='show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Your browser does not support CORS (cross-origin XMLHttpRequest). Use a newer web browser to make this page work.';throw 'CORS support required';}
+if(!('withCredentials' in xhr)){document.documentElement.className='show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Your browser does not support CORS (cross-origin XMLHttpRequest). Use a newer web browser to make this page work.';throw 'CORS support required';}
 if(typeof window.masterBugTable === 'undefined'){
-	document.body.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Bug data missing (masterbugtable.js did not load). List of existing bugs will not be shown.'
+	document.documentElement.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Bug data missing (masterbugtable.js did not load). List of existing bugs will not be shown.'
 }
 try{
 	xhr.open('GET', dataurl+'idx.js', false);xhr.send();
 }catch(e){
-		document.body.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Failed to load list of images for this top-level domain'
+		document.documentElement.className = 'show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Failed to load list of images for this top-level domain'
 
 }
 var imagelist = JSON.parse(xhr.responseText);
@@ -44,6 +46,7 @@ window.onload = function(){
 	if(isNaN(i))i = 0;
 	div.appendChild(document.createElement('br'));
 	var a=current_bugs.getElementsByTagName('h1')[0].appendChild(document.createElement('a'));
+	a.id = 'main-site-link';
 	function setIndex(down){
 		var skipknown = document.getElementById('skipknown').checked;
 		do{
@@ -131,7 +134,7 @@ window.onload = function(){
 
 function updateSummDesc(){
 	var url = document.getElementsByName('bug_file_loc')[0].value;
-	document.links[0].href = url;
+	document.getElementById('main-site-link').href = url;
 	var host = document.links[0].hostname;
 	document.getElementsByName('short_desc')[0].value = host + ' '+document.getElementsByTagName('select')[0].value+' Firefox OS';
 	if (document.getElementsByTagName('select')[0].selectedIndex<3 && /^\s+$/.test(document.getElementsByName('comment')[0].value)) {
@@ -152,6 +155,44 @@ document.getElementsByClassName('infolink')[0].addEventListener('click', functio
 	el.getElementsByClassName('close')[0].onclick = function(){el.setAttribute('style', 'clear:both');}
 	e.preventDefault();
 }, false)
+function setLang(lang){
+	var oldLang = document.body.getAttribute('lang'), buildOriginalPhraseList = false, nodeCounter = 0;
+	if(!(oldLang in translationDictionary)){
+		translationDictionary[oldLang] = [];
+		buildOriginalPhraseList = true;
+	}
+	document.body.setAttribute('lang', lang);
+	var nodeIterator = document.evaluate('//text()', document.body, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+	var textNode = nodeIterator.snapshotItem(nodeCounter);
+	while (textNode) {
+		if(!(/^\s*$/.test(textNode.data) || textNode.parentNode.tagName === 'OL')){
+			if(buildOriginalPhraseList){
+				translationDictionary[oldLang][nodeCounter] = textNode.data;
+				if('value' in textNode.parentNode && 'form' in textNode.parentNode)textNode.parentNode.value = textNode.data; // <option> .. 
+			}
+			// If we're translating to a language we have a direct phrase mapping from English for..
+			if(translationDictionary.en[nodeCounter] in translationDictionary[lang]){
+				textNode.data = translationDictionary[lang][translationDictionary.en[nodeCounter]];
+			}else if(translationDictionary.en[nodeCounter]){ // default to resetting it back to English..
+				textNode.data = translationDictionary.en[nodeCounter];
+			}
+		}
+		nodeCounter++;
+		textNode = nodeIterator.snapshotItem(nodeCounter);
+	}
+}
+function getStrings(){ // purely a convenience method when creating translation dictionaries..
+	var nodeCounter = 0;
+	var strings = [];
+	var nodeIterator = document.evaluate('//text()', document.body, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+	var textNode = nodeIterator.snapshotItem(nodeCounter);
+	while (textNode) {
+		strings.push(textNode.data);
+		nodeCounter++;
+		textNode = nodeIterator.snapshotItem(nodeCounter);
+	}
+	return strings;
+}
 
 </script>
 
@@ -163,15 +204,16 @@ document.getElementsByClassName('infolink')[0].addEventListener('click', functio
 
 	<p>If you notice an issue that's not reported, please test to check that it's a real issue. You can pre-fill some values in Bugzilla from this form:</p>
 <p>URL: <input name="bug_file_loc" value="http://" type=text onchange="updateSummDesc()"><a href=""></a></p>
-<p>Type problem: <select  onchange="updateSummDesc()"><option>sends desktop site to</option><option>sends simplified site to</option><option>sends wap content to</option><option>has broken layout in</option><option>does not play video in</option></select></p>
+<p><span>Type problem:</span><select  onchange="updateSummDesc()"><option>sends desktop site to</option><option>sends simplified site to</option><option>sends wap content to</option><option>has broken layout in</option><option>does not play video in</option></select></p>
+
 <p>Summary: <input name="short_desc" value=" sends desktop site to Firefox OS" type=text></p>
 <p>Whiteboard: <input name="status_whiteboard" value="[country-]" type=text></p>
-Further comments:
+<span>Further comments:</span>
 <textarea name="comment"></textarea>
 <p>HTTP header check: <button onclick="checkHttpHeaders();return false;">Check now</button></p>
-<bR><input type="submit" value="Send to bugzilla">
+<bR><button type="submit">Send to bugzilla</button>
 	<br>
-<em>Note: click "Submit bug" on the next screen to finish reporting the issue. Please consider uploading screenshot as attachment.</em>
+<em>Note: click "Submit bug" on the next screen to finish reporting the issue.</em>
 
 <input name="alias" value="" type=hidden>
 <input name="assigned_to" value="nobody@mozilla.org" type=hidden>
@@ -231,7 +273,7 @@ Further comments:
 
 <div style="clear:both" id="help">
 <a href="#" class="close">X</a>
-<h1>So, what's this about?</h1>
+<h1>What's this about?</h1>
 <p>In short: <b>find</b> sites that give Firefox OS a worse user experience than other smartphones, <b>report bugs</b> so that we can follow up. Perhaps you'd like to watch a <a href="https://air.mozilla.org/compcast-1-reviewing-screenshots-reporting-bugs/">screencast explaining screenshot reviews</a>?</p>
 <h2>Cool, how?</h2>
 <ol>
