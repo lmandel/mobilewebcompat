@@ -30,7 +30,9 @@ if('ontouchstart' in window){document.documentElement.classList.add('touch_frien
 function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it.. TODO: remove this and fix retrieveTestIndex when AWCY 2.0 is ready to replace AWCY 1.0 ..
 retrieveTestIndex(fillTables, regressionTable);
 function fillTables() {
-	var table = document.body.appendChild(document.createElement('table')), row, a;
+	var parent_div = document.getElementById('details');
+	if(parent_div === null)return window.onload = fillTables;
+	var table = parent_div.appendChild(document.createElement('table')), row, a;
 	table.border=1;
 	table.className = 'list-master-table';
 	table = table.appendChild(document.createElement('tbody'));
@@ -70,13 +72,17 @@ function fillTables() {
 		var numOpenBugsOnAlexaLists = Object.keys(uniqueAlexaListedBugs).length;
 		var percOfHostsHaveBugs = parseInt((numHostsWithOpenBugs / numUniqueAlexaHosts ) * 100), m;
 		(m=document.getElementById('metrics')).appendChild(document.createTextNode('There are '))
-		m.appendChild(document.createElement('b')).appendChild(document.createTextNode(numOpenBugsOnAlexaLists));
+		m.appendChild(elm('b', numOpenBugsOnAlexaLists));
 		m.appendChild(document.createTextNode(' open bugs on listed sites, '))
-		m.appendChild(document.createElement('b')).appendChild(document.createTextNode(percOfHostsHaveBugs));
-		m.appendChild(document.createTextNode('% of listed sites are affected.'));
+		m.appendChild(elm('b', percOfHostsHaveBugs));
+		m.appendChild(document.createTextNode('% of listed sites are affected. We are tracking ' ))
+		m.appendChild(elm('b', numUniqueAlexaHosts));
+		m.appendChild(document.createTextNode(' sites across ' ))
+		m.appendChild(elm('b', Object.keys(masterBugTable.lists).length));
+		m.appendChild(document.createTextNode(' lists. '));
 		m.appendChild(document.createTextNode(' There are '));
-		m.appendChild(document.createElement('b')).appendChild(document.createTextNode(masterBugTable.metrics.numOpenBugs-numOpenBugsOnAlexaLists));
-		m.appendChild(document.createTextNode(' open bugs on other sites, not in the included Alexa lists.'));
+		m.appendChild(elm('b', masterBugTable.metrics.numOpenBugs-numOpenBugsOnAlexaLists));
+		m.appendChild(document.createTextNode(' open bugs on sites we don\'t currently track.'));
 		/*, and '))
 		for(var bug in testResults){
 			var numTests = testResults[bug].length;

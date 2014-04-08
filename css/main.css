@@ -9,6 +9,10 @@ h1 {
 h4 {
 	text-align: center;
 }
+footer {
+	text-align: center;
+	padding-bottom: 15px;
+}
 
 #wrapper {
 	background: rgb(245,241,232) url('../images/mozorg-gradient.png') repeat-x top center;
