@@ -182,6 +182,15 @@ function showListDetails(newHash, excludeUS){
 	var detailsrow = document.getElementById(newHash);
 	var list = newHash.substring(5);
 	if(!detailsrow)throw 'Details TR not found for '+newHash;
+	// removing and adding lots of content in document from hashchange event tends to mess up "scroll to #hash" logic in browsers
+	// let's fix that again with a little help from jQuery..
+	if(newHash && document.getElementById(newHash))setTimeout(function(){
+		if(detailsrow.scrollIntoView){
+			detailsrow.scrollIntoView();
+		}else{
+			$(document.documentElement).animate({scrollTop:$(detailsrow).offset().top}, 10);
+		}
+	}, 10);
 	if(!detailsrow.firstChild.hasChildNodes()){
 		var td = detailsrow.firstChild;
 		var table =  td.appendChild(document.createElement('table'));
