@@ -58,7 +58,7 @@ def check_url(url, iteration=0):
             output.append('\nFirefox Android redirected to %s, Firefox OS not redirected' % str(responses[1].headers['location']))
         elif 'location' in responses[1].headers and 'location' in responses[0].headers:
             if responses[1].headers['location'] != responses[0].headers['location']:
-                output.append('\nFirefox Android redirected to '+responses[0].headers['location']+', Firefox OS redirected to '+responses[1].headers['location'])
+                output.append('\nFirefox OS redirected to '+responses[0].headers['location']+', Firefox Android redirected to '+responses[1].headers['location'])
             elif responses[1].headers['location'] == responses[0].headers['location']:
                 if iteration == 0: # follow redirects only once
                     return check_url(responses[1].headers['location'], 1)
