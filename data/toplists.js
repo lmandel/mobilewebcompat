@@ -31,6 +31,11 @@ var topLists = [
 	 "id": "br50"
 	},
 	{
+	 "name": "Bulgaria top sites",
+	 "url": "bg250.json",
+	 "id": "bg250"
+	},
+	{
 	 "name": "Canada top 50",
 	 "url": "ca50.json",
 	 "id": "ca50"
