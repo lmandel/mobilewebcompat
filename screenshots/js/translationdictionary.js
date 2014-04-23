@@ -3,6 +3,7 @@ var translationDictionary = {
 		"Go through images with prev/next buttons below or left/right arrow button":"Desplázate por las imágenes pulsando el botón \"anterior/siguiente\" de debajo o los botones con flechas \"izquierda/derecha\"",
 		" Skip screenshots for sites with open bugs":"Sáltate imágenes para sitios con errores abiertos",
 		"If you notice an issue that's not reported, please test to check that it's a real issue. You can pre-fill some values in Bugzilla from this form:" : "Si encuentras un fallo que no ha sido reportado, porfavor comprueba que es un fallo real. Puedes pre-rellenar algunos valores en Bugzilla basándote en este formulario:",
+		"Current bugs": "Errores actuales",
 		"URL:": "URL:",
 		"Type problem:": "Tipo de problema:",
 		"sends desktop site to":"envía la página de escritorio a",
@@ -19,7 +20,7 @@ var translationDictionary = {
 		"Note: click \"Submit bug\" on the next screen to finish reporting the issue.": "Nota: haz click en \"Submit bug\" (\"Enviar fallo\") en la siguiente pantalla para terminar de reportar el problema.",
 		"What's this about?": "Así que, ¿de qué va todo esto?",
 		"In short: ": "Es sencillo: ",
-		"find":"encuentra",
+		"find ":"encuentra ",
 		" sites that give Firefox OS a worse user experience than other smartphones, ":" páginas que ofrezcan en Firefox OS una peor experiencia de usuari que en otro tipo de sistemas operativos y ",
 		"report bugs": "reporta los fallos",
 		" so that we can follow up. Perhaps you'd like to watch a ": " para que podamos enterarnos. ¿Quizás te gustaría mirar una ",
@@ -35,9 +36,17 @@ var translationDictionary = {
 	    "If one of the screenshots looks like it didn't load fully, it probably needs manual testing to see if it's an issue. You can ignore those screenshots if you don't have a device\n\t": "Si una de las imágenes parece como si no cargase completamente, probablemente necesite comprobación manual para comprobar si es un problema. Puedes ignorar esas imágenes si no tienes un teléfono.\n\t",
 	    "The ": "La lista de ",
 	    "current bugs": "Errores actuales",
-	    " list is updated every two hours, so you will not see your bug reports appear immediately. (Also if somebody else is reviewing at the same time, you might report duplicate bugs.)\n\t\n": " se actualiza cada dos horas, por lo que no verás tus reportes inmediatamente. (También si dos personas revisan algo a la vez, puedes reportar bugs duplicados.)\n\t\n"
+	    " list is updated every two hours, so you will not see your bug reports appear immediately. (Also if somebody else is reviewing at the same time, you might report duplicate bugs.)\n\t\n": " se actualiza cada dos horas, por lo que no verás tus reportes inmediatamente. (También si dos personas revisan algo a la vez, puedes reportar bugs duplicados.)\n\t\n",
+	    "No bugs reported for ":"No hay errores reportados para ",
+		"Need help? Ask ": "¿Necesitas ayuda? Pregunta a ",
+		" on Twitter, hsteen@mozilla.com by E-mail or come to the #webcompat room on Mozilla's IRC server (irc.mozilla.org).": " en Twitter, o manda un E-mail a hsteen@mozilla.com, o pásate por la sala #webcompat del servidor IRC de Mozilla (irc.mozilla.org)."
 	}
 
+}
+
+function __(str){
+	var lng = document.body.getAttribute('lang');
+	return translationDictionary[lng] && translationDictionary[lng][str] ? translationDictionary[lng][str] : str;
 }
 
 /*

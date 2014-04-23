@@ -3,8 +3,13 @@
 <style type="text/css">
 input[type=text]{width: 50%;} 
 div.d1{width: 50%; float:left;position:relative;}div.d2{width: 40%;float:right;}form{float:right; width:40%;}
-div.d1 span{position: absolute; top: 0; background: rgba(50, 50, 50, 0.3); opacity: 0.5; border: 2px outset #000}
-div.d1 #fxOSLabel{left: 0;}div.d1 #iOSLabel{right: 0.5em;} div.d1 img{padding-top: 1.5em;max-width: 98%}
+div.d1 span{position: absolute;font-size: 1.2em; line-height: 1em; top: 0; background: rgba(255, 255, 50, 0.3); opacity: 1; border: 2px outset orange; max-width: 45%; padding:0;}
+div.d1 #fxOSLabel{right: 75%; text-align: right;}div.d1 #iOSLabel{left: 55%;} 
+div.d1 #fxOSLabel:before{content: "\002b10"; font-size: 2em; color: orange;}
+div.d1 #fxOSLabel:after{content: "\002015"; font-size: 2em; color: orange;}
+div.d1 #iOSLabel:after{content: "\002b0e"; font-size: 2em; color: orange;}
+div.d1 #iOSLabel:before{content: "\002015"; font-size: 2em; color: orange;}
+div.d1 img{padding-top: 2em;max-width: 98%}
 .err{display:none;position: absolute;background: #faa; top: 5%; width: 80%}
 html.show_err .err{display:block;}
 .infolink{position: absolute; top:0; right: 0; display: block;}
@@ -14,7 +19,7 @@ html.show_err .err{display:block;}
 </head>
 <body lang="en">
 <div class="err">Error</div>
-<div class="langlink"><a href="#" onclick="setLang('en')">English</a> | <a href="#" onclick="setLang('es')">Espanol</a></div>
+<div class="langlink"><a href="#" onclick="setLang('en')">English</a> | <a href="#" onclick="setLang('es')">Español</a></div>
 <a href="#help" class="infolink">What's this about?</a>
 <script type="text/javascript">
 
@@ -35,7 +40,7 @@ var imagelist = JSON.parse(xhr.responseText);
 var div = document.body.appendChild(document.createElement('div')); div.className = 'd1';
 var sp1 = div.appendChild(document.createElement('span')),  sp2 = div.appendChild(document.createElement('span'));
 sp1.id = 'fxOSLabel',sp2.id = 'iOSLabel';
-sp1.textContent = 'Requested with Firefox OS UA string', sp2.textContent = 'Requested with iOS UA string';
+sp1.textContent = 'Firefox OS', sp2.textContent = 'iPhone';
 var current_bugs = document.body.appendChild(document.createElement('div')); current_bugs.className = 'd2';
 current_bugs.appendChild(document.createElement('h1'));
 current_bugs.appendChild(document.createElement('h2')).textContent = 'Current bugs';
@@ -82,7 +87,7 @@ window.onload = function(){
 			};
 		}
 		if(current_bugs.childNodes.length===2){
-			current_bugs.appendChild(document.createElement('p')).appendChild(document.createTextNode('No bugs reported for '+imagelist[i].hostname+'! :-o'))
+			current_bugs.appendChild(document.createElement('p')).appendChild(document.createTextNode(__('No bugs reported for ')+imagelist[i].hostname+'! :-o'))
 		}
 		document.getElementsByName('status_whiteboard')[0].value = '[country-'+country+']';
 		document.getElementsByName('comment')[0].value = '';
@@ -135,7 +140,7 @@ window.onload = function(){
 function updateSummDesc(){
 	var url = document.getElementsByName('bug_file_loc')[0].value;
 	document.getElementById('main-site-link').href = url;
-	var host = document.links[0].hostname;
+	var host = document.getElementById('main-site-link').hostname;
 	document.getElementsByName('short_desc')[0].value = host + ' '+document.getElementsByTagName('select')[0].value+' Firefox OS';
 	if (document.getElementsByTagName('select')[0].selectedIndex<3 && /^\s+$/.test(document.getElementsByName('comment')[0].value)) {
 		//document.getElementsByName('comment')[0].value=='Compare Content-length for the HTTP requests below'
@@ -274,7 +279,7 @@ function getStrings(){ // purely a convenience method when creating translation 
 <div style="clear:both" id="help">
 <a href="#" class="close">X</a>
 <h1>What's this about?</h1>
-<p>In short: <b>find</b> sites that give Firefox OS a worse user experience than other smartphones, <b>report bugs</b> so that we can follow up. Perhaps you'd like to watch a <a href="https://air.mozilla.org/compcast-1-reviewing-screenshots-reporting-bugs/">screencast explaining screenshot reviews</a>?</p>
+<p>In short: <b>find </b>sites that give Firefox OS a worse user experience than other smartphones, <b>report bugs</b> so that we can follow up. Perhaps you'd like to watch a <a href="https://air.mozilla.org/compcast-1-reviewing-screenshots-reporting-bugs/">screencast explaining screenshot reviews</a>?</p>
 <h2>Cool, how?</h2>
 <ol>
 	<li>Scroll through screenshots until you find one where the left and right screenshots look different, the left seems like a worse user experience, and the "Current bugs" list is empty.
@@ -288,6 +293,7 @@ function getStrings(){ // purely a convenience method when creating translation 
 	<li>The <b>current bugs</b> list is updated every two hours, so you will not see your bug reports appear immediately. (Also if somebody else is reviewing at the same time, you might report duplicate bugs.)
 	
 </ul>
+<p>Need help? Ask @MozWebCompat on Twitter, hsteen@mozilla.com by E-mail or come to the #webcompat room on Mozilla's IRC server (irc.mozilla.org).</p>
 </div>
 
 </body></html>
