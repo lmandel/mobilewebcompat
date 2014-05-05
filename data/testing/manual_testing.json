@@ -95,6 +95,191 @@
 	"whitehouse.gov": {"date":"2014-03-25", "tested_by":"Hallvord", "tested_on": "Firefox Android", "status":"ok"},
 	"video.nhptv.org": {"date":"2014-03-24", "tested_by":"Hallvord", "tested_on": "Firefox Android", "status":"ok"},
 	"dailymotion.com": {"date":"2014-03-24", "tested_by":"Hallvord", "tested_on": "Firefox Android", "status":"ok"},
-	"pbs.org": {"date":"2014-03-24", "tested_by":"Hallvord", "tested_on": "Firefox Android", "status":"ok"}
+	"pbs.org": {"date":"2014-03-24", "tested_by":"Hallvord", "tested_on": "Firefox Android", "status":"ok"},
+	"uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"globo.com":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"mercadolivre.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"terra.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"folha.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"correios.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"caixa.gov.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"buscape.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"r7.com ":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"esporte.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"olx.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"registro.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"bradesco.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"bb.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"bancobrasil.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"letras.mus.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"netshoes.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"walmart.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"tecmundo.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"egrana.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"locaweb.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"clicrbs.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"pagseguro.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"fazenda.gov.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"oi.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"vagalume.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"reclameaqui.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"blogosfera.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"clickjogos.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"extra.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"bol.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"lancenet.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"magazineluiza.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"disponivel.uol.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"pontofrio.com.br":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"hotelurbano.com":
+        [
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ],
+	"livrariasaraiva.com.br":
+	[
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
+            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
+        ]
 
 }
