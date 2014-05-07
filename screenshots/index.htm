@@ -13,6 +13,7 @@ div.d1 img{padding-top: 2em;max-width: 98%}
 .err{display:none;position: absolute;background: #faa; top: 5%; width: 80%}
 html.show_err .err{display:block;}
 .infolink{position: absolute; top:0; right: 0; display: block;}
+.message{border: 2px solid black;background: yellow;font-size: larger; position: fixed; top: 10%;right:2.5%; left: 2.5%;z-index: 10;text-align: center;padding: 2em;}
 </style>
 <script src="http://arewecompatibleyet.com/data/masterbugtable.js"></script>
 <script src="./js/translationdictionary.js"></script>
@@ -23,7 +24,7 @@ html.show_err .err{display:block;}
 <a href="#help" class="infolink">What's this about?</a>
 <script type="text/javascript">
 
-var country = /cctld=(.+)/.test(location.search) ? RegExp.$1 : 'in';
+var country = /cctld=(.+)/.test(location.search) ? RegExp.$1 : 'za';
 var dataurl = 'http://hallvord.com/temp/moz/'+country+'/comp/'; // location.pathname.indexOf(country+'/comp/') > -1 ? './' : country+'/comp/';
 var xhr = new XMLHttpRequest(); 
 if(!('withCredentials' in xhr)){document.documentElement.className='show_err';document.getElementsByClassName('err')[0].firstChild.data = 'Your browser does not support CORS (cross-origin XMLHttpRequest). Use a newer web browser to make this page work.';throw 'CORS support required';}
@@ -37,6 +38,23 @@ try{
 
 }
 var imagelist = JSON.parse(xhr.responseText);
+/*
+ allow both a plain array and an object with an extra 'message' field and the array in 'list'. Main use case is to be able to add
+{
+ "message":"This review is completed. Thanks :)",
+ "list":
+}
+*/
+if('message' in imagelist){
+	var div;
+	(div = document.body.appendChild(document.createElement('div'))).textContent = __(imagelist.message)+' ';
+	div.className = 'message';
+	if(imagelist.startAt){
+		div.appendChild(document.createElement('a')).href = '#'+imagelist.startAt;
+		div.lastChild.textContent = 'Jump to '+imagelist.startAt;
+	}
+	imagelist = imagelist.list;
+}
 var div = document.body.appendChild(document.createElement('div')); div.className = 'd1';
 var sp1 = div.appendChild(document.createElement('span')),  sp2 = div.appendChild(document.createElement('span'));
 sp1.id = 'fxOSLabel',sp2.id = 'iOSLabel';
@@ -46,7 +64,6 @@ current_bugs.appendChild(document.createElement('h1'));
 current_bugs.appendChild(document.createElement('h2')).textContent = 'Current bugs';
 window.onload = function(){
 	var img = div.appendChild(document.createElement('img'));
-	//img.style.maxWidth="100%;
 	var i = location.hash ? parseInt(location.hash.substr(1)) : 0;
 	if(isNaN(i))i = 0;
 	div.appendChild(document.createElement('br'));
@@ -101,7 +118,8 @@ window.onload = function(){
 		}
 	}
 	document.onkeyup = function(e){
-		if (e.target.tagName in {'INPUT':1,'BUTTON':1,'TEXTAREA':1}) {return;};
+		if (e.target.tagName === 'TEXTAREA') {return;};
+		if(e.target.tagName === 'INPUT' && e.target.type === 'text'){return;}
 		if(e.keyCode === 37)return setIndex(true);
 		if(e.keyCode === 39)return setIndex();
 	}
@@ -155,6 +173,7 @@ document.getElementsByClassName('infolink')[0].addEventListener('click', functio
 	el.style.top = e.target.offsetHeight + 'px';
 	el.style.width = '35%';
 	el.style.right = 0;
+	el.style.zIndex = 11;
 	el.style.border = '2px solid blue';
 	el.style.background = '#fff'
 	el.getElementsByClassName('close')[0].onclick = function(){el.setAttribute('style', 'clear:both');}
@@ -293,7 +312,7 @@ function getStrings(){ // purely a convenience method when creating translation 
 	<li>The <b>current bugs</b> list is updated every two hours, so you will not see your bug reports appear immediately. (Also if somebody else is reviewing at the same time, you might report duplicate bugs.)
 	
 </ul>
-<p>Need help? Ask @MozWebCompat on Twitter, hsteen@mozilla.com by E-mail or come to the #webcompat room on Mozilla's IRC server (irc.mozilla.org).</p>
+<p>Need help? Ask <a href="http://twitter.com/MozWebCompat">@MozWebCompat</a> on Twitter, hsteen@mozilla.com by E-mail or come to the #webcompat room on Mozilla's IRC server (irc.mozilla.org).</p>
 </div>
 
 </body></html>

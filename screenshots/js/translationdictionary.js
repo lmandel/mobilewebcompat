@@ -39,7 +39,8 @@ var translationDictionary = {
 	    " list is updated every two hours, so you will not see your bug reports appear immediately. (Also if somebody else is reviewing at the same time, you might report duplicate bugs.)\n\t\n": " se actualiza cada dos horas, por lo que no verás tus reportes inmediatamente. (También si dos personas revisan algo a la vez, puedes reportar bugs duplicados.)\n\t\n",
 	    "No bugs reported for ":"No hay errores reportados para ",
 		"Need help? Ask ": "¿Necesitas ayuda? Pregunta a ",
-		" on Twitter, hsteen@mozilla.com by E-mail or come to the #webcompat room on Mozilla's IRC server (irc.mozilla.org).": " en Twitter, o manda un E-mail a hsteen@mozilla.com, o pásate por la sala #webcompat del servidor IRC de Mozilla (irc.mozilla.org)."
+		" on Twitter, hsteen@mozilla.com by E-mail or come to the #webcompat room on Mozilla's IRC server (irc.mozilla.org).": " en Twitter, o manda un E-mail a hsteen@mozilla.com, o pásate por la sala #webcompat del servidor IRC de Mozilla (irc.mozilla.org).",
+		"This review is completed. Thanks :)":"Revisión completa, gracias!"
 	}
 
 }
