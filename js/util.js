@@ -100,7 +100,6 @@ function retrieveTestResults(indexData, done1, done2){
 					delete filesToLoad[file];
 					processTestResults(data);
 					if(Object.keys(filesToLoad).length === 0 && loadCounter === indexData.length){
-						retrieveMetaBugs();
 						done1();
 						done2();
 					}

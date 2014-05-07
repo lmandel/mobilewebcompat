@@ -27,7 +27,6 @@ var manualTestResults = {}; // manual test results, per site, will contain a lis
 var alexaListsUniqueHosts = {}, alexaListsUniqueHostsWithOpenBugs={}, uniqueAlexaListedBugs={};
 masterBugTable.metrics.failingTests = 0;
 if('ontouchstart' in window){document.documentElement.classList.add('touch_friendly');} // show links always rather than on hover if touch..
-function retrieveMetaBugs(){}; // sorry, dummy because retrieveTestIndex calls it.. TODO: remove this and fix retrieveTestIndex when AWCY 2.0 is ready to replace AWCY 1.0 ..
 retrieveTestIndex(fillTables, regressionTable);
 function fillTables() {
 	var parent_div = document.getElementById('details');
@@ -133,19 +132,28 @@ function updateTodoRow(div, todos, direction){
 }
 
 function regressionTable(){
-	// Test data extra processing
-	var t = document.body.appendChild(document.createElement('table')), tb, tr, td;
-	t.classList.add('test-result-changes-table');
-	var tb = t.appendChild(document.createElement('tbody'));
 	// boast or cry when tests have changed state..
 	// indexes: 0 bug number, 1 date, 2 UA string, 3 status
 	var shifts = [];
 	for(var bug in testResults){ // test results are sorted chronologically descending, last result *first*
-		var numTests = testResults[bug].length;
-		var firstState = testResults[bug][numTests-1][3], str;
-		for(var i=numTests-1; i>=0; i--){
-			var type = 'unknown';
-			if( firstState !==  testResults[bug][i][3]){
+		if(!(bug in masterBugTable.bugs)){console.log('WOT '+bug); continue;}
+		var str = '', i=0, type = '';
+		var resolved = masterBugTable.bugs[bug].status in resolvedStates;
+		// let's list details of all bugs whose last test result does not match the bug's state	
+		if (resolved && testResults[bug][0][3] !== "true") {
+			if (masterBugTable.bugs[bug].resolution in {'WONTFIX':1, 'INVALID':1, 'DUPLICATE':1}) {
+				continue; // we don't care if wontfixed bugs fail
+			};
+			// cry! Reopen me (or fix this borked test)!
+			type = 'regr';
+			str = 'Might have regressed (or test is bad)';
+		}else if(testResults[bug][0][3] === "true" && !resolved){
+			// yay! Close me!
+			type = 'fix';
+			str = 'Might be fixed (or test is optimistic..)'
+		}
+		if(type)shifts.push({dsc:str, date:testResults[bug][i][1], newState:testResults[bug][i][3], type:type, bug:bug, comment:testResults[bug][i][5]});
+		/*
 				if( firstState === "false" && testResults[bug][i][3] === "true"){
 					str = 'started passing';
 					type = 'fix';
@@ -158,23 +166,36 @@ function regressionTable(){
 				shifts.push({dsc:str, date:testResults[bug][i][1], oldState:firstState, newState:testResults[bug][i][3], type:type, bug:bug});
 				firstState = testResults[bug][i][3];
 			}
-		}
+		}*/
 	}
 	shifts.sort( function(a,b){ if((new Date(a.date.replace(/\s/, 'T'))).getTime()<(new Date(b.date.replace(/\s/, 'T'))).getTime())return 1; return -1; } ); // sort chronologically descending (most recent first)
 
 	if(shifts.length){
+		// Test data extra processing
+		var t = document.body.insertBefore(document.createElement('table'), document.getElementsByTagName('footer')[0]), tb, tr, td;
+		t.classList.add('test-result-changes-table');
+		var tb = t.appendChild(document.createElement('tbody'));
+		var tr = tb.appendChild(document.createElement('tr'));
+		tr.innerHTML = '<th colspan="4"><h2>Interesting test results</h2> (' + shifts.length + ' entries)<br>These tests can be reviewed <a href="https://github.com/hallvors/sitecomptester-extension/blob/master/data/sitedata.js">in the sitecomptester Github repo</a> (search for the bug number). Many are automatically generated (and thus sometimes of poor quality). Review and test fixes welcome.</th>';
+		var tr = tb.appendChild(document.createElement('tr'));
+		tr.innerHTML = '<th>Bug</th><th>Status</th><th>Tested</th><th></th>';
+
 		for(var i=0, a; i<shifts.length; i++){
-			if(shifts[i].type!='regr')continue; // only list regressions.. for now.
 			bug = shifts[i].bug;
 			tr = tb.appendChild(document.createElement('tr'));
-			tr.classList.add(shifts[i].type);
+			if(shifts[i].type)tr.classList.add(shifts[i].type);
 			(a = tr.appendChild(document.createElement('th')).appendChild(document.createElement('a'))).appendChild(document.createTextNode(bug +' '+(masterBugTable.bugs[bug]?masterBugTable.bugs[bug].summary:'')));
 			a.href = bz_show_bug+bug;
 			td = tr.appendChild(document.createElement('td'));
-			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(shifts[i].dsc+' '+shifts[i].date+'. Bug status: ' + (masterBugTable.bugs[bug]?masterBugTable.bugs[bug].status+' '+masterBugTable.bugs[bug].resolution : 'unknown')));
+			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(masterBugTable.bugs[bug]?masterBugTable.bugs[bug].status+' '+masterBugTable.bugs[bug].resolution : 'unknown'));
+			td = tr.appendChild(document.createElement('td'));
+			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(timeSince(shifts[i].date)  +' ago. '));
+			td = tr.appendChild(document.createElement('td'));
+			if(shifts[i].type)td.className = shifts[i].type;
+			var desc = shifts[i].newState in {'false':1,'true':1} ? shifts[i].dsc : shifts[i].newState
+			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(desc+(shifts[i].comment?'\n'+shifts[i].comment:'')));
 		}
 	}
-
 }
 
 function showListDetails(newHash, excludeUS){
@@ -185,10 +206,11 @@ function showListDetails(newHash, excludeUS){
 	// removing and adding lots of content in document from hashchange event tends to mess up "scroll to #hash" logic in browsers
 	// let's fix that again with a little help from jQuery..
 	if(newHash && document.getElementById(newHash))setTimeout(function(){
-		if(detailsrow.scrollIntoView){
-			detailsrow.scrollIntoView();
+		var row = detailsrow.previousSibling && detailsrow.previousSibling.tagName === 'TR' ? detailsrow.previousSibling : detailsrow;
+		if(row.scrollIntoView){
+			row.scrollIntoView();
 		}else{
-			$(document.documentElement).animate({scrollTop:$(detailsrow).offset().top}, 10);
+			$(document.documentElement).animate({scrollTop:$(row).offset().top}, 10);
 		}
 	}, 10);
 	if(!detailsrow.firstChild.hasChildNodes()){
@@ -260,8 +282,7 @@ function showListDetails(newHash, excludeUS){
 					p.className = 'manualTestResults';
 					p.appendChild(elm('strong', result.status)).className = result.status === 'ok' ? 'pass':'fail';
 					p.appendChild(document.createElement('br'));
-					var testdate = new Date(result.date);
-					p.appendChild(elm('small', 'Tested by '+result.tested_by+' using '+result.tested_on+', '+millisecondsToStr(Date.now()-testdate.getTime())+' ago'));
+					p.appendChild(elm('small', 'Tested by '+result.tested_by+' using '+result.tested_on+', ' + timeSince(result.date) + ' ago'));
 				});
 			}
 		});
@@ -507,7 +528,7 @@ function addBugTableCell(bugtable, bug, bindex){
 	if(testResults[bug.id]){
 		// We have some automated test results for this bug
 		var lastResult = testResults[bug.id][0];
-		var testresultspan = bugrow.lastChild.appendChild(elm('span', 'Tested '+ millisecondsToStr( Date.now() - (new Date(lastResult[1].replace(/\s/, 'T'))).getTime() ) +' ago: '));
+		var testresultspan = bugrow.lastChild.appendChild(elm('span', 'Tested '+ timeSince(lastResult[1]) +' ago: '));
 		testresultspan.classList.add('testres');
 		var resultdesc = '';
 		if(resolved && lastResult[3] === 'true'){
@@ -552,9 +573,15 @@ function getHostname(str){
 	return elm('a', null, {href:str}).hostname;
 }
 
+function timeSince(datestr){
+	var date = new Date(datestr);
+	if (isNaN(date.getTime())) { // Firefox is picky about having that T inside date strings..
+		date = new Date(datestr.replace(/\s/, 'T'));
+	};
+	return millisecondsToStr(Date.now() - date.getTime())
+}
+
 function millisecondsToStr (milliseconds) {
-    // TIP: to find current time in milliseconds, use:
-    // var  current_time_milliseconds = new Date().getTime();
 
     function numberEnding (number) { //todo: replace with a wiser code
         return (number > 1) ? 's' : '';
