@@ -134,9 +134,9 @@ function updateTodoRow(div, todos, direction){
 function regressionTable(){
 	// boast or cry when tests have changed state..
 	// indexes: 0 bug number, 1 date, 2 UA string, 3 status
-	var shifts = [];
+	var shifts = [], ids = [];
 	for(var bug in testResults){ // test results are sorted chronologically descending, last result *first*
-		if(!(bug in masterBugTable.bugs)){console.log('WOT '+bug); continue;}
+		if(!(bug in masterBugTable.bugs)){console.log('We\'re missing info for bug ' + bug + ' - likely not in Tech Evang::Mobile'); continue;}
 		var str = '', i=0, type = '';
 		var resolved = masterBugTable.bugs[bug].status in resolvedStates;
 		// let's list details of all bugs whose last test result does not match the bug's state	
@@ -144,6 +144,9 @@ function regressionTable(){
 			if (masterBugTable.bugs[bug].resolution in {'WONTFIX':1, 'INVALID':1, 'DUPLICATE':1}) {
 				continue; // we don't care if wontfixed bugs fail
 			};
+			// don't complain about bugs that were updated (presumably closed) AFTER the test ran
+			var change_time = fxFixDate(masterBugTable.bugs[bug].cf_last_resolved), test_time = fxFixDate(testResults[bug][i][1]);
+			if(change_time.getTime() - test_time.getTime() > 0)continue;
 			// cry! Reopen me (or fix this borked test)!
 			type = 'regr';
 			str = 'Might have regressed (or test is bad)';
@@ -152,21 +155,10 @@ function regressionTable(){
 			type = 'fix';
 			str = 'Might be fixed (or test is optimistic..)'
 		}
-		if(type)shifts.push({dsc:str, date:testResults[bug][i][1], newState:testResults[bug][i][3], type:type, bug:bug, comment:testResults[bug][i][5]});
-		/*
-				if( firstState === "false" && testResults[bug][i][3] === "true"){
-					str = 'started passing';
-					type = 'fix';
-				}else if( firstState === "true" && testResults[bug][i][3] === "false"){
-					str = 'regressed';
-					type = 'regr';
-				}else{
-					str = 'changed from "'+firstState+'" to "'+testResults[bug][i][3] +'"';
-				}
-				shifts.push({dsc:str, date:testResults[bug][i][1], oldState:firstState, newState:testResults[bug][i][3], type:type, bug:bug});
-				firstState = testResults[bug][i][3];
-			}
-		}*/
+		if(type){
+			shifts.push({dsc:str, date:testResults[bug][i][1], newState:testResults[bug][i][3], type:type, bug:bug, comment:testResults[bug][i][5]});
+			ids.push(bug);
+		}
 	}
 	shifts.sort( function(a,b){ if((new Date(a.date.replace(/\s/, 'T'))).getTime()<(new Date(b.date.replace(/\s/, 'T'))).getTime())return 1; return -1; } ); // sort chronologically descending (most recent first)
 
@@ -195,6 +187,7 @@ function regressionTable(){
 			var desc = shifts[i].newState in {'false':1,'true':1} ? shifts[i].dsc : shifts[i].newState
 			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(desc+(shifts[i].comment?'\n'+shifts[i].comment:'')));
 		}
+		if(window.console)console.log(ids.join(' ')); // this simplifies a re-run of all "interesting" results
 	}
 }
 
@@ -574,11 +567,15 @@ function getHostname(str){
 }
 
 function timeSince(datestr){
+	return millisecondsToStr(Date.now() - fxFixDate(datestr).getTime())
+}
+
+function fxFixDate(datestr){
 	var date = new Date(datestr);
 	if (isNaN(date.getTime())) { // Firefox is picky about having that T inside date strings..
 		date = new Date(datestr.replace(/\s/, 'T'));
 	};
-	return millisecondsToStr(Date.now() - date.getTime())
+	return date;	
 }
 
 function millisecondsToStr (milliseconds) {
