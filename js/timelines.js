@@ -139,7 +139,7 @@ function regressionTable(){
 		if(!(bug in masterBugTable.bugs)){console.log('We\'re missing info for bug ' + bug + ' - likely not in Tech Evang::Mobile'); continue;}
 		var str = '', i=0, type = '';
 		var resolved = masterBugTable.bugs[bug].status in resolvedStates;
-		// let's list details of all bugs whose last test result does not match the bug's state	
+		// let's list details of all bugs whose last test result does not match the bug's state
 		if (resolved && testResults[bug][0][3] !== "true") {
 			if (masterBugTable.bugs[bug].resolution in {'WONTFIX':1, 'INVALID':1, 'DUPLICATE':1}) {
 				continue; // we don't care if wontfixed bugs fail
@@ -250,10 +250,10 @@ function showListDetails(newHash, excludeUS){
 				if ( add_to_table === closedTable && masterBugTable.hostIndex[host].resolved.length) {
 					masterBugTable.hostIndex[host].resolved.forEach(function(bug, bindex){
 						addBugTableCell(bugtable, bug, bindex);
-					});					
+					});
 				};
 			}
-			/* conundrum: some of our lists contain URLs - not just host names (i.e. the "video" list is full of stuff like whitehouse.gov/live ) 
+			/* conundrum: some of our lists contain URLs - not just host names (i.e. the "video" list is full of stuff like whitehouse.gov/live )
 				When registering manual test results, should people have to register the full URL? It's inconvenient and error-prone.
 				So let's support registering manual test results under hostname only.
 			*/
@@ -335,11 +335,11 @@ function shouldExcludeUSSite(list, host){
 	}
 	return false;
 }
-function listMissingTestBugs(onlyOpenBugs){
+function listMissingTestBugs(includeClosedBugs){
     var list=[];
     for(var bug in masterBugTable.bugs){
         if( ! (bug in testResults) ){
-            if(onlyOpenBugs && masterBugTable.bugs[bug].status in resolvedStates)continue;
+            if(!includeClosedBugs && masterBugTable.bugs[bug].status in resolvedStates)continue;
             list.push(bug+'\t'+masterBugTable.bugs[bug].summary+'\t'+masterBugTable.bugs[bug].url);
         }
     }
@@ -527,7 +527,7 @@ function addBugTableCell(bugtable, bug, bindex){
 		if(resolved && lastResult[3] === 'true'){
 			resultdesc = 'Verified passing';
 		}else if(lastResult[3] === 'true' && ! resolved){
-			resultdesc = 'might be fixed, needs check'; 
+			resultdesc = 'might be fixed, needs check';
 		}else if(lastResult[3]==='false' && resolved && bug.resolution in {'INVALID':1, 'WONTFIX':1}){
 			resultdesc = ':-(';
 		}else if(lastResult[3]==='false' && resolved){
@@ -575,7 +575,7 @@ function fxFixDate(datestr){
 	if (isNaN(date.getTime())) { // Firefox is picky about having that T inside date strings..
 		date = new Date(datestr.replace(/\s/, 'T'));
 	};
-	return date;	
+	return date;
 }
 
 function millisecondsToStr (milliseconds) {
