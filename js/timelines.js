@@ -176,18 +176,41 @@ function regressionTable(){
 			bug = shifts[i].bug;
 			tr = tb.appendChild(document.createElement('tr'));
 			if(shifts[i].type)tr.classList.add(shifts[i].type);
-			(a = tr.appendChild(document.createElement('th')).appendChild(document.createElement('a'))).appendChild(document.createTextNode(bug +' '+(masterBugTable.bugs[bug]?masterBugTable.bugs[bug].summary:'')));
-			a.href = bz_show_bug+bug;
-			td = tr.appendChild(document.createElement('td'));
-			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(masterBugTable.bugs[bug]?masterBugTable.bugs[bug].status+' '+masterBugTable.bugs[bug].resolution : 'unknown'));
-			td = tr.appendChild(document.createElement('td'));
-			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(timeSince(shifts[i].date)  +' ago. '));
-			td = tr.appendChild(document.createElement('td'));
+			a = tr.appendChild(elm('th', '', {className:'title'})).appendChild(elm('a', bug +' '+(masterBugTable.bugs[bug]?masterBugTable.bugs[bug].summary:''), {href:bz_show_bug+bug} ));
+			a.parentNode.appendChild(elm('br'));
+			a.parentNode.appendChild(elm('a', 'View test code', {onclick:showTestCode, className:'viewcode', href:'https://github.com/hallvors/sitecomptester-extension/blob/master/data/sitedata.js#'+bug })); /* this hash is a noop on GitHub, sorry.. */
+			td = tr.appendChild(elm('td'));
+			td.appendChild(elm('p', masterBugTable.bugs[bug]?masterBugTable.bugs[bug].status+' '+masterBugTable.bugs[bug].resolution : 'unknown'));
+
+			td = tr.appendChild(elm('td'));
+			td.appendChild(elm('p', timeSince(shifts[i].date)  +' ago. '));
+
+			td = tr.appendChild(elm('td'));
 			if(shifts[i].type)td.className = shifts[i].type;
 			var desc = shifts[i].newState in {'false':1,'true':1} ? shifts[i].dsc : shifts[i].newState
-			td.appendChild(document.createElement('p')).appendChild(document.createTextNode(desc+(shifts[i].comment?'\n'+shifts[i].comment:'')));
+			td.appendChild(elm('p', desc+(shifts[i].comment?'\n'+shifts[i].comment:'')));
 		}
 		if(window.console)console.log(ids.join(' ')); // this simplifies a re-run of all "interesting" results
+	}
+}
+
+function showTestCode(evt){
+	var bug = evt.target.hash.substr(1);
+	if(bugdata && bugdata[bug]){
+		evt.preventDefault();
+		var div = elm('div', 'To run the test, try pasting this code in the console after spoofing as '+ bugdata[bug].ua +' and loading ', {id:'testcodeviewer'});
+		div.appendChild(elm('a', bugdata[bug].url, {href:bugdata[bug].url, target:'_blank'}));
+		var insertCode = (bugdata[bug].testType === 'xhr') ? 'var response, xhr = new XMLHttpRequest(); xhr.open("GET", "' + bugdata[bug].url+'", false); response = {text:xhr.responseText, headers:{}}; var tmp = xhr.getAllResponseHeaders().split(/\r\n/i);for(var i=0, nv; nv=tmp[i]; i++){nv = nv.split(/:\s?/); response.headers[nv[0]]=nv[1];}' : '';
+		var pre = elm('pre', '(function(){\n\tvar i=1, steps = [\n\n' + bugdata[bug].steps.join('\n\n') + '\n]\n\n'+insertCode+'\n\tfunction doStep(){ if(typeof hasViewportMeta !== "function"){var s=document.body.appendChild(document.createElement(\'script\')); s.src=\'http://hallvord.com/temp/moz/stdTests.js\'; s.onload = doStep; return;};if(steps.length){var result = steps[0](); console.log(\'test step \'+i+\' says: \'+result); if(result !==\'delay-and-retry\')steps.shift(); i++; setTimeout(doStep,300);}} doStep();})()');
+		div.appendChild(pre);
+		pre.onclick = function(){
+			var rng = document.createRange();
+			rng.selectNodeContents(pre);
+			window.getSelection().addRange(rng);
+		}
+		div.appendChild(elm('a', 'close', {href:'#', onclick:function(evt){evt.preventDefault();div.parentNode.removeChild(div)}}));
+		div.addEventListener('keydown', function(e){if(e.keyCode === 27)div.parentNode.removeChild(div);}, false);
+		document.body.appendChild(div);
 	}
 }
 

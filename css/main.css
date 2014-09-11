@@ -148,6 +148,24 @@ h4 {font-size: 24px; letter-spacing: -0.25px; line-height: 100%;}
 .test-result-changes-table td.fix{
 		background-image: url(data:image/jpeg;base64,%2F9j%2F4AAQSkZJRgABAQEASABIAAD%2F2wBDAAQDAwQDAwQEBAQFBQQFBwsHBwYGBw4KCggLEA4RERAOEA8SFBoWEhMYEw8QFh8XGBsbHR0dERYgIh8cIhocHRz%2F2wBDAQUFBQcGBw0HBw0cEhASHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBz%2FwAARCAAzADMDASIAAhEBAxEB%2F8QAGgABAAIDAQAAAAAAAAAAAAAAAAYIBAUHA%2F%2FEADEQAAEDAwIEAwYHAQAAAAAAAAEAAgMEBREGEgcTITFRYXE0NUFydLMIFCIyN0KBsf%2FEABoBAQACAwEAAAAAAAAAAAAAAAADBAIFBgH%2FxAAlEQACAgECBQUBAAAAAAAAAAAAAQIDBBEhBhIxMpEFFEFR0XH%2F2gAMAwEAAhEDEQA%2FAL%2FLFuFa230slQ6OSRrMZbG0ud1IHb%2FVlKH8Ua2ot2hrpV0kzoamDlPjkaBlpEzOvVRZFyoqlbLpFN%2BNzyT5U2SO0XA3S3QVZgkgMoJ5cgII6kfEDvjI8iFmqkMGs9R1FU9kl9ufLY8lrRVSYBJJPd3iuhWTizqHTXKM9U650ZH6oax5c7zxJ1cPU7gPBc6uKKFYo2QaT%2BevlfmpX9zFPRos4i5PD%2BIPTElMZH01xbMBkwtbE8npnIIkxj1wfILp9urPz9DTVJifCZ4mS8p%2BNzNwBwcdMjOFvaM3HyG40zUmvonjOMtkzJREVoyChHF7%2BO738sf3WKbqMcQrS6%2FaTrLYyYQurJIIRKW7gzdMwZxkZ9MhVM%2BuVuLbXBatxaX9aMZpuLSKWUPtk3zqRXL2Rnou2aN4A6aZTmsuVVcLlOZZGOaZORFlj3MyGx4cAdvYvcvPX3BB0lMJ9KfuaMOoJ5idw8WSOJ6%2BTjjzGMHiMj0DNUVbyp6fCe%2F54ZSnRPuK40ZDZqknsAf%2BFXxtUT6e3UkMgw%2BOGNrvUNAKqFZOF%2BsY75HHVaYrhGJozLks2Fm4bgH7tvbPxVyluuHseyuds7Itdq3Wn2TURabbCIi6gshau%2F8AsMX1dL9%2BNbRRrUVTdHOZDR2oVEDXNkMjpcEua4OGAB2y0HzQGbpn3WfqKj771uFDLXdbvb4XQS2Qhm5z2uZKSS5zi52cjxcSs8ahryfc1QgJIi0UV7rZDg2eoHqQtzDI6WMOcwsJ%2Fqe6A9EREAREQBERAEREAREQH%2F%2FZ);
 }
+.test-result-changes-table .viewcode{
+	font-size: small;
+}
+#testcodeviewer{
+	background: #fff;
+	position: fixed;
+	top: 15%;
+	left:20%;
+	right: 20%;
+	padding: 10px;
+	border: 2px solid black;
+	box-shadow: #ccc 5px 5px 5px 5px;
+}
+#testcodeviewer pre{
+	background: #ccc;
+	overflow: scroll;
+	width: 100%;
+}
 
 .nested-bug-table{
 	border: 0px;
