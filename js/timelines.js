@@ -200,8 +200,9 @@ function showTestCode(evt){
 		evt.preventDefault();
 		var div = elm('div', 'To run the test, try pasting this code in the console after spoofing as '+ bugdata[bug].ua +' and loading ', {id:'testcodeviewer'});
 		div.appendChild(elm('a', bugdata[bug].url, {href:bugdata[bug].url, target:'_blank'}));
+		div.appendChild(elm('small', 'Note: testing from the console may not work correctly when a step causes navigation.'))
 		var insertCode = (bugdata[bug].testType === 'xhr') ? 'var response, xhr = new XMLHttpRequest(); xhr.open("GET", "' + bugdata[bug].url+'", false); response = {text:xhr.responseText, headers:{}}; var tmp = xhr.getAllResponseHeaders().split(/\r\n/i);for(var i=0, nv; nv=tmp[i]; i++){nv = nv.split(/:\s?/); response.headers[nv[0]]=nv[1];}' : '';
-		var pre = elm('pre', '(function(){\n\tvar i=1, steps = [\n\n' + bugdata[bug].steps.join('\n\n') + '\n]\n\n'+insertCode+'\n\tfunction doStep(){ if(typeof hasViewportMeta !== "function"){var s=document.body.appendChild(document.createElement(\'script\')); s.src=\'http://hallvord.com/temp/moz/stdTests.js\'; s.onload = doStep; return;};if(steps.length){var result = steps[0](); console.log(\'test step \'+i+\' says: \'+result); if(result !==\'delay-and-retry\')steps.shift(); i++; setTimeout(doStep,300);}} doStep();})()');
+		var pre = elm('pre', '(function(){\n\tvar i=1, steps = [\n/* test code: */\n' + bugdata[bug].steps.join('\n,\n') + '\n/* end test code - below is just helper code to make this run smoothlyish */]\n\n'+insertCode+'\n\tfunction doStep(){ if(typeof hasViewportMeta !== "function"){var s=document.body.appendChild(document.createElement(\'script\')); s.src=\'http://hallvord.com/temp/moz/stdTests.js\'; s.onload = doStep; return;};if(steps.length){var result = steps[0](); console.log(\'test step \'+i+\' says: \'+result); if(result !==\'delay-and-retry\')steps.shift(); i++; setTimeout(doStep,300);}} doStep();})()');
 		div.appendChild(pre);
 		pre.onclick = function(){
 			var rng = document.createRange();
