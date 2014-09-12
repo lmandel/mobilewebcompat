@@ -81,6 +81,11 @@ var topLists = [
 	 "id": "gr100"
 	},
 	{
+	 "name": "Hungary toplist",
+	 "url": "hu250.json",
+	 "id": "hu250"
+	},
+	{
 	 "name": "India top 100",
 	 "url": "in100.json",
 	 "id": "in100"
@@ -164,4 +169,10 @@ var topLists = [
 	 "name": "Top video sites",
 	 "url": "topvideosites.json",
 	 "id": "topvideosites"
-	}]
+	},
+	{
+	 "name": "Top Moz BD sites",
+	 "url": "mbd.json",
+	 "id": "mbd"
+	}
+]
