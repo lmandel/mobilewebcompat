@@ -116,7 +116,7 @@ function processTestResults(data){
 	data = CSVToArray(data);
 	data.forEach(function(value,index){
 		if(!testResults[value[0]])testResults[value[0]]  = [];
-		testResults[value[0]].push(value);
+		testResults[value[0]].unshift(value);
 	});
 }
 
