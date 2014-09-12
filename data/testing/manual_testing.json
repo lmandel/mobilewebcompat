@@ -103,7 +103,6 @@
         ],
 	"globo.com":
         [
-            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
             {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
         ],
 	"mercadolivre.com.br":
@@ -163,7 +162,6 @@
         ],
 	"bb.com.br":
         [
-            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
             {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
         ],
 	"bancobrasil.com.br":
@@ -258,7 +256,6 @@
         ],
 	"magazineluiza.com.br":
         [
-            {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox OS", "status":"ok"},
             {"date":"2013-11-12", "tested_by":"Leo Balter", "tested_on":"Firefox Android", "status":"ok"}
         ],
 	"disponivel.uol.com.br":
