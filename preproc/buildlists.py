@@ -24,7 +24,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__))) # For CRON usage..
 # however, for some major sites with lots of distinct properties we loose too much useful information if we classify it just by domain name..
 # conf['weWantSubdomainsFor'] is a list of hostnames that should not be reduced to domain names. For these, we'll strip any *www.* prefix, but
 # no other subdomains. (Another option is to only strip www - might work too)
-conf = { 'weWantSubdomainsFor': r'(\.google\.com|\.live\.com|\.yahoo\.com|\.js$)' } # the latter is not, strictly speaking, a subdomain..
+conf = { 'weWantSubdomainsFor': r'(\.google\.com|\.live\.com|\.yahoo\.com|go\.com|\.js$)' } # the latter is not, strictly speaking, a subdomain..
 
 # http://stackoverflow.com/questions/8230315/python-sets-are-not-json-serializable :-(
 class SetEncoder(json.JSONEncoder):
@@ -40,7 +40,7 @@ f.close()
 masterBugTable = {'hostIndex':{}, 'bugs':{}, 'lists':{}}
 
 def main():
-	urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&product=Tech%20Evangelism&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority' # removed ",flags" to work around bugzilla bug..
+	urltemplate = 'https://api-dev.bugzilla.mozilla.org/latest/bug?component=Mobile&product=Tech%20Evangelism&component=Desktop&include_fields=id,summary,creation_time,last_change_time,status,resolution,depends_on,whiteboard,cf_last_resolved,url,priority' # removed ",flags" to work around bugzilla bug..
 	bzdata = get_remote_file(urltemplate, True)
 	bzdataobj = json.loads(bzdata)
 
@@ -111,9 +111,11 @@ def hostsFromText(text):
 	text = text.strip().lower()
 	hosts = []
 	text = re.split('\s', text)
-	for word in text :
+
+	for word in text:
 		word = word.strip('.()!?,[]') # make sure we don't assume a random 'foo.' is a domain due to a sentence-delimiting dot in summary.. Also removing some other characters that might be adjacent..
-		if '.' in word: # now go on to assume the first white-space separated string that contains at least one internal period is a domain name
+		if '.' in word and not '][' in word: # now go on to assume the first white-space separated string that contains at least one internal period is a domain name
+		# above if excludes words that contain ][ to avoid grabbing parts of the [foo][e.me] labels used in bugzilla
 			hosts.append(word)
 		else : #
 			for hostname in aliases:
