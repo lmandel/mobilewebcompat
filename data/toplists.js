@@ -1,85 +1,178 @@
-var topLists = [{
-	 "name": "BD Top Sites",
-	 "url": "bdtopsites.json",
-	 "id": "bdtopsites"
+/* Order is important: US first, then -1000 */
+var topLists = [
+{
+	 "name": "U.S. 50",
+	 "url": "us50.json",
+	 "id": "us50"
 	},
 	{
-	 "name": "Alexa 1000",
-	 "url": "alexa_1000.json",
-	 "id": "alexa1000"
+	 "name": "Top 1000",
+	 "url": "1000.json",
+	 "id": "1000"
 	},
 	{
-	 "name": "BR 50",
-	 "url": "alexa_br.json",
-	 "id": "alexa50br"
+	 "name": "Albania top 90",
+	 "url": "al90.json",
+	 "id": "al90"
 	},
 	{
-	 "name": "CA 50",
-	 "url": "alexa_ca.json",
-	 "id": "alexa50ca"
+	 "name": "Argentina top 90",
+	 "url": "ar90.json",
+	 "id": "ar90"
 	},
 	{
-	 "name": "CN 50",
-	 "url": "alexa_cn.json",
-	 "id": "alexa50cn"
+	 "name": "Bangladesh top sites",
+	 "url": "bd280.json",
+	 "id": "bd280"
 	},
 	{
-	 "name": "CO 50",
-	 "url": "alexa_co.json",
-	 "id": "alexa50co"
+	 "name": "Brazil top 250",
+	 "url": "br50.json",
+	 "id": "br50"
 	},
 	{
-	 "name": "DE 50",
-	 "url": "alexa_de.json",
-	 "id": "alexa50de"
+	 "name": "Bulgaria top sites",
+	 "url": "bg250.json",
+	 "id": "bg250"
 	},
 	{
-	 "name": "ES 50",
-	 "url": "alexa_es.json",
-	 "id": "alexa50es"
+	 "name": "Canada top 50",
+	 "url": "ca50.json",
+	 "id": "ca50"
 	},
 	{
-	 "name": "FR 50",
-	 "url": "alexa_fr.json",
-	 "id": "alexa50fr"
+	 "name": "Chile top 100",
+	 "url": "cl100.json",
+	 "id": "cl100"
 	},
 	{
-	 "name": "IT 50",
-	 "url": "alexa_it.json",
-	 "id": "alexa50it"
+	 "name": "China top 50",
+	 "url": "cn50.json",
+	 "id": "cn50"
 	},
 	{
-	 "name": "JP 50",
-	 "url": "alexa_jp.json",
-	 "id": "alexa50jp"
+	 "name": "Colombia top sites",
+	 "url": "co50.json",
+	 "id": "co50"
 	},
 	{
-	 "name": "KR 50",
-	 "url": "alexa_kr.json",
-	 "id": "alexa50kr"
+	 "name": "Croatia top 100",
+	 "url": "hr100.json",
+	 "id": "hr100"
 	},
 	{
-	 "name": "MX 50",
-	 "url": "alexa_mx.json",
-	 "id": "alexa50mx"
+	 "name": "Czech top 100",
+	 "url": "cz100.json",
+	 "id": "cz100"
+	},
+	{
+	 "name": "Germany top 50",
+	 "url": "de50.json",
+	 "id": "de50"
+	},
+	{
+	 "name": "France top 100",
+	 "url": "fr100.json",
+	 "id": "fr100"
+	},
+	{
+	 "name": "Greece top 100",
+	 "url": "gr100.json",
+	 "id": "gr100"
+	},
+	{
+	 "name": "Hungary toplist",
+	 "url": "hu250.json",
+	 "id": "hu250"
+	},
+	{
+	 "name": "India top 100",
+	 "url": "in100.json",
+	 "id": "in100"
+	},
+	{
+	 "name": "Italy top 50",
+	 "url": "it50.json",
+	 "id": "it50"
+	},
+	{
+	 "name": "Japan top 50",
+	 "url": "jp50.json",
+	 "id": "jp50"
+	},
+	{
+	 "name": "Korea top 50",
+	 "url": "kr50.json",
+	 "id": "kr50"
+	},
+	{
+	 "name": "Mexico top sites",
+	 "url": "mx50.json",
+	 "id": "mx50"
+	},
+	{
+	 "name": "Norway top 70",
+	 "url": "no70.json",
+	 "id": "no70"
+	},
+	{
+	 "name": "Peru top 270",
+	 "url": "pe270.json",
+	 "id": "pe270"
+	},
+	{
+	 "name": "Poland top 50",
+	 "url": "pl50.json",
+	 "id": "pl50"
+	},
+	{
+	 "name": "Portugal top 50",
+	 "url": "pt50.json",
+	 "id": "pt50"
+	},
+	{
+		"name": "South Africa 150",
+		"url": "za150.json",
+		"id": "za150"
+	},
+	{
+	 "name": "Spain top 50",
+	 "url": "es50.json",
+	 "id": "es50"
+	},
+	{
+		"name": "Sweden 60",
+		"url": "se60.json",
+		"id": "se60"
 	},
 	{
 	 "name": "UK 50",
-	 "url": "alexa_uk.json",
-	 "id": "alexa50uk"
+	 "url": "uk50.json",
+	 "id": "uk50"
 	},
 	{
-	 "name": "US 50",
-	 "url": "alexa_us.json",
-	 "id": "alexa50us"
+	 "name": "Uruguay 90",
+	 "url": "uy90.json",
+	 "id": "uy90"
 	},
 	{
-	 "name": "VE 50",
-	 "url": "alexa_ve.json",
-	 "id": "alexa50ve"
+	 "name": "Venezuela 50",
+	 "url": "ve50.json",
+	 "id": "ve50"
 	},
 	{
 	 "name": "Mail",
 	 "url": "mail.json",
 	 "id": "mail"
-	}];
+	},
+	{
+	 "name": "Top video sites",
+	 "url": "topvideosites.json",
+	 "id": "topvideosites"
+	},
+	{
+	 "name": "Top Moz BD sites",
+	 "url": "mbd.json",
+	 "id": "mbd"
+	}
+]

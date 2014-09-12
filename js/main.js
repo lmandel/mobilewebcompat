@@ -1,305 +1,279 @@
-$(document).ready(function () {
-	startLoadingNotification();
-	createTabs(topLists);
-	populateTables();
-	retrieveMetaBugs();
-});
-
-function populateTables(){
-	for(var i = 0; i < topLists.length; i++){
-		_getTopList(i, _populateTable);
-	}
-
-}
-
-function _getTopList(topListId, successFunction){
-
-	$.ajax({
-		  url: 'data/'+topLists[topListId].url,
-		  crossDomain:false, 
-		  dataType: 'json',
-		  success: function(data){
-		    successFunction(topListId, data.data);
-		  },
-		  error: function(jqXHR, textStatus, errorThrown){
-		    alert('Failed to retrieve top list '+ listId +' for url:'+ url +'.');
-		  }
+(function() {
+	// The methods processMetaBugs() and processDependentBugs() can be greatly simplified with some shared state,
+	// namely a way to look up what master bug a given bug number belongs to. Hence, we define a masterMap that will
+	// be populated by the processMetaBugs() function
+	var masterMap = {};
+	var testResults = {}; // is populated by processTestResults()
+	$(document).ready(function () {
+		startLoadingNotification();
+		createTabs(topLists);
+		populateTables();
+		retrieveTestIndex();
+		document.getElementById('check_show_resolveds').addEventListener('change', function(e){
+			if(e.target.checked){
+				document.body.classList.add('show_resolved_bugs');
+			}else{
+				document.body.classList.remove('show_resolved_bugs');
+			}
 		});
-}
+	});
 
-function _populateTable(topListId, siteList){
-	var table = $("#" + topLists[topListId].id + "-compattable");
-	var numInvestigated = 0;
-	for(var i = 0; i < siteList.length; i++){
-		var url = siteList[i];
-		var siteData = data[url];
-		var rawId = -1;
-		var id = -1;
-		var info = "";
-		var name = url;
-		var desktopSite = false;
-		if(siteData != null){
-			rawId = siteData.bug;
-			id =  createId(rawId);
-			name = siteData.name;
-			info = siteData.info;
-			desktopSite = siteData.desktoponly | false;
+	function populateTables(){
+		for(var i = 0; i < topLists.length; i++){
+			_getTopList(i, _populateTable);
 		}
-		var row = $("<tr>");
-		table.append(row);
-		row.append(createTableCell(i+1));
-		row.append(createTableCell(name));
-		row.append(createTableCell(url));
-		row.append(createTableCell(createBugDiv(id)));
-		row.append(createTableCell(createDependsLayoutDiv(id)));
-		row.append(createTableCell(createDependsEvangelismDiv(id)));
-		row.append(createTableCell(createDependsDiv(id)));
-		row.append(createTableCell(createOwnerDiv(id)));
-		row.append(createTableCell(info));
-		if(rawId == 0 && desktopSite){
-			row.attr("class", "desktop-site");
-			numInvestigated++;
-		}
-		else if(rawId != -1){
-			row.attr("class", "no-issue");
-			numInvestigated++;
-		}
+
 	}
-	topLists[topListId].investigated = numInvestigated;
-}
 
-function retrieveMetaBugs(){
-	var metabugs = [];
-	
-	for (var site in data) {
-		if(data[site].bug > -1){
-			if(metabugs.indexOf(data[site].bug) == -1)
-				metabugs.push(data[site].bug);
-			data[site].isClosed = true;
-		}
+	function _getTopList(topListId, successFunction){
+
+		$.ajax({
+			  url: 'data/'+topLists[topListId].url,
+			  crossDomain:false,
+			  dataType: 'json',
+			  success: function(data){
+			    successFunction(topListId, data.data);
+			  },
+			  error: function(jqXHR, textStatus, errorThrown){
+			    alert('Failed to retrieve top list '+ listId +' for url:'+ url +'.');
+			  }
+			});
 	}
-	getMetabugs(metabugs, processMetaBugs);
-}
 
-function createId(id){
-	var docId = id;
-	if($("#bug"+id).length == 1){
-		var i = 0;
-		do {
-			i++;
-			docId = id + "_" + i;
-		}while($("#bug"+docId).length == 1);
-	}
-	return docId;
-}
-
-function createTableCell(value){
-	var td = $("<td>");
-	td.append(value);
-	return td;
-}
-
-function createDependsLayoutDiv(value){
-	var div = $("<div>");
-	div.attr("id", "bug" + value + "-dependslayout");
-	div.attr("class", "dependbugs");
-	return div;
-}
-
-function createDependsEvangelismDiv(value){
-	var div = $("<div>");
-	div.attr("id", "bug" + value + "-dependsevang");
-	div.attr("class", "dependbugs");
-	return div;
-}
-
-function createDependsDiv(value){
-	var div = $("<div>");
-	div.attr("id", "bug" + value + "-depends");
-	div.attr("class", "dependbugs");
-	return div;
-}
-
-function createBugDiv(id, name, alias, resolved){
-	nakedId = id;
-	if(typeof id == "string"){
-		nakedId = id.split('_')[0];
-	}
-	var div = $("<div>");
-	div.attr("id", "bug"+ id);
-	if(nakedId > 0){
-		var link = $("<a>");
-		link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+nakedId);
-		link.attr("title", name);
-		if(resolved){
-			link.attr("style", "text-decoration: line-through;");
-		}
-		if(alias){
-			link.append(alias);
-		}
-		else{
-			link.append(nakedId);
-		}
-		div.append(link);
-	}
-	return div;
-}
-
-function createStubBugDiv(id, name, alias, resolved){
-	var div = $("<div>");
-	div.attr("id", "bug"+ id);
-	return div;
-}
-
-function createOwnerDiv(value){
-	var div = $("<div>");
-	div.attr("id", "bug" + value + "-owner");
-	div.attr("class", "owner");
-	return div;
-}
-
-function processMetaBugs(bugs){
-	var depends = [];
-	for(var i = 0; i < bugs.length; i++){
-		var k = 0;
-		var id = bugs[i].id;
-		do {
-			k++;
-			var bugdiv = $("#bug"+id);
-			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, isResolved(bugs[i].status));
-			bugdiv.replaceWith(newbugdiv);
-			var localDepends = bugs[i].depends_on;
-			depends = addDependentBugs(localDepends, depends);
-			var dependsdiv = $("#bug"+ id + "-depends");
-			var dependslayoutdiv = $("#bug"+ id + "-dependslayout");
-			var dependsevangdiv = $("#bug"+ id + "-dependsevang");
-			var ownerdiv = $("#bug"+ id + "-owner");
-			
-			if(typeof localDepends == "string"){
-				var stubId = createId(localDepends);
-				dependsdiv.append(createStubBugDiv(stubId));
-				dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
-				dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
+	function _populateTable(topListId, siteList){
+		var table = $("#" + topLists[topListId].id + "-compattable");
+		var numInvestigated = 0;
+		for(var i = 0; i < siteList.length; i++){
+			var url = siteList[i];
+			var siteData = data[url];
+			var rawId = -1;
+			var id = -1;
+			var info = "";
+			var name = url;
+			var desktopSite = false;
+			if(siteData != null){
+				rawId = siteData.bug;
+				id =  createId(rawId);
+				name = siteData.name;
+				info = siteData.info;
+				desktopSite = siteData.desktoponly | false;
 			}
-			else {
-				for(var j = 0; j < localDepends.length; j++){
-					var stubId = createId(localDepends[j]);
-					dependsdiv.append(createStubBugDiv(stubId));
-					dependslayoutdiv.append(createStubBugDiv(stubId + "-layout"));
-					dependsevangdiv.append(createStubBugDiv(stubId + "-evang"));
-				}
+			var row = $("<tr>");
+			if(rawId!==-1 && rawId !==0)row.attr("class", "bug"+rawId+"-row");
+			table.append(row);
+			row.append(createTableCell(i+1));
+			row.append(createTableCell(name));
+			row.append(createTableCell(url));
+			row.append(createTableCell(createBugDiv(id)));
+			row.append(createTableCell().
+				attr("class", "dependslayout dependbugs"));
+			row.append(createTableCell().
+				attr("class", "evang dependbugs"));
+			row.append(createTableCell().
+				attr("class", "depends dependbugs"));
+			row.append(createTableCell().
+				attr("class", "owner"));
+			row.append(createTableCell(info).
+				attr("class", "info"));
+			if(rawId == 0 && desktopSite){
+				row.addClass("desktop-site");
+				numInvestigated++;
 			}
-			
-			var owner = bugs[i].assigned_to;
-			if(owner.name != "nobody"){
-				ownerdiv.append(owner.real_name);
-			}
-			
-			id = bugs[i].id + "_" + k;
-		}while($("#bug"+id).length == 1);
-	}
-	getDependentBugs(depends, processDependentBugs);
-}
-
-function addDependentBugs(localDepends, depends){
-	if(localDepends && localDepends != ""){
-		// single bug id
-		if(localDepends.indexOf(',') == -1){
-			if(depends.indexOf(localDepends) == -1){
-				depends.push(localDepends);
+			else if(rawId != -1){
+				row.addClass("no-issue");
+				numInvestigated++;
 			}
 		}
-		//multiple bug ids
-		else{
-			for (var i=0; i<localDepends.length; i++) {
-				if(depends.indexOf(localDepends[i]) == -1){
-					depends.push(localDepends[i]);
-				}
+		topLists[topListId].investigated = numInvestigated;
+	}
+
+	function retrieveMetaBugs(){
+		var metabugs = [];
+
+		for (var site in data) {
+			if(data[site].bug > -1){
+				if(metabugs.indexOf(data[site].bug) == -1)
+					metabugs.push(data[site].bug);
+				data[site].isClosed = true;
 			}
 		}
+		getMetabugs(metabugs, processMetaBugs);
 	}
-	return depends;
-}
 
-function isResolved(status){
-	if(status == "RESOLVED" || status == "VERIFIED" || status == "CLOSED"){
-		return true;
+	function createId(id){
+		var docId = id;
+		if($("#bug"+id).length == 1){
+			var i = 0;
+			do {
+				i++;
+				docId = id + "_" + i;
+			}while($("#bug"+docId).length == 1);
+		}
+		return docId;
 	}
-	return false;
-}
 
-function processDependentBugs(bugs){
-	for(var i = 0; i < bugs.length; i++){
-		var id = bugs[i].id;
-		var k = 0;
-		do{
-			k++;
-			var bugdiv = $("#bug"+id);
-			var siteUrl = bugdiv.parent().parent().parent().children().get(2).innerHTML;
-			if(bugs[i].component.indexOf("Layout") > -1){
-				bugdiv = $("#bug"+id + "-layout");
-			}
-			else if(bugs[i].component.indexOf("Evangelism") > -1 || bugs[i].product.indexOf("Evangelism") > -1){
-				bugdiv = $("#bug"+id + "-evang");
-			}
-			var resolved = isResolved(bugs[i].status);
-			if(!resolved){
-				if(bugs[i].priority == "P2" && !bugdiv.parent().parent().parent().hasClass("major-issue")){
-					bugdiv.parent().parent().parent().attr("class", "minor-issue");
-				}
-				else{
-					bugdiv.parent().parent().parent().attr("class", "major-issue");
-				}
-				data[siteUrl].isClosed = false;
-			}
-			var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, resolved);
-			bugdiv.replaceWith(newbugdiv);
-			newbugdiv.append(", ");
-			id = bugs[i].id + "_" + k;
-		}while($("#bug"+id).length == 1);
+	function createTableCell(value){
+		var td = $("<td>");
+		td.append(value);
+		return td;
 	}
-	populateSummary();
-}
-
-function populateSummary(){
-	for(var i = 0; i < topLists.length; i++){
-		_getTopList(i, _createTopListSummary);
-	}
-}
-
-function _createTopListSummary(topListId, siteList){
-	var summary = $('#summary');
-	var summaryitem = $('<div>');
-	summaryitem.attr("class", "summaryitem");
-	summary.append(summaryitem);
-	var title = $('<div>');
-	title.attr("class","summarytitle");
-	title.append(topLists[topListId].name);
-	summaryitem.append(title);
-	var summarydetails = $('<div>');
-	summarydetails.attr("class", "summarydetails");
-	var functional = 0;
-	var issues = 0;
-	var notInvestigated = 0;
-	for(var i = 0; i < siteList.length; i++){
-		if(data[siteList[i]]){
-			var id = data[siteList[i]].bug;
-			if(id == -1){
-				notInvestigated++;
+	function createBugDiv(id, name, alias, resolved){
+		var div = $("<div>");
+		div.attr("id", "bug"+ id);
+		div.addClass("bugdiv");
+		if(id > 0){
+			var link = $("<a>");
+			link.attr("href", "https://bugzilla.mozilla.org/show_bug.cgi?id="+id);
+			link.attr("title", name);
+			if(resolved){
+				link.attr("style", "text-decoration: line-through;");
+				div.attr("class", "resolved_bug");
 			}
-			else if(data[siteList[i]].isClosed){
-				functional++;
+			if(alias){
+				link.append(alias);
 			}
 			else{
-				issues++;
+				link.append(id);
+			}
+			div.append(link);
+		}
+		if(testResults[id]){
+			// We have some automated test results for this bug
+			testResults[id].forEach(function(value, index){
+				// indexes: 0 bug number, 1 date, 2 UA string, 3 status
+				var span = $("<span>");
+				span.addClass("testres");
+				span.title = "Tested on "+value[1];
+				span.append("\u25AA"); // black square
+				if( value[3] === "true" ){
+					span.addClass("pass");
+					if(!resolved){
+						span.addClass("needs-attention");
+					}
+				}
+				else{
+					span.addClass("fail");
+					if(resolved){
+						span.addClass("needs-attention");
+					}
+				}
+				div.append(span);
+			});
+		}
+		return div;
+	}
+	function processMetaBugs(bugs){
+		var depends = [];
+		for(var i = 0; i < bugs.length; i++){
+			var id = bugs[i].id;
+			for(var elms = document.getElementsByTagName("bug"+id+"-row"),j=0,el; el=elms[j];j++){
+				var bugdiv = el.getElementsByClassName("bug"+id+"-master")[0];
+				// we replace the bugdiv - mostly to add the previously unknown 'alias' if there is one
+				var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, isResolved(bugs[i].status));
+				newbugdiv.addClass("bug"+id+"-master");
+				bugdiv.replaceWith(newbugdiv);
+				var ownerdiv = el.getElementsByClassName("owner")[0];
+				var owner = bugs[i].assigned_to;
+				if(owner.name != "nobody"){
+					ownerdiv.append(owner.real_name);
+				}
+			}
+			var localDepends = bugs[i].depends_on;
+			if(typeof localDepends === "string"){
+				localDepends = localDepends.split(",");
+			}
+			for(var j=0; j<localDepends.length; j++){
+				masterMap[localDepends[j]] = id;
+				if(depends.indexOf(localDepends[j]) === -1)depends.push(localDepends[j]);
 			}
 		}
-		else{
-			notInvestigated++;
+		getDependentBugs(depends, processDependentBugs);
+	}
+
+	function isResolved(status){
+		if(status == "RESOLVED" || status == "VERIFIED" || status == "CLOSED"){
+			return true;
+		}
+		return false;
+	}
+
+	function processDependentBugs(bugs){
+		for(var i = 0; i < bugs.length; i++){
+			var id = bugs[i].id;
+			var masterId = masterMap[id];
+			for(var elms = document.getElementsByClassName("bug"+masterId+"-row"),j=0,el; el=elms[j];j++){
+				var newbugdiv = createBugDiv(id, bugs[i].summary, bugs[i].alias, resolved);
+				if(bugs[i].component.indexOf("Layout") > -1){
+					bugdiv = $(el.getElementsByClassName("dependslayout")[0]);
+				}
+				else if(bugs[i].component.indexOf("Evangelism") > -1 || bugs[i].product.indexOf("Evangelism") > -1){
+					bugdiv = $(el.getElementsByClassName("evang")[0]);
+				}
+				else{
+					bugdiv = $(el.getElementsByClassName("depends")[0]);
+				}
+				bugdiv.append(newbugdiv);
+				newbugdiv.append(", ");
+				var siteUrl = $(el).children().get(2).innerHTML;
+				var resolved = isResolved(bugs[i].status);
+				if(!resolved){
+					if(bugs[i].priority == "P1" || bugs[i].priority == "P2"){
+						el.classList.remove("no-issue");
+						el.classList.remove("minor-issue");
+						el.classList.add("major-issue");
+					}
+					else if(!$(el).hasClass("major-issue")){
+						el.classList.remove("no-issue");
+						el.classList.add("minor-issue");
+					}
+					data[siteUrl].isClosed = false;
+				}
+			}
+		}
+		populateSummary();
+	}
+
+	function populateSummary(){
+		for(var i = 0; i < topLists.length; i++){
+			_getTopList(i, _createTopListSummary);
 		}
 	}
-	summarydetails.append($('<div>').append(functional + " functional (" + Math.round(functional*100/siteList.length) + "%)"));
-	summarydetails.append($('<div>').append(issues + " with known issues ("+ Math.round(issues*100/siteList.length) + "%)"));
-	summarydetails.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
-	summaryitem.append(summarydetails);
-}
+
+	function _createTopListSummary(topListId, siteList){
+		var summary = $("#summary");
+		var summaryitem = $("<div>");
+		summaryitem.attr("class", "summaryitem");
+		summary.append(summaryitem);
+		var title = $("<div>");
+		title.attr("class","summarytitle");
+		title.append(topLists[topListId].name);
+		summaryitem.append(title);
+		var summarydetails = $("<div>");
+		summarydetails.attr("class", "summarydetails");
+		var functional = 0;
+		var issues = 0;
+		var notInvestigated = 0;
+		for(var i = 0; i < siteList.length; i++){
+			if(data[siteList[i]]){
+				var id = data[siteList[i]].bug;
+				if(id == -1){
+					notInvestigated++;
+				}
+				else if(data[siteList[i]].isClosed){
+					functional++;
+				}
+				else{
+					issues++;
+				}
+			}
+			else{
+				notInvestigated++;
+			}
+		}
+		summarydetails.append($('<div>').append(functional + " functional (" + Math.round(functional*100/siteList.length) + "%)"));
+		summarydetails.append($('<div>').append(issues + " with known issues ("+ Math.round(issues*100/siteList.length) + "%)"));
+		summarydetails.append($('<div>').append(notInvestigated + " to investigate (" + Math.round(notInvestigated*100/siteList.length) + "%)"));
+		summaryitem.append(summarydetails);
+	}
+
+})();

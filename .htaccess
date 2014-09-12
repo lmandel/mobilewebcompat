@@ -1,0 +1,6 @@
+<filesmatch "^(manifest|stackato)\.yml$">
+  order allow,deny
+  deny from all
+</filesmatch>
+
+DirectoryIndex timeline.html
